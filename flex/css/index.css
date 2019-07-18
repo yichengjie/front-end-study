@@ -1,6 +1,5 @@
-body {
+body{
   font-family: '微软雅黑';
-  /* font-family: cursive, '微软雅黑'; */
   padding: 0;
   margin: 20px 0 40px;
   font-size: 16px;
@@ -19,6 +18,8 @@ body {
   color: #fff;
   display: flex;
   text-align: center;
+  border: 1px dashed #B6B6B6 ;
+
 }
 
 .demo .item{
@@ -60,10 +61,22 @@ body {
   width: 400px;
 }
 
+
+
 .demo-wrap {
   flex-wrap: wrap;
   width: 400px;
 }
 
+.boxes{
+  padding: 0 10px;
+  overflow: hidden;
+  display: -webkit-flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+/*.boxborder{*/
+/*  border: 1px dashed #B6B6B6;*/
+/*}*/
 
 
