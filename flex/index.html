@@ -15,6 +15,7 @@
 </head>
 
 <body>
+
   <div class="box">
     <div class="boxstyle">
       <p>display: -webkit-flex;</p>
@@ -134,6 +135,16 @@
   </div>
 
   <div class="box">
+    <p>/* 第三代水平居中方案 */</p>
+    <p>justify-content: center;</p>
+    <p>display: -webkit-flex;</p>
+    <div class="demo" style="justify-content: center;">
+      <div class="item" style="width: 100px;">100px;</div>
+      <div class="item" style="width: 100px;">100px;</div>
+    </div>
+  </div>
+
+  <div class="box">
     <p>justify-content: space-between;</p>
     <p>display: -webkit-flex;</p>
     <div class="demo" style="justify-content: space-between;">
@@ -157,13 +168,178 @@
     <div class="box" style="width: 1000px;">
         <p>display: -webkit-flex;</p>
         <div class="demo boxborder" style="width: 1000px;height: 200px;">
-            <div class="item" style="width: 200px;align-self: flex-start">
+            <div class="item" style="width: 200px;align-self: flex-start;">
               align-self:flex-start;
             </div>
+            <div class="item" style="width:200px;align-self:center;">align-self:center;</div>
+            <div class="item" style="width:200px;align-self:flex-end;">align-self:flex-end;</div>
+            <div class="item" style="width:200px;align-self:auto;">align-self:auto;</div>
+            <div class="item" style="width:200px;align-self:baseline;">align-self:baseline;</div>
+            <div class="item" style="width:200px;align-self:stretch;">align-self:stretch;</div>
         </div>
     </div>
   </div>
 
+  <h3>[align-items]</h3>
+  <div class="boxes">
+    <div class="box">
+      <p>align-items: flex-start; /* default */</p>
+      <p>display:-webkit-flex;</p>
+      <div class="demo boxborder" style="align-items: flex-start;height:200px;">
+        <div class="item" style="width:100px;">width:100px;</div>
+        <div class="item" style="width:100px;">width:100px;</div>
+      </div>
+    </div>
+
+    <div class="box">
+      <p>align-items: flex-end;</p>
+      <p>display:-webkit-flex;</p>
+      <div class="demo boxborder" style="align-items: flex-end;height:200px;">
+        <div class="item" style="width:100px;">width:100px;</div>
+        <div class="item" style="width:100px;">width:100px;</div>
+      </div>
+    </div>
+
+    <div class="box">
+      <p>/* 第三代垂直居中 */</p>
+      <p>align-items: center;</p>
+      <p>display:-webkit-flex;</p>
+      <div class="demo boxborder" style="align-items: center;height:200px;">
+        <div class="item" style="width:100px;">width:100px;</div>
+        <div class="item" style="width:100px;">width:100px;</div>
+      </div>
+    </div>
+
+    <div class="box">
+      <p>align-items: baseline;</p>
+      <p>display:-webkit-flex;</p>
+      <div class="demo boxborder" style="align-items: baseline;height:200px;">
+        <div class="item" style="width:100px;">width:100px;</div>
+        <div class="item" style="width:100px;">width:100px;</div>
+      </div>
+    </div>
+
+    <div class="box">
+      <p>align-items: stretch;</p>
+      <p>display:-webkit-flex;</p>
+      <div class="demo boxborder" style="align-items: stretch;height:200px;">
+        <div class="item" style="width:100px;height: 100px;">height: 100px;</div>
+        <div class="item" style="width:150px;min-height: 20px;">min-height: 20px;</div>
+        <div class="item" style="width:150px;max-height: 60px;">max-height: 60px;</div>
+      </div>
+    </div>
+  </div>
+
+
+  <h3>[ align-content ]</h3>
+  <div class="boxes">
+      <div class="box">
+          <p style="color:red;">/* 对比 align-items*/</p>
+          <p>align-items:flex-start</p>
+          <p>display:-webkit-flex</p>
+          <div class="demo demo-align-content" style="align-items:flex-start;">
+              <div class="item">a</div>
+              <div class="item">b</div>
+              <div class="item">c</div>
+              <div class="item">d</div>
+              <div class="item">e</div>
+              <div class="item">f</div>
+          </div>
+      </div>
+
+      <div class="box">
+          <p>align-content: flex-start;</p>
+          <p>display:-webkit-flex</p>
+          <div class="demo demo-align-content" style="align-content:flex-start;">
+              <div class="item">a</div>
+              <div class="item">b</div>
+              <div class="item">c</div>
+              <div class="item">d</div>
+              <div class="item">e</div>
+              <div class="item">f</div>
+          </div>
+      </div>
+
+      <div class="box">
+          <p>align-content: flex-end;</p>
+          <p>display:-webkit-flex</p>
+          <div class="demo demo-align-content" style="align-content:flex-end;">
+              <div class="item">a</div>
+              <div class="item">b</div>
+              <div class="item">c</div>
+              <div class="item">d</div>
+              <div class="item">e</div>
+              <div class="item">f</div>
+          </div>
+      </div>
+
+      <div class="box">
+          <p>align-content: center;</p>
+          <p>display:-webkit-flex</p>
+          <div class="demo demo-align-content" style="align-content:center;">
+              <div class="item">a</div>
+              <div class="item">b</div>
+              <div class="item">c</div>
+              <div class="item">d</div>
+              <div class="item">e</div>
+              <div class="item">f</div>
+          </div>
+      </div>
+
+      <div class="box">
+          <p>align-content: space-between;</p>
+          <p>display:-webkit-flex</p>
+          <div class="demo demo-align-content" style="align-content:space-between;">
+              <div class="item">a</div>
+              <div class="item">b</div>
+              <div class="item">c</div>
+              <div class="item">d</div>
+              <div class="item">e</div>
+              <div class="item">f</div>
+          </div>
+      </div>
+
+      <div class="box">
+          <p>align-content: space-around;</p>
+          <p>display:-webkit-flex</p>
+          <div class="demo demo-align-content" style="align-content:space-around;">
+              <div class="item">a</div>
+              <div class="item">b</div>
+              <div class="item">c</div>
+              <div class="item">d</div>
+              <div class="item">e</div>
+              <div class="item">f</div>
+          </div>
+      </div>
+
+      <div class="box">
+          <p>align-content: stretch;/*default*/</p>
+          <p>display:-webkit-flex</p>
+          <div class="demo demo-align-content" style="align-content:stretch;">
+              <div class="item">a</div>
+              <div class="item">b</div>
+              <div class="item">c</div>
+              <div class="item">d</div>
+              <div class="item">e</div>
+              <div class="item">f</div>
+          </div>
+      </div>
+  </div>
+
+  <h3>[ order ]</h3>
+  <div class="boxes">
+    <div class="box" style="width: 1000px;">
+       <p>display: -webkit-flex;</p>
+       <div class="demo demo-align-content" style="width: 1000px;height:40px;">
+          <div class="item">a</div>
+              <div class="item">b</div>
+              <div class="item">c</div>
+              <div class="item" style="order:-1; width:120px">d(order:-1)</div>
+              <div class="item">e</div>
+              <div class="item">f</div>
+       </div>
+    </div>
+  </div>
 
 </body>
 
