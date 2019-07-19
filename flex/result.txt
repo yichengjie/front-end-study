@@ -1,0 +1,42 @@
+[ flex-direction ]   父元素上设置
+    flex-direction: row;
+    flex-direction: row-reverse;
+    flex-direction: column;
+    flex-direction: column-reverse;
+
+[ flex-wrap ]   父元素上设置
+    flex-wrap: nowrap;
+    flex-wrap: wrap;
+
+[ justify-content ]  父元素上设置
+    justify-content: flex-start;     效果如同 float:left;
+    justify-content: flex-end;       效果如同 float:right;
+    justify-content: center;         水平居中
+    justify-content: space-between;
+    justify-content: space-around;
+
+[ align-self ]   item上设置属性
+    align-self: flex-start;
+    align-self:center;
+    align-self:flex-end;
+    align-self:auto;
+    align-self:baseline;
+    align-self:stretch;
+
+[ align-items ]   父元素上设置
+    align-items: flex-start;
+    align-items: flex-end;
+    align-items: flex-end;
+    align-items: baseline;
+    align-items: stretch;
+
+[ align-content ] 父元素上设置
+    align-content: flex-start;
+    align-content: flex-end;
+    align-content: center;
+    align-content: space-between;
+    align-content: space-around;
+    align-content: stretch;
+
+[ order ]   item上设置
+    order:-1;
