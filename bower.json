@@ -1,0 +1,20 @@
+{
+  "name": "front-end-study",
+  "homepage": "https://github.com/yichengjie/front-end-study",
+  "authors": [
+    "yicj <626659321@qq.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "3.x"
+  }
+}
