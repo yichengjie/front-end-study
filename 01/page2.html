@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Title</title>
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="../bower_components/bootstrap-select/dist/css/bootstrap-select.css">
+    <link rel="stylesheet" href="../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="y-header">
+        <div class="y-title">
+            <span class="y-close"><i class="glyphicon glyphicon-remove"></i></span>
+            <span class="y-content">值周生检查</span>
+        </div>
+        <div class="y-more"><i class="glyphicon glyphicon-option-horizontal"></i></div>
+    </div>
+
+    <div  class="y-form">
+
+        <div class="y-row" style="margin-top: 5px">
+            <div class="y-input" style="margin-right: 15px">
+                <select class="form-control selectpicker">
+                    <option>年级</option>
+                    <option>级部</option>
+                </select>
+            </div>
+            <div class="y-input">
+                <select class="form-control selectpicker">
+                    <option>高2017级</option>
+                    <option>高2018级</option>
+                    <option>高2019级</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="y-row" style="margin-top: 5px">
+            <div class="y-label">
+                检查日期&nbsp;:
+            </div>
+            <div id="check-date-container" class="input-group date y-input" style="margin-right: 20px;">
+                <input type="text" class="form-control datepicker" value="2012-02-02" >
+                <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </div>
+            </div>
+            <button type="button" class="btn btn-success">上报</button>
+        </div>
+
+
+    </div>
+</div>
+
+
+<script type="text/javascript" src="../bower_components/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="../bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
+<script type="text/javascript" src="../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="./page2.js"></script>
+
+</body>
+</html>
