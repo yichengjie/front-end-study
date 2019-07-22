@@ -40,6 +40,17 @@
     font-weight: 600;
     margin-bottom: 15px;
 }
+.y-check-header{
+    display: flex;
+    justify-content: center;
+}
+.y-check-header .item{
+    margin-right: 5px;
+    cursor: pointer;
+}
+.y-youxiu{
+    background-color: #a9823e;
+}
 
 
 
