@@ -1,14 +1,13 @@
 import React,{Component} from 'react' ;
-import EvaluationNavbar from './navbar' ;
+import YNavbar from '../../components/y-navbar' ;
 import EvaluationHeader from './header' ;
 import EvaluationBody from './body' ;
-import './index.scss' ;
 
 class SubjectEvaluation  extends Component{
     render() {
         return (
             <div>
-                <EvaluationNavbar />
+                <YNavbar title ="语文学科"/>
                 <EvaluationHeader/>
                 <EvaluationBody />
             </div>

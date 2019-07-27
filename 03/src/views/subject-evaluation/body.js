@@ -3,7 +3,7 @@ import React,{Component} from 'react' ;
 class EvaluationBody  extends Component{
     render() {
         return (
-            <div className="y-content">
+            <div className="y-body">
                 <div className="y-title">评价学生&nbsp;:</div>
                 <table className="table table-bordered table-striped">
                     <thead>

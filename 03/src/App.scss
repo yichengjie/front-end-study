@@ -6,12 +6,12 @@
   margin: 0 -15px;
   justify-content: space-between;
   padding: 0 5px;
-  .y-title {
-    margin: 0 10px;
-  }
   .y-close{
     cursor: pointer;
-    margin-right: 5px;
+    margin: 0 0 0 10px;
+  }
+  .y-title{
+    align-self: center;
   }
   .y-more{
     margin-right: 10px;
@@ -37,7 +37,7 @@
   }
 }
 
-.y-content{
+.y-body{
   margin-top: 10px;
   .y-title{
     font-weight: 600;
