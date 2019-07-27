@@ -1,15 +1,19 @@
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.css' ;
-import './App.scss' ;
-import SubjectEvaluation from './views/subject-evaluation/index' ;
-import WeeklyDutyCheck from './views/weekly-duty-check/index' ;
+import { Link } from "react-router-dom";
 
-let MyView = SubjectEvaluation ;
 function App() {
   return (
-      <div className="App container-fluid">
-        <MyView />
-      </div>
+      <ul>
+          <li>
+              <Link to="/">主页</Link>
+          </li>
+          <li>
+              <Link to="/subject-evaluation">科目评价</Link>
+          </li>
+          <li>
+              <Link to="/weekly-duty-check">值周生检查</Link>
+          </li>
+      </ul>
   );
 }
 
