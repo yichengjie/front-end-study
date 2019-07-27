@@ -12,17 +12,30 @@ class WeeklyDutyCheckHeader extends Component{
         }
     }
 
+    handleChangeCommonValue(name){
+        return  (value) => {
+            console.info('value: ' + value)
+            this.setState({[name]:value})
+        }
+    }
+
     render() {
         return (
             <div className="y-form">
 
                 <div className="y-row" style={{marginTop: "5px"}}>
-                    <Select className="y-input" value={this.state.value1}
-                        placeholder="请选择" style={{marginRight: "15px"}}>
+                    <Select className="y-input"
+                            value={this.state.value1}
+                            placeholder="请选择"
+                            style={{marginRight: "15px"}}
+                            onChange={this.handleChangeCommonValue("value1")}>
                         <Select.Option  label="年级" value="1" />
                         <Select.Option  label="级部" value="2" />
                     </Select>
-                    <Select className ="y-input" value={this.state.value2} placeholder="请选择">
+                    <Select className ="y-input"
+                            value={this.state.value2}
+                            placeholder="请选择"
+                            onChange={this.handleChangeCommonValue("value2")}>
                         <Select.Option  label="高2017级" value="1" />
                         <Select.Option  label="高2018级" value="2" />
                         <Select.Option  label="高2019级" value="3" />
@@ -34,7 +47,6 @@ class WeeklyDutyCheckHeader extends Component{
                         检查日期&nbsp;:
                     </div>
                     <DatePicker
-
                         value={this.state.value3}
                         placeholder="选择日期"
                         onChange={date=>{
