@@ -1,13 +1,15 @@
 import React,{Component} from 'react' ;
 import { Select,DatePicker } from 'antd';
+import moment from 'moment';
 const { Option } = Select;
+const dateFormat = 'YYYY/MM/DD';
 
 class EvaluationHeader  extends Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            value1:null,
+            value1:moment('2015/01/01', dateFormat),
             value2:'1'
         } ;
     }
@@ -26,8 +28,10 @@ class EvaluationHeader  extends Component{
                     <div className="y-label">
                         评价日期&nbsp;:
                     </div>
-                    <DatePicker className="y-input"
+                    <DatePicker
+                        className="y-input"
                         value={this.state.value1}
+                        format={dateFormat}
                         onChange={this.handleInputChange('value1')}/>
                 </div>
 

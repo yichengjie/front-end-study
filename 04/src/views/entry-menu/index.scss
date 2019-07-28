@@ -1,0 +1,24 @@
+.y-entry-container{
+    margin: 30px 0px;
+    .y-title{
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+    .y-row{
+        display: flex;
+        justify-content: space-between;
+        .y-item{
+            width: 76px;
+            margin-right: 10px;
+            text-align: center;
+            .y-description{
+                margin-top: 8px;
+                color: #000000;
+            }
+        }
+    }
+}

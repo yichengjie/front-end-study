@@ -1,6 +1,9 @@
 import React ,{Component} from 'react' ;
 import { Select,DatePicker } from 'antd';
+import moment from 'moment';
 const { Option } = Select;
+
+const dateFormat = 'YYYY/MM/DD';
 
 function onChange(date, dateString) {
     console.log(date, dateString);
@@ -49,7 +52,7 @@ class WeeklyDutyCheckHeader extends Component{
                     <div className="y-label">
                         检查日期&nbsp;:
                     </div>
-                    <DatePicker onChange={onChange} />
+                    <DatePicker defaultValue={moment('2015/01/01', dateFormat)} format={dateFormat} />
                     <button type="button" style={{marginLeft: "15px"}} className="btn btn-success">上报</button>
                 </div>
 
