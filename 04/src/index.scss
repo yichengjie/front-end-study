@@ -16,7 +16,7 @@ code {
   .y-row{
     display: flex;
     align-items: center;
-    height: 40px;
+    margin-top: 10px;
     .y-label{
       width: 80px;
       font-weight: 600;
@@ -25,7 +25,24 @@ code {
       flex: 1;
     }
   }
+  .y-row:nth-child(1){
+    margin-top: 20px;
+  }
+  .y-upload-status{
+    margin-bottom: 20px;
+    margin-top: 20px;
+    justify-content: space-between;
+    font-size: 16px;
+    .y-title{
+      font-weight: 600;
+    }
+    .y-content{
+    }
+  }
 }
+
+
+
 
 .y-body{
   margin-top: 10px;

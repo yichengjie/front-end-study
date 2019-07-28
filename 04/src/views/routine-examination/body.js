@@ -1,6 +1,6 @@
 import React ,{Component} from 'react' ;
 
-class WeeklyDutyCheckBody extends Component{
+class ExaminationBody extends Component{
     render() {
         return (
             <div className="y-body">
@@ -141,4 +141,4 @@ class WeeklyDutyCheckBody extends Component{
     }
 }
 
-export default WeeklyDutyCheckBody ;
+export default ExaminationBody ;

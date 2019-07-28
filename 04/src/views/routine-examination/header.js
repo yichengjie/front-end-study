@@ -14,7 +14,7 @@ function handleChange(value) {
 }
 
 
-class WeeklyDutyCheckHeader extends Component{
+class ExaminationHeader extends Component{
 
     constructor(props){
         super(props) ;
@@ -29,7 +29,7 @@ class WeeklyDutyCheckHeader extends Component{
         return (
             <div className="y-form">
 
-                <div className="y-row" style={{marginTop: "5px"}}>
+                <div className="y-row" >
                     <Select className="y-input"
                             defaultValue="1"
                             onChange={handleChange}
@@ -48,7 +48,7 @@ class WeeklyDutyCheckHeader extends Component{
                     </Select>
                 </div>
 
-                <div className="y-row" style={{marginTop: "5px"}}>
+                <div className="y-row" >
                     <div className="y-label">
                         检查日期&nbsp;:
                     </div>
@@ -62,4 +62,4 @@ class WeeklyDutyCheckHeader extends Component{
 
 }
 
-export default WeeklyDutyCheckHeader ;
+export default ExaminationHeader ;

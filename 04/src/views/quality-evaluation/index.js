@@ -2,11 +2,11 @@ import React,{Component} from 'react' ;
 import EvaluationHeader from './header' ;
 import EvaluationBody from './body' ;
 
-class SubjectEvaluation  extends Component{
-    componentDidMount() {
+class QualityEvaluation  extends Component{
+    constructor(props){
+        super(props) ;
         document.title = "值周生检查";
     }
-
     render() {
         return (
             <div>
@@ -17,5 +17,5 @@ class SubjectEvaluation  extends Component{
     }
 }
 
-export default SubjectEvaluation ;
+export default QualityEvaluation ;
 

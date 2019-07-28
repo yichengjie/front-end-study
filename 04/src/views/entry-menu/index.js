@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import { Link } from "react-router-dom";
 import { Avatar } from 'antd';
 import './index.scss' ;
-//./configure --prefix=/Users/yicj/install/nginx-1.17.2
 class Index extends Component{
 
     render() {
@@ -10,14 +9,14 @@ class Index extends Component{
             <div className="y-entry-container">
                 <div className="y-row">
                     <div className="y-item">
-                        <Link to="/subject-evaluation">
+                        <Link to="/quality-evaluation">
                             <Avatar icon="user" size="large" />
                             <div className="y-description">素质评价</div>
                         </Link>
 
                     </div>
                     <div className="y-item">
-                        <Link to="/weekly-duty-check">
+                        <Link to="/routine-examination">
                             <Avatar style={{ backgroundColor: '#87d068' }}
                                     icon="check-square" size="large"/>
                             <div className="y-description">常规检查</div>
@@ -25,9 +24,11 @@ class Index extends Component{
 
                     </div>
                     <div className="y-item">
-                        <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-                                icon="slack-square" size="large"/>
-                        <div className="y-description">电子班牌</div>
+                        <Link to="/electronic-class-card">
+                            <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
+                                    icon="slack-square" size="large"/>
+                            <div className="y-description">电子班牌</div>
+                        </Link>
                     </div>
                     <div className="y-item">
                         <Avatar style={{ backgroundColor: '#87d068' }}

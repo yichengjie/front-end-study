@@ -24,7 +24,7 @@ class EvaluationHeader  extends Component{
 
         return (
             <div className="y-form">
-                <div className="y-row" style={{marginTop:"5px"}}>
+                <div className="y-row" >
                     <div className="y-label">
                         评价日期&nbsp;:
                     </div>
