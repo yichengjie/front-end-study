@@ -9,7 +9,7 @@ class WeeklyDutyCheckBody extends Component{
                     <tr>
                         <th></th>
                         <th align="center" style={{textAlign: "center"}}>
-                            <span className="label y-youxiu">优秀</span>
+                            <span className="label" style={{backgroundColor: "#a9823e"}}>优秀</span>
                         </th>
                         <th align="center" style={{textAlign: "center"}}>
                             <span className="label label-success">合格</span>
