@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import { Link } from "react-router-dom";
 import { Avatar } from 'antd';
 import './index.scss' ;
-class Index extends Component{
+class EntryMenu extends Component{
 
     render() {
         return (
@@ -42,4 +42,4 @@ class Index extends Component{
     }
 }
 
-export default Index ;
+export default EntryMenu ;

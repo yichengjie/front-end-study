@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import EntryMenu from './views/entry-menu/index' ;
-import QualityEvaluation from './views/quality-evaluation/index' ;
-import RoutineExamination from './views/routine-examination/index' ;
-import ElectronicClassCard from './views/electronic-class-card/index' ;
+import EntryMenu from './views/entry-menu/entry-menu' ;
+import QualityEvaluation from './views/quality-evaluation/quality-evaluation' ;
+import RoutineExamination from './views/routine-examination/routine-examination' ;
+import ElectronicClassCard from './views/electronic-class-card/electronic-class-card' ;
 import './index.scss';
 import 'bootstrap/dist/css/bootstrap.css' ;
 
