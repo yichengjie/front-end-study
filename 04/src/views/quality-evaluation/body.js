@@ -17,119 +17,119 @@ class EvaluationBody  extends Component{
                     </thead>
                     <tbody>
                     <tr>
-                        <td scope="row">白婷羽11182762</td>
+                        <td>白婷羽11182762</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">蔡路博11180108</td>
+                        <td>蔡路博11180108</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                     </tr>
                     <tr>
-                        <td scope="row">曹秀淑11180481</td>
+                        <td>曹秀淑11180481</td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>
                         <td><input type="checkbox" /></td>

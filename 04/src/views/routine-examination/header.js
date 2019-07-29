@@ -5,10 +5,6 @@ const { Option } = Select;
 
 const dateFormat = 'YYYY/MM/DD';
 
-function onChange(date, dateString) {
-    console.log(date, dateString);
-}
-
 function handleChange(value) {
     console.log(`selected ${value}`);
 }
