@@ -41,8 +41,31 @@ code {
   }
 }
 
-
-
+.y-sub-menu-container{
+  .y-title{
+    margin-top: 10px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #337ab7;
+  }
+  .y-body{
+    display: flex;
+    flex-wrap: wrap;
+    .y-item{
+      width: 50%;
+      height: 40px;
+      line-height: 40px;
+      border: 1px solid #eee;
+      text-align: center;
+      cursor: pointer;
+    }
+    .y-item:hover{
+      background-color: #eee;
+    }
+  }
+}
 
 .y-body{
   margin-top: 10px;
