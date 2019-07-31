@@ -42,29 +42,40 @@ code {
 }
 
 .y-sub-menu-container{
-  .y-title{
-    margin-top: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  .y-sub-title{
     height: 40px;
     line-height: 40px;
     font-size: 16px;
     font-weight: 600;
     color: #337ab7;
   }
-  .y-body{
+  .y-row{
     display: flex;
-    flex-wrap: wrap;
     .y-item{
-      width: 50%;
+      flex: 1;
       height: 40px;
       line-height: 40px;
-      border: 1px solid #eee;
       text-align: center;
       cursor: pointer;
+      text-decoration: none;
+      color: black;
+      border-right: 1px solid #eee;
+      border-bottom: 1px solid #eee;
+      font-weight: 400;
+    }
+    .y-item:last-child{
+      border-right: none;
     }
     .y-item:hover{
       background-color: #eee;
     }
   }
+  .y-row:first-child{
+    border-top: 1px solid #eee;
+  }
+
 }
 
 .y-body{

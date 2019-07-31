@@ -9,19 +9,18 @@ class EntryMenu extends Component{
             <div className="y-entry-container">
                 <div className="y-row">
                     <div className="y-item">
-                        <Link to="/quality-evaluation">
+                        <Link to="/quality-evaluation-list">
                             <Avatar icon="user" size="large" />
                             <div className="y-description">素质评价</div>
                         </Link>
 
                     </div>
                     <div className="y-item">
-                        <Link to="/routine-examination">
+                        <Link to="/routine-examination-list">
                             <Avatar style={{ backgroundColor: '#87d068' }}
                                     icon="check-square" size="large"/>
                             <div className="y-description">常规检查</div>
                         </Link>
-
                     </div>
                     <div className="y-item">
                         <Link to="/electronic-class-card">
