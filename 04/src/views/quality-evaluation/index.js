@@ -2,6 +2,10 @@ import React,{Component} from 'react' ;
 import { Link } from "react-router-dom";
 
 class QualityEvaluationList extends Component{
+    constructor(props){
+        super(props) ;
+        document.title = "综合素质评价";
+    }
 
     render() {
         return (

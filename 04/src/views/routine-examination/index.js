@@ -2,6 +2,10 @@ import React,{Component} from 'react' ;
 import { Link } from "react-router-dom";
 
 class RoutineExaminationList extends Component{
+    constructor(props){
+        super(props) ;
+        document.title = "常规检查";
+    }
 
     render() {
         return (
