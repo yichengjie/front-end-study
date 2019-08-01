@@ -9,31 +9,28 @@ let options = [
         children:[
             {
                 title:'早操',
-                itemType:"2"
+                itemType:"1"
             },{
                 title:'眼操',
-                classType:"1",
-                itemType:"3"
+                itemType:"2"
             },{
                 title:'早餐纪律检查',
-                classType:"1",
-                itemType:"4"
+                itemType:"3"
             },{
                 title:'午餐纪律检查',
-                classType:"1",
-                itemType:"5"
+                itemType:"4"
             },{
                 title:'晚餐厅纪律检查',
-                classType:"1",
-                itemType:"6"
+                itemType:"5"
             },{
                 title:'晚一自习学习状态',
-                classType:"1",
-                itemType:"7"
+                itemType:"6"
             },{
                 title:'大型会议次序',
-                classType:"1",
-                itemType:"8"
+                itemType:"7"
+            },{
+                title:'小型会议次序',
+                itemType:"7"
             },
         ]
     },
@@ -52,7 +49,7 @@ class RoutineExaminationList extends Component{
         let surplus = itemList.length %  step ;
         let count = Math.ceil(itemList.length / step) ;
         let time = 0 ;
-        for(let i = 0 ; i < itemList.length ;i = i+2){
+        for(let i = 0 ; i < itemList.length ;i = i+step){
             time ++ ;
             let toStr1 = `/routine-examination-detail/${classType}/${itemList[i].itemType}/${itemList[i].title}` ;
             if(surplus > 0 && time === count){
