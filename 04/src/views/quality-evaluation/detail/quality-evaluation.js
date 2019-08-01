@@ -8,6 +8,7 @@ class QualityEvaluation  extends Component{
         document.title = "值周生检查";
     }
     render() {
+
         return (
             <div>
                 <EvaluationHeader/>

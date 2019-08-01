@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import EntryMenu from './views/entry-menu/entry-menu' ;
@@ -14,19 +14,17 @@ import './index.scss';
 import 'bootstrap/dist/css/bootstrap.css' ;
 
 
-ReactDOM.render(
-    <div className="container-fluid">
-        <Router>
-            <Route exact path="/" component={EntryMenu} />
-            <Route path="/electronic-class-card" component={ElectronicClassCard} />
-            {/*-----------*/}
-            <Route path="/quality-evaluation-list" component={QualityEvaluationList} />
-            <Route path="/routine-examination-list" component={RoutineExaminationList} />
-            {/*-----------*/}
-            <Route path="/quality-evaluation-detail" component={QualityEvaluationDetail} />
-            <Route path="/routine-examination-detail" component={RoutineExaminationDetail} />
+ReactDOM.render(<div className="container-fluid">
+                    <Router>
+                        <Route exact path="/" component={EntryMenu} />
+                        <Route path="/electronic-class-card" component={ElectronicClassCard} />
+                        {/*-----------*/}
+                        <Route path="/quality-evaluation-list" component={QualityEvaluationList} />
+                        <Route path="/routine-examination-list" component={RoutineExaminationList} />
+                        {/*-----------*/}
+                        <Route path="/quality-evaluation-detail" component={QualityEvaluationDetail} />
+                        <Route path="/routine-examination-detail/:classType/:itemType/:title" component={RoutineExaminationDetail} />
 
-        </Router>
-    </div>
-    , document.getElementById('root'));
+                    </Router>
+                </div>, document.getElementById('root'));
 
