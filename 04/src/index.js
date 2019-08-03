@@ -22,7 +22,7 @@ ReactDOM.render(<div className="container-fluid">
                         <Route path="/quality-evaluation-list" component={QualityEvaluationList} />
                         <Route path="/routine-examination-list" component={RoutineExaminationList} />
                         {/*-----------*/}
-                        <Route path="/quality-evaluation-detail/:classType/:itemType/:title" component={QualityEvaluationDetail} />
+                        <Route path="/quality-evaluation-detail" component={QualityEvaluationDetail} />
                         <Route path="/routine-examination-detail/:classType/:itemType/:title" component={RoutineExaminationDetail} />
 
                     </Router>

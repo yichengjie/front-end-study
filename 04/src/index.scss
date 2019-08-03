@@ -11,6 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.container-fluid{
+  padding: 0 8px !important;
+}
 
 .y-form {
   .y-row{
@@ -79,9 +82,19 @@ code {
 }
 
 .y-body{
-  margin-top: 10px;
+  margin-top: 8px;
   .y-title{
     font-weight: 600;
     margin-bottom: 15px;
+  }
+  .table{
+    tr th{
+      padding: 0px;
+      font-weight: 500;
+    }
+    tr td{
+      padding: 0px;
+      font-weight: 400;
+    }
   }
 }

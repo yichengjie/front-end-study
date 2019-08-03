@@ -9,10 +9,12 @@ let options = [
         children:[
             {
                 title:'值周班检查',
-                itemType:"1"
+                itemType:"1",
+                list:["走操","违纪","缺勤"]
             },{
                 title:'班主任检查',
-                itemType:"2"
+                itemType:"2",
+                list:["就寝违纪","课堂违纪","校服发型","文明课间"]
             },
         ]
     },{
@@ -21,22 +23,28 @@ let options = [
         children:[
             {
                 title:'语文学科',
-                itemType:"1"
+                itemType:"1",
+                list:["加分","违纪","作业","缺勤"]
             },{
                 title:'数学学科',
-                itemType:"2"
+                itemType:"2",
+                list:["加分","违纪","作业","缺勤"]
             }, {
                 title:'英语学科',
-                itemType:"3"
+                itemType:"3",
+                list:["加分","违纪","作业","缺勤"]
             }, {
                 title:'物理学科',
-                itemType:"4"
+                itemType:"4",
+                list:["加分","违纪","作业","缺勤"]
             },{
                 title:'化学学科',
-                itemType:"5"
+                itemType:"5",
+                list:["加分","违纪","作业","缺勤"]
             },{
                 title:'地理学科',
-                itemType:"5"
+                itemType:"5",
+                list:["加分","违纪","作业","缺勤"]
             },
         ]
     },
@@ -56,39 +64,83 @@ class QualityEvaluationList extends Component{
         let time = 0 ;
         for(let i = 0 ; i < itemList.length ;i = i+step){
             time ++ ;
-            let toStr1 = `/quality-evaluation-detail/${classType}/${itemList[i].itemType}/${itemList[i].title}` ;
             if(time === count && surplus === 1){
                 rows.push(
                     <div key={i} className="y-row">
-                        <Link className="y-item" to={toStr1}>
+                        <Link className="y-item" to={{
+                                pathname: "/quality-evaluation-detail",
+                                state: {
+                                    classType:classType,
+                                    title: itemList[i].title,
+                                    itemType:itemList[i].itemType,
+                                    list:itemList[i].list
+                                }
+                            }}>
                             {itemList[i].title}
                         </Link>
                     </div>
                 ) ;
             }else if(time === count && surplus === 2){
-                let toStr2 = `/quality-evaluation-detail/${classType}/${itemList[i+1].itemType}/${itemList[i+1].title}`
                 rows.push(
                     <div key={i} className="y-row">
-                        <Link className="y-item" to={toStr1}>
+                        <Link className="y-item" to={{
+                            pathname: "/quality-evaluation-detail",
+                            state: {
+                                classType:classType,
+                                title: itemList[i].title,
+                                itemType:itemList[i].itemType,
+                                list:itemList[i].list
+                            }
+                        }}>
                             {itemList[i].title}
                         </Link>
-                        <Link className="y-item" to={toStr2}>
+                        <Link className="y-item" to={{
+                            pathname: "/quality-evaluation-detail",
+                            state: {
+                                classType:classType,
+                                title: itemList[i+1].title,
+                                itemType:itemList[i+1].itemType,
+                                list:itemList[i+1].list
+                            }
+                        }}>
                             {itemList[i+1].title}
                         </Link>
                     </div>
                 ) ;
             } else{
-                let toStr2 = `/quality-evaluation-detail/${classType}/${itemList[i+1].itemType}/${itemList[i+1].title}` ;
-                let toStr3 = `/quality-evaluation-detail/${classType}/${itemList[i+2].itemType}/${itemList[i+2].title}` ;
                 rows.push(
                     <div key={i} className="y-row">
-                        <Link className="y-item" to={toStr1}>
+                        <Link className="y-item" to={{
+                            pathname: "/quality-evaluation-detail",
+                            state: {
+                                classType:classType,
+                                title: itemList[i].title,
+                                itemType:itemList[i].itemType,
+                                list:itemList[i].list
+                            }
+                        }}>
                             {itemList[i].title}
                         </Link>
-                        <Link className="y-item" to={toStr2}>
+                        <Link className="y-item" to={{
+                            pathname: "/quality-evaluation-detail",
+                            state: {
+                                classType:classType,
+                                title: itemList[i+1].title,
+                                itemType:itemList[i+1].itemType,
+                                list:itemList[i+1].list
+                            }
+                        }}>
                             {itemList[i+1].title}
                         </Link>
-                        <Link className="y-item" to={toStr3}>
+                        <Link className="y-item" to={{
+                            pathname: "/quality-evaluation-detail",
+                            state: {
+                                classType:classType,
+                                title: itemList[i+2].title,
+                                itemType:itemList[i+2].itemType,
+                                list:itemList[i+2].list
+                            }
+                        }}>
                             {itemList[i+2].title}
                         </Link>
                     </div>

@@ -51,7 +51,7 @@ class RoutineExaminationList extends Component{
         let time = 0 ;
         for(let i = 0 ; i < itemList.length ;i = i+step){
             time ++ ;
-            let toStr1 = `/routine-examination-detail/${classType}/${itemList[i].itemType}/${itemList[i].title}` ;
+            let toStr1 = `/routine-examination-detail` ;
             if(surplus > 0 && time === count){
                 rows.push(
                     <div key={i} className="y-row">
