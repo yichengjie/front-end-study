@@ -1,4 +1,5 @@
 import React ,{Component} from 'react' ;
+import { Spin } from 'antd';
 
 
 let options = [
@@ -47,7 +48,15 @@ class ExaminationBody extends Component{
     }
 
     componentDidMount() {
-        this.props.handleBodyUpdateClassList([...options]) ;
+
+        setTimeout(()=>{
+            this.setState({
+                loading:false
+            }) ;
+            this.props.handleBodyUpdateClassList([...options]) ;
+        },1500) ;
+
+
     }
 
     handleBodyChangeExaminationStatus(index,value){
@@ -125,18 +134,33 @@ class ExaminationBody extends Component{
 
     }
 
+    renderTable(){
+        return (
+            <table className="table">
+                <thead>
+                    {this.renderTableHeader()}
+                </thead>
+                <tbody>
+                    {this.renderTableBody()}
+                </tbody>
+            </table>
+        ) ;
+    }
+
+    renderLoading(){
+        return (
+            <div style={{textAlign:"center"}}>
+                <Spin size="large" tip="数据加载中，请耐心等待..."/>
+            </div>
+        ) ;
+    }
+
+
+
     render() {
         return (
             <div className="y-body">
-                <table className="table">
-                    <thead>
-                        {this.renderTableHeader()}
-                    </thead>
-                    <tbody>
-                        {this.renderTableBody()}
-                    </tbody>
-                </table>
-
+                {this.state.loading ?  this.renderLoading() : this.renderTable()}
             </div>
         ) ;
     }
