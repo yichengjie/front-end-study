@@ -3,30 +3,36 @@ import React ,{Component} from 'react' ;
 
 let options = [
     {
+        examinationFlag:"0",
         examinationClassLabel:'01班',
         examinationClassValue:'1' ,
-        score:'1'
+        score:'0'
     },{
+        examinationFlag:"0",
         examinationClassLabel:'02班',
         examinationClassValue:'2' ,
-        score:'2'
+        score:'0'
     },{
+        examinationFlag:"0",
         examinationClassLabel:'03班',
         examinationClassValue:'3' ,
-        score:'3'
+        score:'0'
     },{
+        examinationFlag:"0",
         examinationClassLabel:'04班',
         examinationClassValue:'4' ,
-        score:'1'
+        score:'0'
     },{
+        examinationFlag:"0",
         examinationClassLabel:'05班',
         examinationClassValue:'5' ,
-        score:'1'
+        score:'0'
     },
     {
+        examinationFlag:"0",
         examinationClassLabel:'15班',
         examinationClassValue:'15' ,
-        score:'2'
+        score:'0'
     },
 ] ;
 
@@ -49,11 +55,14 @@ class ExaminationBody extends Component{
             this.props.handleBodyChangeExaminationStatus(index,value) ;
         }
     }
-    handleBodyChangeAllStatus(value){
-        return (e) =>{
-            this.props.handleBodyChangeAllStatus(value) ;
-        }
+
+    handleBodyChangeExaminationFlag(index){
+       return (e) => {
+           let value = e.target.checked ? "1" : "0" ;
+           this.props.handleBodyChangeExaminationFlag(index,value) ;
+       }
     }
+
 
     renderTableHeader(){
         return (
@@ -61,19 +70,13 @@ class ExaminationBody extends Component{
                 <th></th>
                 <th align="center" style={{textAlign: "center"}}>
                     <span className="label y-hand"
-                          style={{backgroundColor: "#a9823e"}}
-                          onClick={this.handleBodyChangeAllStatus('1')}
-                    >优秀</span>
+                          style={{backgroundColor: "#a9823e"}}>优秀</span>
                 </th>
                 <th align="center" style={{textAlign: "center"}}>
-                    <span className="label label-success y-hand"
-                          onClick={this.handleBodyChangeAllStatus('2')}
-                    >合格</span>
+                    <span className="label label-success y-hand">合格</span>
                 </th>
                 <th align="center" style={{textAlign: "center"}}>
-                    <span className="label label-danger y-hand"
-                          onClick={this.handleBodyChangeAllStatus('3')}
-                    >不合格</span>
+                    <span className="label label-danger y-hand">不合格</span>
                 </th>
                 <th></th>
             </tr>
@@ -86,7 +89,11 @@ class ExaminationBody extends Component{
             return (
                 <tr key={index}>
                     <td align="center">
-                        <input type="checkbox" className="y-examination-class"/>
+                        <input type="checkbox"
+                               className="y-examination-class"
+                               checked={item.examinationFlag === '1'}
+                               onChange={this.handleBodyChangeExaminationFlag(index)}
+                        />
                         &nbsp;{item.examinationClassLabel}
 
                     </td>
