@@ -13,6 +13,8 @@ class RoutineExamination extends Component{
             examinationDate:'2019/07/30',
             classList:[],
         } ;
+
+        console.info("classType : " + classType + " , itemType : " + itemType)
         this.handleHeaderChangeInput = this.handleHeaderChangeInput.bind(this) ;
         this.handleHeaderSubmitForm = this.handleHeaderSubmitForm.bind(this) ;
         this.handleBodyUpdateClassList = this.handleBodyUpdateClassList.bind(this) ;
