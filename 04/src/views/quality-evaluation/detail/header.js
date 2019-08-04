@@ -8,16 +8,17 @@ class EvaluationHeader  extends Component{
 
     constructor(props) {
         super(props);
-        this.state = {
-            value1:moment('2015/01/01', dateFormat),
-            value2:'1'
-        } ;
+        this.handleChangeEvaluationClass = this.handleChangeEvaluationClass.bind(this) ;
+        this.handleChangeEvaluationDate = this.handleChangeEvaluationDate.bind(this) ;
     }
 
-    handleInputChange(name){
-        return (value) => {
-            this.setState({[name]:value})
-        }
+
+    handleChangeEvaluationDate(value,valueStr){
+        this.props.handleHeaderChangeInput('evaluationDate',valueStr) ;
+    }
+
+    handleChangeEvaluationClass(value){
+        this.props.handleHeaderChangeInput('evaluationClass',value) ;
     }
 
     render() {
@@ -30,9 +31,11 @@ class EvaluationHeader  extends Component{
                     </div>
                     <DatePicker
                         className="y-input"
-                        value={this.state.value1}
+                        value={this.props.evaluationDate === ''
+                                ? null
+                                : moment(this.props.evaluationDate, dateFormat)}
                         format={dateFormat}
-                        onChange={this.handleInputChange('value1')}/>
+                        onChange={this.handleChangeEvaluationDate}/>
                 </div>
 
                 <div className="y-row">
@@ -40,8 +43,8 @@ class EvaluationHeader  extends Component{
                         评价班级&nbsp;:
                     </div>
                     <Select className="y-input"
-                        value={this.state.value2}
-                        onChange={this.handleInputChange('value2')}>
+                        value={this.props.evaluationClass}
+                        onChange={this.handleChangeEvaluationClass}>
                         <Option value="1">高2018级(1)班</Option>
                         <Option value="2">高2018级(2)班</Option>
                         <Option value="3">高2018级(3)班</Option>

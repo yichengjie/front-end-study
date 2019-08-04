@@ -10,11 +10,11 @@ let options = [
             {
                 title:'值周班检查',
                 itemType:"1",
-                list:["走操","违纪","缺勤"]
+                evaluationFields:["走操","违纪","缺勤"]
             },{
                 title:'班主任检查',
                 itemType:"2",
-                list:["就寝违纪","课堂违纪","校服发型","文明课间"]
+                evaluationFields:["就寝违纪","课堂违纪","校服发型","文明课间"]
             },
         ]
     },{
@@ -24,27 +24,27 @@ let options = [
             {
                 title:'语文学科',
                 itemType:"1",
-                list:["加分","违纪","作业","缺勤"]
+                evaluationFields:["加分","违纪","作业","缺勤"]
             },{
                 title:'数学学科',
                 itemType:"2",
-                list:["加分","违纪","作业","缺勤"]
+                evaluationFields:["加分","违纪","作业","缺勤"]
             }, {
                 title:'英语学科',
                 itemType:"3",
-                list:["加分","违纪","作业","缺勤"]
+                evaluationFields:["加分","违纪","作业","缺勤"]
             }, {
                 title:'物理学科',
                 itemType:"4",
-                list:["加分","违纪","作业","缺勤"]
+                evaluationFields:["加分","违纪","作业","缺勤"]
             },{
                 title:'化学学科',
                 itemType:"5",
-                list:["加分","违纪","作业","缺勤"]
+                evaluationFields:["加分","违纪","作业","缺勤"]
             },{
                 title:'地理学科',
                 itemType:"5",
-                list:["加分","违纪","作业","缺勤"]
+                evaluationFields:["加分","违纪","作业","缺勤"]
             },
         ]
     },
@@ -73,7 +73,7 @@ class QualityEvaluationList extends Component{
                                     classType:classType,
                                     title: itemList[i].title,
                                     itemType:itemList[i].itemType,
-                                    list:itemList[i].list
+                                    evaluationFields:itemList[i].evaluationFields
                                 }
                             }}>
                             {itemList[i].title}
@@ -89,7 +89,7 @@ class QualityEvaluationList extends Component{
                                 classType:classType,
                                 title: itemList[i].title,
                                 itemType:itemList[i].itemType,
-                                list:itemList[i].list
+                                evaluationFields:itemList[i].evaluationFields
                             }
                         }}>
                             {itemList[i].title}
@@ -100,7 +100,7 @@ class QualityEvaluationList extends Component{
                                 classType:classType,
                                 title: itemList[i+1].title,
                                 itemType:itemList[i+1].itemType,
-                                list:itemList[i+1].list
+                                evaluationFields:itemList[i+1].evaluationFields
                             }
                         }}>
                             {itemList[i+1].title}
@@ -116,7 +116,7 @@ class QualityEvaluationList extends Component{
                                 classType:classType,
                                 title: itemList[i].title,
                                 itemType:itemList[i].itemType,
-                                list:itemList[i].list
+                                evaluationFields:itemList[i].evaluationFields
                             }
                         }}>
                             {itemList[i].title}
@@ -127,7 +127,7 @@ class QualityEvaluationList extends Component{
                                 classType:classType,
                                 title: itemList[i+1].title,
                                 itemType:itemList[i+1].itemType,
-                                list:itemList[i+1].list
+                                evaluationFields:itemList[i+1].evaluationFields
                             }
                         }}>
                             {itemList[i+1].title}
@@ -138,7 +138,7 @@ class QualityEvaluationList extends Component{
                                 classType:classType,
                                 title: itemList[i+2].title,
                                 itemType:itemList[i+2].itemType,
-                                list:itemList[i+2].list
+                                evaluationFields:itemList[i+2].evaluationFields
                             }
                         }}>
                             {itemList[i+2].title}
