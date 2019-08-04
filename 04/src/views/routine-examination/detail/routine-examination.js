@@ -22,6 +22,8 @@ class RoutineExamination extends Component{
         this.handleBodyChangeExaminationStatus = this.handleBodyChangeExaminationStatus.bind(this) ;
         //每一行前面的checkbox选中事件
         this.handleBodyChangeExaminationFlag = this.handleBodyChangeExaminationFlag.bind(this) ;
+        //每一行添加备注时处理函数
+        this.handleBodyMarkingContent = this.handleBodyMarkingContent.bind(this) ;
     }
     handleHeaderChangeInput(name,value){
         this.setState({[name]:value}) ;
@@ -51,6 +53,15 @@ class RoutineExamination extends Component{
         this.setState({classList:newArr}) ;
     }
 
+    //备注处理函数
+    handleBodyMarkingContent(index,value){
+        let newArr = [...this.state.classList] ;
+        let obj = newArr[index] ;
+        obj.markingContent = value ;
+        obj.examinationFlag = '1' ;
+        this.setState({classList:newArr}) ;
+    }
+
     render() {
 
         return (
@@ -67,6 +78,7 @@ class RoutineExamination extends Component{
                     handleBodyUpdateClassList = {this.handleBodyUpdateClassList}
                     handleBodyChangeExaminationStatus = {this.handleBodyChangeExaminationStatus}
                     handleBodyChangeExaminationFlag = {this.handleBodyChangeExaminationFlag}
+                    handleBodyMarkingContent = {this.handleBodyMarkingContent}
                 />
             </div>
         ) ;

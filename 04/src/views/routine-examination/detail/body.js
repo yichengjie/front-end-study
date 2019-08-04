@@ -1,5 +1,6 @@
 import React ,{Component} from 'react' ;
-import { Spin } from 'antd';
+import { Spin,Modal, Input } from 'antd';
+const { TextArea } = Input;
 
 
 let options = [
@@ -7,33 +8,39 @@ let options = [
         examinationFlag:"0",
         examinationClassLabel:'01班',
         examinationClassValue:'1' ,
-        score:'0'
+        score:'0',
+        markingContent:''
     },{
         examinationFlag:"0",
         examinationClassLabel:'02班',
         examinationClassValue:'2' ,
-        score:'0'
+        score:'0',
+        markingContent:''
     },{
         examinationFlag:"0",
         examinationClassLabel:'03班',
         examinationClassValue:'3' ,
-        score:'0'
+        score:'0',
+        markingContent:''
     },{
         examinationFlag:"0",
         examinationClassLabel:'04班',
         examinationClassValue:'4' ,
-        score:'0'
+        score:'0',
+        markingContent:''
     },{
         examinationFlag:"0",
         examinationClassLabel:'05班',
         examinationClassValue:'5' ,
-        score:'0'
+        score:'0',
+        markingContent:''
     },
     {
         examinationFlag:"0",
         examinationClassLabel:'15班',
         examinationClassValue:'15' ,
-        score:'0'
+        score:'0',
+        markingContent:''
     },
 ] ;
 
@@ -43,15 +50,27 @@ class ExaminationBody extends Component{
     constructor(props){
         super(props) ;
         this.state = {
-            loading:true
+            loading:true,
+            marking: false,
+            markingIndex:0,
+            markingContent:''
         } ;
+        //显示备注对话框处理
+        this.showMarkingModal = this.showMarkingModal.bind(this) ;
+        //隐藏备注对话框处理
+        this.hideMarkingModal = this.hideMarkingModal.bind(this) ;
+        //点击确认时事件处理
+        this.okMarkingModal = this.okMarkingModal.bind(this) ;
+        //备注内容输入处理函数
+        this.handleMarkingContentInput = this.handleMarkingContentInput.bind(this) ;
+
     }
 
     componentDidMount() {
 
         setTimeout(()=>{
             this.setState({
-                loading:false
+                loading:false,
             }) ;
             this.props.handleBodyUpdateClassList([...options]) ;
         },1500) ;
@@ -72,6 +91,40 @@ class ExaminationBody extends Component{
        }
     }
 
+
+    showMarkingModal(index) {
+        return ()=>{
+            let obj = this.props.classList[index] ;
+            let value = obj.markingContent ;
+            this.setState({
+                marking: true,
+                markingIndex:index,
+                markingContent:value,
+            });
+        }
+    }
+
+    hideMarkingModal(){
+        this.setState({
+            marking: false,
+            markingContent:'',
+            markingIndex:0
+        });
+    }
+
+    okMarkingModal(){
+        let index = this.state.markingIndex ;
+        let content = this.state.markingContent ;
+        this.props.handleBodyMarkingContent(index,content) ;
+        this.hideMarkingModal() ;
+    }
+
+
+    //备注输入框输入处理
+    handleMarkingContentInput(e){
+        let value =  e.target.value ;
+        this.setState({markingContent:value}) ;
+    }
 
     renderTableHeader(){
         return (
@@ -127,7 +180,7 @@ class ExaminationBody extends Component{
                                onChange={this.handleBodyChangeExaminationStatus(index,'3')}
                         />
                     </td>
-                    <td>备注</td>
+                    <td><div className="y-hand" onClick={this.showMarkingModal(index)}>备注</div></td>
                 </tr>
             ) ;
         }) ;
@@ -147,6 +200,7 @@ class ExaminationBody extends Component{
         ) ;
     }
 
+
     renderLoading(){
         return (
             <div style={{textAlign:"center"}}>
@@ -155,12 +209,29 @@ class ExaminationBody extends Component{
         ) ;
     }
 
-
+    renderMarkContentDialog(){
+        return (
+            <Modal
+                title="自定义原因"
+                visible={this.state.marking}
+                onOk={this.okMarkingModal}
+                onCancel={this.hideMarkingModal}
+                okText="确认"
+                cancelText="取消"
+            >
+                <TextArea rows={4}
+                          value={this.state.markingContent}
+                          onChange={this.handleMarkingContentInput}
+                />
+            </Modal>
+        ) ;
+    }
 
     render() {
         return (
             <div className="y-body">
                 {this.state.loading ?  this.renderLoading() : this.renderTable()}
+                {this.renderMarkContentDialog()}
             </div>
         ) ;
     }
