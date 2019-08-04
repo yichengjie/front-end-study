@@ -10,7 +10,6 @@ class QualityEvaluation  extends Component{
             evaluationDate:'2019/07/30',
             evaluationClass:'2',
             studentList:[],
-            loading:true
         } ;
         let { title } = this.props.location.state ;
         document.title = title;
