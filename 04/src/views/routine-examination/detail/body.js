@@ -129,18 +129,18 @@ class ExaminationBody extends Component{
     renderTableHeader(){
         return (
             <tr>
-                <th></th>
-                <th align="center" style={{textAlign: "center"}}>
+                <th width="80"></th>
+                <th width="60" align="center" style={{textAlign: "center"}}>
                     <span className="label y-hand"
                           style={{backgroundColor: "#a9823e"}}>优秀</span>
                 </th>
-                <th align="center" style={{textAlign: "center"}}>
+                <th width="60" align="center" style={{textAlign: "center"}}>
                     <span className="label label-success y-hand">合格</span>
                 </th>
-                <th align="center" style={{textAlign: "center"}}>
-                    <span className="label label-danger y-hand">不合格</span>
+                <th>
+                    <span style={{marginLeft:"5px"}} className="label label-danger y-hand">不合格</span>
                 </th>
-                <th></th>
+                <th width="60"></th>
             </tr>
         ) ;
     }
@@ -157,7 +157,6 @@ class ExaminationBody extends Component{
                                onChange={this.handleBodyChangeExaminationFlag(index)}
                         />
                         &nbsp;{item.examinationClassLabel}
-
                     </td>
                     <td align="center">
                         <input type="radio" value="1"
@@ -173,12 +172,20 @@ class ExaminationBody extends Component{
                                onChange={this.handleBodyChangeExaminationStatus(index,'2')}
                         />
                     </td>
-                    <td align="center">
+                    <td >
                         <input type="radio" value="3"
+                               style={{marginLeft:"20px"}}
                                name={"name_"+item.examinationClassValue}
                                checked={item.score === '3'}
                                onChange={this.handleBodyChangeExaminationStatus(index,'3')}
                         />
+                        {
+                            item.score === '3' ?
+                                (<span className="text-success y-hand" style={{marginLeft:"5px"}}>
+                                    请选择
+                                </span>)
+                                : null
+                        }
                     </td>
                     <td><div className="y-hand" onClick={this.showMarkingModal(index)}>备注</div></td>
                 </tr>
