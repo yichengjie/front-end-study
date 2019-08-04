@@ -187,7 +187,7 @@ class ExaminationBody extends Component{
                                 : null
                         }
                     </td>
-                    <td><div className="y-hand" onClick={this.showMarkingModal(index)}>备注</div></td>
+                    <td><div className="y-hand text-info" onClick={this.showMarkingModal(index)}>备注</div></td>
                 </tr>
             ) ;
         }) ;
