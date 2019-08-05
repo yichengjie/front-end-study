@@ -1,24 +1,5 @@
 import React,{Component,Fragment} from 'react' ;
 import { Spin } from 'antd';
-let options2 = [
-    {
-        nameAndNo:"白婷羽11182762",
-        scoreArr:["1","0","0","0"]
-    },{
-        nameAndNo:"张三11182763",
-        scoreArr:["1","1","0","0"]
-    },{
-        nameAndNo:"李四11182764",
-        scoreArr:["1","0","1","0"]
-    },{
-        nameAndNo:"王五11182765",
-        scoreArr:["1","1","0","1"]
-    },{
-        nameAndNo:"赵六11182766",
-        scoreArr:["1","1","1","1"]
-    }
-] ;
-
 
 class EvaluationBody  extends Component{
 
@@ -30,6 +11,24 @@ class EvaluationBody  extends Component{
     }
 
     componentDidMount() {
+        let options2 = [
+            {
+                nameAndNo:"白婷羽11182762",
+                scoreArr:["1","0","0","0"]
+            },{
+                nameAndNo:"张三11182763",
+                scoreArr:["1","1","0","0"]
+            },{
+                nameAndNo:"李四11182764",
+                scoreArr:["1","0","1","0"]
+            },{
+                nameAndNo:"王五11182765",
+                scoreArr:["1","1","0","1"]
+            },{
+                nameAndNo:"赵六11182766",
+                scoreArr:["1","1","1","1"]
+            }
+        ] ;
          setTimeout(()=>{
              this.setState({
                  loading:false
