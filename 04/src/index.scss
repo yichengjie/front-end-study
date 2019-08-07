@@ -122,3 +122,12 @@ code {
     }
   }
 }
+.y-quota-dialog{
+  .ant-modal-body{
+    padding: 10px;
+  }
+  .y-quota-item{
+    height: 40px;
+    line-height: 40px;
+  }
+}

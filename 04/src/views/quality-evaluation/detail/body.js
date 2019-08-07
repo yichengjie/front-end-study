@@ -34,7 +34,7 @@ class EvaluationBody  extends Component{
                  loading:false
              }) ;
              this.props.handleBodyUpdateList([...options2]) ;
-         },1500) ;
+         },200) ;
     }
 
     renderTableHeader(){

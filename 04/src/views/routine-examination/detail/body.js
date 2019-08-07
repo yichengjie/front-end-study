@@ -88,8 +88,8 @@ class ExaminationBody extends Component{
                      itemData = {item}
                      index = {index}
                      handleBodyChangeItemValue = {this.props.handleBodyChangeItemValue}
-                     showMarkingModal = {this.props.showMarkingModal}
-                     showUnqualifiedSelectModal = {this.props.showUnqualifiedSelectModal}
+                     showMarkingDialog = {this.props.showMarkingDialog}
+                     showUnqualifiedSelectDialog = {this.props.showUnqualifiedSelectDialog}
                 />
             ) ;
         }) ;
@@ -134,8 +134,8 @@ class ExaminationListItem extends Component{
     constructor(props){
         super(props) ;
         //显示备注对话框处理
-        this.showMarkingModal = this.showMarkingModal.bind(this) ;
-        this.showUnqualifiedSelectModal = this.showUnqualifiedSelectModal.bind(this) ;
+        this.showMarkingDialog = this.showMarkingDialog.bind(this) ;
+        this.showUnqualifiedSelectDialog = this.showUnqualifiedSelectDialog.bind(this) ;
         //----------------------------------------------------------//
         //改变改变检查状态--优秀-合格-不合格
         this.handleChangeExaminationStatus = this.handleChangeExaminationStatus.bind(this) ;
@@ -159,15 +159,15 @@ class ExaminationListItem extends Component{
         this.props.handleBodyChangeItemValue(index,name,value) ;
     }
     //显示备注对话框
-    showMarkingModal() {
+    showMarkingDialog() {
         let index = this.props.index ;
         let value = this.props.itemData.markingContent ;
-        this.props.showMarkingModal(index,value) ;
+        this.props.showMarkingDialog(index,value) ;
     }
 
-    showUnqualifiedSelectModal(){
+    showUnqualifiedSelectDialog(){
         let index = this.props.index ;
-        this.props.showUnqualifiedSelectModal(index) ;
+        this.props.showUnqualifiedSelectDialog(index) ;
     }
 
     render() {
@@ -207,7 +207,7 @@ class ExaminationListItem extends Component{
                         itemData.score === '3' ?
                             (<span className="text-success y-hand"
                                    style={{marginLeft:"5px"}}
-                                   onClick={this.showUnqualifiedSelectModal}
+                                   onClick={this.showUnqualifiedSelectDialog}
                             >
                                     请选择
                                 </span>)
@@ -215,7 +215,7 @@ class ExaminationListItem extends Component{
                     }
                 </td>
                 <td><div className="y-hand text-info"
-                         onClick={this.showMarkingModal}
+                         onClick={this.showMarkingDialog}
                     >备注</div>
                 </td>
             </tr>
