@@ -39,7 +39,7 @@ class ExaminationBody extends Component{
                 examinationClassLabel:'04班',
                 examinationClassValue:'4' ,
                 score:'0',
-                markingContent:''
+                markingContent:'',
             },{
                 examinationFlag:"0",
                 examinationClassLabel:'05班',
