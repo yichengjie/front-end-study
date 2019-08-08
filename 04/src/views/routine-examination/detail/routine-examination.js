@@ -1,7 +1,7 @@
-import React,{Component} from 'react' ;
+import React,{Component,createRef} from 'react' ;
 import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
-import {Drawer, Input, Modal,Checkbox} from "antd";
+import {Drawer, Input, Modal,Checkbox ,Upload, message} from "antd";
 const { TextArea } = Input;
 
 class RoutineExamination extends Component{
@@ -45,6 +45,8 @@ class RoutineExamination extends Component{
         this.okQuotaDialog = this.okQuotaDialog.bind(this) ;
         this.hideQuotaDialog = this.hideQuotaDialog.bind(this) ;
         this.handleChangeQuotaStatus = this.handleChangeQuotaStatus.bind(this) ;
+
+
     }
 
     //简单键值属性修改
@@ -189,6 +191,23 @@ class RoutineExamination extends Component{
 
 class UnqualifiedSelectDialog extends Component{
 
+    constructor(props){
+        super(props) ;
+        this.handlePhotoClick = this.handlePhotoClick.bind(this) ;
+        this.myPhotoRef = createRef();
+    }
+
+    handlePhotoClick(e){
+        console.info("拍照被点击....")
+        this.myPhotoRef.current.click();
+        this.props.hideUnqualifiedSelectDialog() ;
+    }
+
+    handlePhotoChange(e){
+        let value = e.target.value ;
+        console.info(value)
+    }
+
     render() {
         let {unqualifiedVisible,hideUnqualifiedSelectDialog,showQuotaDialog} = this.props ;
         return (
@@ -204,9 +223,13 @@ class UnqualifiedSelectDialog extends Component{
                     <div className="y-unqualified-item"
                          onClick={showQuotaDialog}
                     >指标</div>
-                    <div className="y-unqualified-item"
-
-                    >拍照</div>
+                    <div className="y-unqualified-item" onClick={this.handlePhotoClick}>
+                        拍照
+                        <input ref={this.myPhotoRef} type="file"
+                               style={{display: "none"}}
+                               onChange={this.handlePhotoChange}
+                        />
+                    </div>
                     <div className="y-unqualified-item"
                          onClick={hideUnqualifiedSelectDialog}
                     >取消</div>
