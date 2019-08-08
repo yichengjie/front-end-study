@@ -14,12 +14,12 @@ class ExaminationHeader extends Component{
 
     handleSelectChange(name){
         return (value) => {
-            this.props.handleHeaderChangeInput(name,value) ;
+            this.props.handleSimpleValue(name,value) ;
         }
     }
 
     handleCheckDateChange(value,valueStr){
-        this.props.handleHeaderChangeInput('examinationDate',valueStr) ;
+        this.props.handleSimpleValue('examinationDate',valueStr) ;
     }
 
     render() {
@@ -49,7 +49,7 @@ class ExaminationHeader extends Component{
                     <div className="y-label">
                         检查日期&nbsp;:
                     </div>
-                    <DatePicker value={this.props.examinationkDate === ''
+                    <DatePicker value={this.props.examinationDate === ''
                                         ? null
                                         : moment(this.props.examinationDate, dateFormat)}
                                 format={dateFormat}

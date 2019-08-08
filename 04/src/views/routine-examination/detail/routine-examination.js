@@ -4,6 +4,15 @@ import ExaminationBody from './body' ;
 import {Drawer, Input, Modal,Checkbox} from "antd";
 const { TextArea } = Input;
 
+let quotaOptions = [
+    {label:'队形',value:'1'} ,
+    {label:'缺人',value:'2'},
+    {label:'其他',value:'3'},
+    {label:'迟到',value:'4'},
+    {label:'没穿号砍',value:'5'}
+] ;
+
+
 class RoutineExamination extends Component{
     constructor(props){
         super(props) ;
@@ -16,16 +25,17 @@ class RoutineExamination extends Component{
             classList:[],
             ////////////////////////
             markingVisible: false,
-            markingIndex:-1,
             markingContent:'',
+            markingIndex:-1,
             ////////////////////////
             unqualifiedVisible:false,
             unqualifiedIndex:-1,
-            quotaVisible:false
+            quotaVisible:false,
+
         } ;
 
         console.info("classType : " + classType + " , itemType : " + itemType)
-        this.handleHeaderChangeInput = this.handleHeaderChangeInput.bind(this) ;
+        this.handleSimpleValue = this.handleSimpleValue.bind(this) ;
         this.handleHeaderSubmitForm = this.handleHeaderSubmitForm.bind(this) ;
         this.handleBodyUpdateClassList = this.handleBodyUpdateClassList.bind(this) ;
         //每一行后面的radio按钮选中事件
@@ -36,8 +46,6 @@ class RoutineExamination extends Component{
         this.hideMarkingDialog = this.hideMarkingDialog.bind(this) ;
         //点击备注确认时事件处理
         this.okMarkingDialog = this.okMarkingDialog.bind(this) ;
-        //备注内容输入处理函数
-        this.handleMarkingContentInput = this.handleMarkingContentInput.bind(this) ;
         //显示不合格理由对话框
         this.showUnqualifiedSelectDialog = this.showUnqualifiedSelectDialog.bind(this) ;
         //隐藏不合格理由对话框
@@ -48,7 +56,8 @@ class RoutineExamination extends Component{
         this.handleChangeQuotaStatus = this.handleChangeQuotaStatus.bind(this) ;
     }
 
-    handleHeaderChangeInput(name,value){
+    //简单键值属性修改
+    handleSimpleValue(name,value){
         this.setState({[name]:value}) ;
     }
 
@@ -83,8 +92,8 @@ class RoutineExamination extends Component{
     hideMarkingDialog(){
         this.setState({
             markingVisible: false,
-            markingContent:'',
-            markingIndex:-1
+            markingIndex:-1,
+            markingContent:''
         });
     }
     //备注确认对话框
@@ -118,82 +127,10 @@ class RoutineExamination extends Component{
         this.setState({quotaVisible:false}) ;
     }
 
-    //备注输入框输入处理
-    handleMarkingContentInput(e){
-        let value =  e.target.value ;
-        this.setState({markingContent:value}) ;
-    }
-
     //改变指标状态时
     handleChangeQuotaStatus(e){
         console.log(`checked = ${e.target.checked}`);
     }
-
-
-    //不合格时请选中弹出框
-    renderUnqualifiedSelectDialog(){
-        return (
-            <Drawer
-                className="y-unqualified-dialog"
-                height="125"
-                closable={false}
-                placement="bottom"
-                onClose={this.hideUnqualifiedSelectDialog}
-                visible={this.state.unqualifiedVisible}
-            >
-                <div className="y-unqualified-container">
-                    <div className="y-unqualified-item"
-                         onClick={this.showQuotaDialog}
-                    >指标</div>
-                    <div className="y-unqualified-item"
-
-                    >拍照</div>
-                    <div className="y-unqualified-item"
-                         onClick={this.hideUnqualifiedSelectDialog}
-                    >取消</div>
-                </div>
-            </Drawer>
-        ) ;
-    }
-
-    renderMarkContentDialog(){
-        return (
-            <Modal
-                title="自定义原因"
-                visible={this.state.markingVisible}
-                onOk={this.okMarkingDialog}
-                onCancel={this.hideMarkingDialog}
-                okText="确认"
-                cancelText="取消"
-            >
-                <TextArea rows={4}
-                          value={this.state.markingContent}
-                          onChange={this.handleMarkingContentInput}
-                />
-            </Modal>
-        ) ;
-    }
-
-    renderQuotaDialog(){
-        return (
-            <Modal
-                className="y-quota-dialog"
-                title="请选择"
-                visible={this.state.quotaVisible}
-                onOk={this.okQuotaDialog}
-                onCancel={this.hideQuotaDialog}
-                okText="确认"
-                cancelText="取消"
-            >
-                <Checkbox className="y-quota-item" onChange={this.handleChangeQuotaStatus}>队伍、队形</Checkbox><br/>
-                <Checkbox className="y-quota-item" onChange={this.handleChangeQuotaStatus}>缺人</Checkbox><br/>
-                <Checkbox className="y-quota-item" onChange={this.handleChangeQuotaStatus}>其他</Checkbox><br/>
-                <Checkbox className="y-quota-item" onChange={this.handleChangeQuotaStatus}>迟到</Checkbox><br/>
-                <Checkbox className="y-quota-item" onChange={this.handleChangeQuotaStatus}>没穿号砍</Checkbox>
-            </Modal>
-        ) ;
-    }
-
 
 
     render() {
@@ -204,7 +141,7 @@ class RoutineExamination extends Component{
                     examinationType ={this.state.examinationType}
                     examinationGrade ={this.state.examinationGrade}
                     examinationDate = {this.state.examinationDate}
-                    handleHeaderChangeInput = {this.handleHeaderChangeInput}
+                    handleSimpleValue = {this.handleSimpleValue}
                     handleHeaderSubmitForm = {this.handleHeaderSubmitForm}
                 />
                 <ExaminationBody
@@ -214,12 +151,118 @@ class RoutineExamination extends Component{
                     showMarkingDialog = {this.showMarkingDialog}
                     showUnqualifiedSelectDialog = {this.showUnqualifiedSelectDialog}
                 />
-                {this.renderMarkContentDialog()}
-                {this.renderUnqualifiedSelectDialog()}
-                {this.renderQuotaDialog()}
+                <MarkContentDialog
+                    markingVisible = {this.state.markingVisible}
+                    markingContent = {this.state.markingContent}
+                    okMarkingDialog = {this.okMarkingDialog}
+                    hideMarkingDialog = {this.hideMarkingDialog}
+                    handleSimpleValue = {this.handleSimpleValue}
+                />
+                <UnqualifiedSelectDialog
+                    unqualifiedVisible ={this.state.unqualifiedVisible}
+                    hideUnqualifiedSelectDialog ={this.hideUnqualifiedSelectDialog}
+                    showQuotaDialog = {this.showQuotaDialog}
+                />
+                <QuotaDialog
+                    quotaVisible = {this.state.quotaVisible}
+                    okQuotaDialog = {this.okQuotaDialog}
+                    hideQuotaDialog = {this.hideQuotaDialog}
+                />
             </div>
         ) ;
     }
 }
+
+
+
+class UnqualifiedSelectDialog extends Component{
+
+    render() {
+        let {unqualifiedVisible,hideUnqualifiedSelectDialog,showQuotaDialog} = this.props ;
+        return (
+            <Drawer
+                className="y-unqualified-dialog"
+                height="125"
+                closable={false}
+                placement="bottom"
+                onClose={hideUnqualifiedSelectDialog}
+                visible={unqualifiedVisible}
+            >
+                <div className="y-unqualified-container">
+                    <div className="y-unqualified-item"
+                         onClick={showQuotaDialog}
+                    >指标</div>
+                    <div className="y-unqualified-item"
+
+                    >拍照</div>
+                    <div className="y-unqualified-item"
+                         onClick={hideUnqualifiedSelectDialog}
+                    >取消</div>
+                </div>
+            </Drawer>
+        ) ;
+    }
+}
+
+
+
+class MarkContentDialog extends Component{
+
+    constructor(props){
+        super(props) ;
+        this.handleMarkingContentInput = this.handleMarkingContentInput.bind(this) ;
+    }
+
+    //备注输入框输入处理
+    handleMarkingContentInput(e){
+        let value =  e.target.value ;
+        this.props.handleSimpleValue('markingContent',value) ;
+    }
+
+    render() {
+        let {markingVisible,markingContent,okMarkingDialog,hideMarkingDialog} = this.props ;
+        return (
+            <Modal
+                title="自定义原因"
+                visible={markingVisible}
+                onOk={okMarkingDialog}
+                onCancel={hideMarkingDialog}
+                okText="确认"
+                cancelText="取消"
+            >
+                <TextArea rows={4}
+                    value={markingContent}
+                    onChange={this.handleMarkingContentInput}
+                />
+            </Modal>
+        );
+    }
+}
+
+
+
+class QuotaDialog extends Component{
+    render() {
+        let {quotaVisible,okQuotaDialog,hideQuotaDialog} = this.props ;
+        return (
+            <Modal
+                className="y-quota-dialog"
+                title="请选择"
+                visible={quotaVisible}
+                onOk={okQuotaDialog}
+                onCancel={hideQuotaDialog}
+                okText="确认"
+                cancelText="取消"
+            >
+                <Checkbox className="y-quota-item" onChange={this.handleChangeQuotaStatus}>队伍、队形</Checkbox><br/>
+                <Checkbox className="y-quota-item" onChange={this.handleChangeQuotaStatus}>缺人</Checkbox><br/>
+                <Checkbox className="y-quota-item" onChange={this.handleChangeQuotaStatus}>其他</Checkbox><br/>
+                <Checkbox className="y-quota-item" onChange={this.handleChangeQuotaStatus}>迟到</Checkbox><br/>
+                <Checkbox className="y-quota-item" onChange={this.handleChangeQuotaStatus}>没穿号砍</Checkbox>
+            </Modal>
+        );
+    }
+}
+
 
 export default RoutineExamination ;

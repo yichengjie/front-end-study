@@ -18,19 +18,22 @@ class ExaminationBody extends Component{
                 examinationClassLabel:'01班',
                 examinationClassValue:'1' ,
                 score:'0',
-                markingContent:''
+                markingContent:'',
+                quotaList:['1','3','4']
             },{
                 examinationFlag:"0",
                 examinationClassLabel:'02班',
                 examinationClassValue:'2' ,
                 score:'0',
-                markingContent:''
+                markingContent:'',
+                quotaList:['1','3','4']
             },{
                 examinationFlag:"0",
                 examinationClassLabel:'03班',
                 examinationClassValue:'3' ,
                 score:'0',
-                markingContent:''
+                markingContent:'',
+                quotaList:['1','2','3']
             },{
                 examinationFlag:"0",
                 examinationClassLabel:'04班',
@@ -42,14 +45,16 @@ class ExaminationBody extends Component{
                 examinationClassLabel:'05班',
                 examinationClassValue:'5' ,
                 score:'0',
-                markingContent:''
+                markingContent:'',
+                quotaList:['1','3']
             },
             {
                 examinationFlag:"0",
                 examinationClassLabel:'15班',
                 examinationClassValue:'15' ,
                 score:'0',
-                markingContent:''
+                markingContent:'',
+                quotaList:['1','4']
             },
         ] ;
 
