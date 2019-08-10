@@ -29,11 +29,6 @@ class EntryMenu extends Component{
                             <div className="y-description">电子班牌</div>
                         </Link>
                     </div>
-                    <div className="y-item">
-                        <Avatar style={{ backgroundColor: '#87d068' }}
-                                icon="codepen" size="large"/>
-                        <div className="y-description">其他检查</div>
-                    </div>
                 </div>
 
             </div>
