@@ -243,22 +243,60 @@ module.exports = function(webpackEnv) {
       // Automatically split vendor and commons
       // https://twitter.com/wSokra/status/969633336732905474
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
+      // splitChunks: {
+      //   cacheGroups: {
+      //     vendor: {
+      //       name: "vendor",
+      //       test: /[\\/]node_modules[\\/]/,
+      //       chunks: "all",
+      //       priority: 10 // 优先级
+      //     },
+      //     common: {
+      //       name: "common",
+      //       test: /[\\/]src[\\/]/,
+      //       minSize: 1024,
+      //       chunks: "all",
+      //       priority: 5
+      //     }
+      //   }
+      // },
+      // splitChunks: {
+      //   chunks: 'all',
+      //   cacheGroups: {
+      //     "react-vendor": {
+      //       test: (module) => (/react/.test(module.context) || /redux/.test(module.context)
+      //           || /classnames/.test(module.context) || /prop-types/.test(module.context)),
+      //       priority: 3,
+      //       reuseExistingChunk: false
+      //     },
+      //     "antd-vendor": {
+      //       test: (module) => (/antd/.test(module.context)),
+      //       priority: 2,
+      //       reuseExistingChunk: false
+      //     },
+      //   }
+      // },
       splitChunks: {
-        chunks: 'all',
-        //name: false,
+        chunks: 'initial', //默认只作用于异步模块，为`all`时对所有模块生效,`initial`对同步模块有效
+        minSize: 30000, //合并前模块文件的体积
+        minChunks: 1, //最少被引用次数
+        maxAsyncRequests: 5,
+        maxInitialRequests: 3,
+        automaticNameDelimiter: '~',
         cacheGroups: {
-          "react-vendor": {
-            test: (module) => (/react/.test(module.context) || /redux/.test(module.context)
-                || /classnames/.test(module.context) || /prop-types/.test(module.context)),
-            priority: 3,
-            reuseExistingChunk: false
+          vendor: {
+            name: "vendor",
+            test: /[\\/]node_modules[\\/]/,
+            chunks: "all",
+            priority: 10 // 优先级
           },
-          "antd-vendor": {
-            // || /[\\/]node_modules[\\/]/.test(module.context)
-            test: (module) => (/antd/.test(module.context)),
-            priority: 2,
-            reuseExistingChunk: false
-          },
+          common: {
+            name: "common",
+            test: /[\\/]src[\\/]/,
+            minSize: 1024,
+            chunks: "all",
+            priority: 5
+          }
         }
       },
       // Keep the runtime chunk separated to enable long term caching
