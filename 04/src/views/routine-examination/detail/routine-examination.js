@@ -3,6 +3,7 @@ import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
 import {Drawer, Input, Modal, Checkbox, message} from "antd";
 import axios from "axios";
+import qs from 'qs';
 const { TextArea } = Input;
 
 
@@ -12,6 +13,7 @@ class RoutineExamination extends Component{
         let { title,classType,itemType } = this.props.location.state ;
         document.title = title;
         this.state = {
+            bodyLoading:false,
             classList:[],
             ////////////////////////
             markingVisible: false,
@@ -51,7 +53,7 @@ class RoutineExamination extends Component{
 
     componentDidMount() {
         //页面加载完成以后
-        //1.查询教师所带的年级和ji
+        //1.查询教师所带的年级和
     }
 
 
@@ -93,28 +95,15 @@ class RoutineExamination extends Component{
         }else if(gradeOrLevelDepartmentType === 'levelDepartment'){
             url = `http://wx.ideamerry.com/api/classAndStudent/getClassInfoByLevelDepartment/${teacherNumber}/${gradeOrLevelDepartmentValue}/${campusNumber}` ;
         }
-        axios.get(url)
+
+        let param = qs.stringify({
+            submitDate:examinationDate,
+        });
+        this.setState({bodyLoading:true}) ;
+        axios.post(url,param)
         .then( (response) => {
             let data = response.data || [];
-            let options = [] ;
-            for(let i = 0 ; i < data.length ; i ++ ){
-                let curData = data[i] ;
-                let examinationClassLabel = curData.name ;
-                let examinationClassValue = curData.classId ;
-                let obj = {
-                    examinationFlag:"0",
-                        examinationClassLabel:examinationClassLabel,
-                    examinationClassValue:examinationClassValue ,
-                    score:'0',
-                    markingContent:'',
-                    quotaList:['1','3','4'],
-                    photoUrl:''
-                } ;
-                options.push(obj) ;
-            }
-
-            console.info(options)
-            this.setState({classList:options}) ;
+            this.setState({bodyLoading:false,classList:data}) ;
         })
         .catch(function (error) {
             message.error("加载年级/级部信息出错!") ;
@@ -214,6 +203,7 @@ class RoutineExamination extends Component{
                     handleBodyChangeItemValue = {this.handleBodyChangeItemValue}
                     showMarkingDialog = {this.showMarkingDialog}
                     showUnqualifiedSelectDialog = {this.showUnqualifiedSelectDialog}
+                    loading ={this.state.bodyLoading}
                 />
                 <MarkContentDialog
                     markingVisible = {this.state.markingVisible}

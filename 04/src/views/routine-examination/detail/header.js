@@ -23,6 +23,12 @@ class ExaminationHeader extends Component{
         this.handleCheckDateChange = this.handleCheckDateChange.bind(this) ;
     }
 
+    updateClassListData(){
+        let {gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate} = this.state ;
+        this.props.handlerHeaderChangeFormData(gradeOrLevelDepartmentType,
+            gradeOrLevelDepartmentValue,examinationDate) ;
+    }
+
     componentDidMount() {
         let {teacherNumber,campusNumber} = this.props ;
         let url = `http://wx.ideamerry.com/api/classAndStudent/getGradeAndSubordinateDepartment/${teacherNumber}/${campusNumber}` ;
@@ -31,9 +37,7 @@ class ExaminationHeader extends Component{
             let data = response.data ;
             let gradeOrLevelDepartmentValue = data[this.state.gradeOrLevelDepartmentType]['defaultValue'] ;
             this.setState({gradeAndLevelDepartmentCodeBook:response.data,gradeOrLevelDepartmentValue},()=>{
-                let {gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate} = this.state ;
-                this.props.handlerHeaderChangeFormData(gradeOrLevelDepartmentType,
-                    gradeOrLevelDepartmentValue,examinationDate) ;
+                this.updateClassListData() ;
             }) ;
         })
         .catch(function (error) {
@@ -44,24 +48,18 @@ class ExaminationHeader extends Component{
     handleGradeOrLevelDepartmentTypeChange(value){
         let defaultValue = this.state.gradeAndLevelDepartmentCodeBook[value].defaultValue ;
         this.setState({gradeOrLevelDepartmentType:value,gradeOrLevelDepartmentValue:defaultValue},()=>{
-            let {gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate} = this.state ;
-            this.props.handlerHeaderChangeFormData(gradeOrLevelDepartmentType,
-                gradeOrLevelDepartmentValue,examinationDate) ;
+            this.updateClassListData() ;
         }) ;
     }
     handleGradeOrLevelDepartmentValueChange(value){
         this.setState({gradeOrLevelDepartmentValue:value},()=>{
-            let {gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate} = this.state ;
-            this.props.handlerHeaderChangeFormData(gradeOrLevelDepartmentType,
-                gradeOrLevelDepartmentValue,examinationDate) ;
+            this.updateClassListData() ;
         }) ;
     }
 
     handleCheckDateChange(value,valueStr){
         this.setState({'examinationDate':valueStr},()=>{
-            let {gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate} = this.state ;
-            this.props.handlerHeaderChangeFormData(gradeOrLevelDepartmentType,
-                                                   gradeOrLevelDepartmentValue,examinationDate) ;
+            this.updateClassListData() ;
         }) ;
     }
 

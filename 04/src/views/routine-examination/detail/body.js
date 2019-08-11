@@ -1,73 +1,11 @@
 import React ,{Component} from 'react' ;
 import { Spin} from 'antd';
 
+
 class ExaminationBody extends Component{
 
     constructor(props){
         super(props) ;
-        this.state = {
-            loading:false,
-        } ;
-    }
-    componentDidMount() {
-        let options = [
-            {
-                examinationFlag:"0",
-                examinationClassLabel:'01班',
-                examinationClassValue:'1' ,
-                score:'0',
-                markingContent:'',
-                quotaList:['1','3','4'],
-                photoUrl:''
-            },{
-                examinationFlag:"0",
-                examinationClassLabel:'02班',
-                examinationClassValue:'2' ,
-                score:'0',
-                markingContent:'',
-                quotaList:['1','3','4'],
-                photoUrl:''
-            },{
-                examinationFlag:"0",
-                examinationClassLabel:'03班',
-                examinationClassValue:'3' ,
-                score:'0',
-                markingContent:'',
-                quotaList:['1','2','3'],
-                photoUrl:''
-            },{
-                examinationFlag:"0",
-                examinationClassLabel:'04班',
-                examinationClassValue:'4' ,
-                score:'0',
-                markingContent:'',
-                photoUrl:''
-            },{
-                examinationFlag:"0",
-                examinationClassLabel:'05班',
-                examinationClassValue:'5' ,
-                score:'0',
-                markingContent:'',
-                quotaList:['1','3'],
-                photoUrl:''
-            },
-            {
-                examinationFlag:"0",
-                examinationClassLabel:'15班',
-                examinationClassValue:'15' ,
-                score:'0',
-                markingContent:'',
-                quotaList:['1','4'],
-                photoUrl:''
-            },
-        ] ;
-
-        // setTimeout(()=>{
-        //     this.setState({
-        //         loading:false,
-        //     }) ;
-        //     this.props.handleBodyUpdateClassList([...options]) ;
-        // },200) ;
     }
 
     renderTableHeader(){
@@ -128,9 +66,10 @@ class ExaminationBody extends Component{
     }
 
     render() {
+        let {loading} = this.props ;
         return (
             <div className="y-body">
-                {this.state.loading ?  this.renderLoading() : this.renderTable()}
+                {loading ?  this.renderLoading() : this.renderTable()}
 
             </div>
         ) ;
@@ -181,6 +120,11 @@ class ExaminationListItem extends Component{
 
     render() {
         let itemData = this.props.itemData ;
+        let label = itemData.examinationClassLabel.replace(/高\d{4}级/,'') ;
+        label = label.replace("（","") ;
+        label = label.replace("）","") ;
+        label = label.replace("(","") ;
+        label = label.replace(")","") ;
         return (
             <tr>
                 <td align="center">
@@ -189,7 +133,7 @@ class ExaminationListItem extends Component{
                            checked={itemData.examinationFlag === '1'}
                            onChange={this.handleChangeExaminationFlag}
                     />
-                    &nbsp;{itemData.examinationClassLabel}
+                    &nbsp;{label}
                 </td>
                 <td align="center">
                     <input type="radio" value="1"
