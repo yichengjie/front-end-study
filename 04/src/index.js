@@ -17,13 +17,13 @@ import 'bootstrap/dist/css/bootstrap.css' ;
 ReactDOM.render(<div className="container-fluid">
                     <Router>
                         <Route exact path="/" component={EntryMenu} />
-                        <Route path="/electronic-class-card" component={ElectronicClassCard} />
+                        <Route path="/electronic-class-card/:teacherNumber/:campusNumber" component={ElectronicClassCard} />
                         {/*-----------*/}
-                        <Route path="/quality-evaluation-list" component={QualityEvaluationList} />
-                        <Route path="/routine-examination-list" component={RoutineExaminationList} />
+                        <Route path="/quality-evaluation-list/:teacherNumber/:campusNumber" component={QualityEvaluationList} />
+                        <Route path="/routine-examination-list/:teacherNumber/:campusNumber" component={RoutineExaminationList} />
                         {/*-----------*/}
-                        <Route path="/quality-evaluation-detail" component={QualityEvaluationDetail} />
-                        <Route path="/routine-examination-detail" component={RoutineExaminationDetail} />
+                        <Route path="/quality-evaluation-detail/:teacherNumber/:campusNumber" component={QualityEvaluationDetail} />
+                        <Route path="/routine-examination-detail/:teacherNumber/:campusNumber" component={RoutineExaminationDetail} />
 
                     </Router>
                 </div>, document.getElementById('root'));

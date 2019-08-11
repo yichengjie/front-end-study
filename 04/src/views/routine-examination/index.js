@@ -41,9 +41,11 @@ class RoutineExaminationList extends Component{
     constructor(props){
         super(props) ;
         document.title = "常规检查";
+
     }
 
     renderItemType(classType,itemList){
+        let {teacherNumber,campusNumber} = this.props.match.params;
         let rows = [] ;
         let step = 2;
         let surplus = itemList.length %  step ;
@@ -55,7 +57,7 @@ class RoutineExaminationList extends Component{
                 rows.push(
                     <div key={i} className="y-row">
                         <Link className="y-item" to={{
-                            pathname: "/routine-examination-detail",
+                            pathname: "/routine-examination-detail/" + teacherNumber +"/" +campusNumber,
                             state: {
                                 classType:classType,
                                 title: itemList[i].title,
@@ -70,7 +72,7 @@ class RoutineExaminationList extends Component{
                 rows.push(
                     <div key={i} className="y-row">
                         <Link className="y-item" to={{
-                            pathname: "/routine-examination-detail",
+                            pathname: "/routine-examination-detail/" + teacherNumber +"/" +campusNumber ,
                             state: {
                                 classType:classType,
                                 title: itemList[i].title,
@@ -80,7 +82,7 @@ class RoutineExaminationList extends Component{
                             {itemList[i].title}
                         </Link>
                         <Link className="y-item" to={{
-                            pathname: "/routine-examination-detail",
+                            pathname: "/routine-examination-detail/" + teacherNumber +"/" +campusNumber,
                             state: {
                                 classType:classType,
                                 title: itemList[i+1].title,

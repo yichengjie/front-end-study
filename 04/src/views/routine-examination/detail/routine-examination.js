@@ -2,12 +2,18 @@ import React,{Component,createRef} from 'react' ;
 import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
 import {Drawer, Input, Modal,Checkbox} from "antd";
+
 const { TextArea } = Input;
 
 
 class RoutineExamination extends Component{
     constructor(props){
         super(props) ;
+        let {teacherNumber,campusNumber} = this.props.match.params;
+
+        console.info('teacherNumber: ' ,teacherNumber) ;
+        console.info('campusNumber: ' ,campusNumber) ;
+
         let { title,classType,itemType } = this.props.location.state ;
         document.title = title;
         this.state = {

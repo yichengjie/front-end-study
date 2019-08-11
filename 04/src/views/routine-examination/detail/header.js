@@ -1,6 +1,7 @@
 import React ,{Component} from 'react' ;
 import { Select,DatePicker } from 'antd';
 import moment from 'moment';
+import axios from "axios";
 const { Option } = Select;
 const dateFormat = 'YYYY/MM/DD';
 
@@ -36,6 +37,23 @@ class ExaminationHeader extends Component{
         this.handleGradeOrLevelDepartmentTypeChange =this.handleGradeOrLevelDepartmentTypeChange.bind(this) ;
         this.handleGradeOrLevelDepartmentValueChange = this.handleGradeOrLevelDepartmentValueChange.bind(this) ;
         this.handleCheckDateChange = this.handleCheckDateChange.bind(this) ;
+    }
+
+    componentDidMount() {
+        let {teacherNumber,campusNumber} = this.state ;
+        // let url = `http://wx.ideamerry.com/api/classAndStudent/getGradeAndSubordinateDepartment/${teacherNumber}/${campusNumber}` ;
+        // axios.get(url)
+        //     .then(function (response) {
+        //         // handle success
+        //         console.log(response);
+        //     })
+        //     .catch(function (error) {
+        //         // handle error
+        //         console.log(error);
+        //     })
+        //     .then(function () {
+        //         // always executed
+        //     });
     }
 
     handleGradeOrLevelDepartmentTypeChange(value){

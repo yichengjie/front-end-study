@@ -57,6 +57,8 @@ class QualityEvaluationList extends Component{
         document.title = "综合素质评价";
     }
     renderItemType(classType,itemList){
+
+        let {teacherNumber,campusNumber} = this.props.match.params;
         let rows = [] ;
         let step = 3;
         let surplus = itemList.length %  step ;
@@ -68,7 +70,7 @@ class QualityEvaluationList extends Component{
                 rows.push(
                     <div key={i} className="y-row">
                         <Link className="y-item" to={{
-                                pathname: "/quality-evaluation-detail",
+                                pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber ,
                                 state: {
                                     classType:classType,
                                     title: itemList[i].title,
@@ -84,7 +86,7 @@ class QualityEvaluationList extends Component{
                 rows.push(
                     <div key={i} className="y-row">
                         <Link className="y-item" to={{
-                            pathname: "/quality-evaluation-detail",
+                            pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber,
                             state: {
                                 classType:classType,
                                 title: itemList[i].title,
@@ -95,7 +97,7 @@ class QualityEvaluationList extends Component{
                             {itemList[i].title}
                         </Link>
                         <Link className="y-item" to={{
-                            pathname: "/quality-evaluation-detail",
+                            pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber,
                             state: {
                                 classType:classType,
                                 title: itemList[i+1].title,
@@ -111,7 +113,7 @@ class QualityEvaluationList extends Component{
                 rows.push(
                     <div key={i} className="y-row">
                         <Link className="y-item" to={{
-                            pathname: "/quality-evaluation-detail",
+                            pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber,
                             state: {
                                 classType:classType,
                                 title: itemList[i].title,
@@ -122,7 +124,7 @@ class QualityEvaluationList extends Component{
                             {itemList[i].title}
                         </Link>
                         <Link className="y-item" to={{
-                            pathname: "/quality-evaluation-detail",
+                            pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber,
                             state: {
                                 classType:classType,
                                 title: itemList[i+1].title,
@@ -133,7 +135,7 @@ class QualityEvaluationList extends Component{
                             {itemList[i+1].title}
                         </Link>
                         <Link className="y-item" to={{
-                            pathname: "/quality-evaluation-detail",
+                            pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber,
                             state: {
                                 classType:classType,
                                 title: itemList[i+2].title,

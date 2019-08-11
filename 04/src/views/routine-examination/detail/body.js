@@ -1,8 +1,6 @@
 import React ,{Component} from 'react' ;
 import { Spin} from 'antd';
 
-
-
 class ExaminationBody extends Component{
 
     constructor(props){
