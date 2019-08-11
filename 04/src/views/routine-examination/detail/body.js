@@ -6,7 +6,7 @@ class ExaminationBody extends Component{
     constructor(props){
         super(props) ;
         this.state = {
-            loading:true,
+            loading:false,
         } ;
     }
     componentDidMount() {
@@ -62,23 +62,23 @@ class ExaminationBody extends Component{
             },
         ] ;
 
-        setTimeout(()=>{
-            this.setState({
-                loading:false,
-            }) ;
-            this.props.handleBodyUpdateClassList([...options]) ;
-        },200) ;
+        // setTimeout(()=>{
+        //     this.setState({
+        //         loading:false,
+        //     }) ;
+        //     this.props.handleBodyUpdateClassList([...options]) ;
+        // },200) ;
     }
 
     renderTableHeader(){
         return (
             <tr>
-                <th width="80"></th>
-                <th width="60" align="center" style={{textAlign: "center"}}>
+                <th width="100"></th>
+                <th width="50" align="center" style={{textAlign: "center"}}>
                     <span className="label y-hand"
                           style={{backgroundColor: "#a9823e"}}>优秀</span>
                 </th>
-                <th width="60" align="center" style={{textAlign: "center"}}>
+                <th width="50" align="center" style={{textAlign: "center"}}>
                     <span className="label label-success y-hand">合格</span>
                 </th>
                 <th>

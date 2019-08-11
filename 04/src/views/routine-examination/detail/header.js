@@ -30,7 +30,11 @@ class ExaminationHeader extends Component{
         .then( (response) => {
             let data = response.data ;
             let gradeOrLevelDepartmentValue = data[this.state.gradeOrLevelDepartmentType]['defaultValue'] ;
-            this.setState({gradeAndLevelDepartmentCodeBook:response.data,gradeOrLevelDepartmentValue}) ;
+            this.setState({gradeAndLevelDepartmentCodeBook:response.data,gradeOrLevelDepartmentValue},()=>{
+                let {gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate} = this.state ;
+                this.props.handlerHeaderChangeFormData(gradeOrLevelDepartmentType,
+                    gradeOrLevelDepartmentValue,examinationDate) ;
+            }) ;
         })
         .catch(function (error) {
             message.error("加载年级/级部信息出错!") ;

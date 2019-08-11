@@ -95,8 +95,26 @@ class RoutineExamination extends Component{
         }
         axios.get(url)
         .then( (response) => {
-            let data = response.data ;
-            console.info(data)
+            let data = response.data || [];
+            let options = [] ;
+            for(let i = 0 ; i < data.length ; i ++ ){
+                let curData = data[i] ;
+                let examinationClassLabel = curData.name ;
+                let examinationClassValue = curData.classId ;
+                let obj = {
+                    examinationFlag:"0",
+                        examinationClassLabel:examinationClassLabel,
+                    examinationClassValue:examinationClassValue ,
+                    score:'0',
+                    markingContent:'',
+                    quotaList:['1','3','4'],
+                    photoUrl:''
+                } ;
+                options.push(obj) ;
+            }
+
+            console.info(options)
+            this.setState({classList:options}) ;
         })
         .catch(function (error) {
             message.error("加载年级/级部信息出错!") ;
