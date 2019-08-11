@@ -4,6 +4,10 @@ import ExaminationBody from './body' ;
 import {Drawer, Input, Modal,Checkbox ,Upload, message} from "antd";
 const { TextArea } = Input;
 
+
+
+
+
 class RoutineExamination extends Component{
     constructor(props){
         super(props) ;
@@ -45,9 +49,15 @@ class RoutineExamination extends Component{
         this.okQuotaDialog = this.okQuotaDialog.bind(this) ;
         this.hideQuotaDialog = this.hideQuotaDialog.bind(this) ;
         this.handleChangeQuotaStatus = this.handleChangeQuotaStatus.bind(this) ;
+    }
+
+    componentDidMount() {
+        //页面加载完成以后
+        //1.查询教师所带的年级和ji
 
 
     }
+
 
     //简单键值属性修改
     handleSimpleValue(name,value){
