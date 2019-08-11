@@ -1,19 +1,14 @@
 import React,{Component,createRef} from 'react' ;
 import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
-import {Drawer, Input, Modal,Checkbox} from "antd";
-
+import {Drawer, Input, Modal, Checkbox, message} from "antd";
+import axios from "axios";
 const { TextArea } = Input;
 
 
 class RoutineExamination extends Component{
     constructor(props){
         super(props) ;
-        let {teacherNumber,campusNumber} = this.props.match.params;
-
-        console.info('teacherNumber: ' ,teacherNumber) ;
-        console.info('campusNumber: ' ,campusNumber) ;
-
         let { title,classType,itemType } = this.props.location.state ;
         document.title = title;
         this.state = {
@@ -50,6 +45,8 @@ class RoutineExamination extends Component{
         this.okQuotaDialog = this.okQuotaDialog.bind(this) ;
         this.hideQuotaDialog = this.hideQuotaDialog.bind(this) ;
         this.handleChangeQuotaStatus = this.handleChangeQuotaStatus.bind(this) ;
+        //当输入头部输入框内容有变化的时候更新班级列表
+        this.handlerHeaderChangeFormData = this.handlerHeaderChangeFormData.bind(this) ;
     }
 
     componentDidMount() {
@@ -80,6 +77,30 @@ class RoutineExamination extends Component{
             obj.examinationFlag = "1" ; //1:选中，0:非选中
         }
         this.setState({classList:newArr}) ;
+    }
+
+
+    handlerHeaderChangeFormData(gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate){
+        let {teacherNumber,campusNumber} = this.props.match.params;
+        //年级:教师工号、年级id、校区
+        //http://wx.ideamerry.com/api/classAndStudent/getClassInfoByGradeId/130052/2018/2
+        //级部:教师工号、级部id、校区
+        //http://wx.ideamerry.com/api/classAndStudent/getClassInfoByLevelDepartment/130052/2/2
+        let url =  '';
+        //年级
+        if(gradeOrLevelDepartmentType === 'grade'){
+            url = `http://wx.ideamerry.com/api/classAndStudent/getClassInfoByGradeId/${teacherNumber}/${gradeOrLevelDepartmentValue}/${campusNumber}` ;
+        }else if(gradeOrLevelDepartmentType === 'levelDepartment'){
+            url = `http://wx.ideamerry.com/api/classAndStudent/getClassInfoByLevelDepartment/${teacherNumber}/${gradeOrLevelDepartmentValue}/${campusNumber}` ;
+        }
+        axios.get(url)
+        .then( (response) => {
+            let data = response.data ;
+            console.info(data)
+        })
+        .catch(function (error) {
+            message.error("加载年级/级部信息出错!") ;
+        }) ;
     }
 
     showMarkingDialog(index,value){
@@ -156,11 +177,18 @@ class RoutineExamination extends Component{
 
     render() {
 
+        let {teacherNumber,campusNumber} = this.props.match.params;
+
+
         return (
             <div>
                 <ExaminationHeader
                     handleSimpleValue = {this.handleSimpleValue}
                     handleHeaderSubmitForm = {this.handleHeaderSubmitForm}
+                    handlerHeaderChangeFormData = {this.handlerHeaderChangeFormData}
+                    teacherNumber = {teacherNumber}
+                    campusNumber ={campusNumber}
+
                 />
                 <ExaminationBody
                     classList ={this.state.classList}

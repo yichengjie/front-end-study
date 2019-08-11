@@ -1,38 +1,22 @@
 import React ,{Component} from 'react' ;
-import { Select,DatePicker } from 'antd';
+import { Select,DatePicker,message } from 'antd';
 import moment from 'moment';
 import axios from "axios";
 const { Option } = Select;
 const dateFormat = 'YYYY/MM/DD';
 
 
-let gradeAndLevelDepartmentCodeBook  = {
-    grade:{
-        defaultValue:'2017',
-        options:[
-            {label:'高2017级',value:"2017"},
-            {label:'高2018级',value:"2018"},
-            {label:'高2019级',value:"2019"}
-        ]
-    },
-    levelDepartment:{
-        defaultValue:'21',
-        options: [
-            {label:'高二1部',value:'21'},
-            {label:'高二2部',value:'22'},
-            {label:'高三1部',value:'31'}
-        ]
-    }
-}
-
-
 class ExaminationHeader extends Component{
     constructor(props){
         super(props) ;
         this.state = {
-            gradeOrLevelDepartmentType:'grade',
-            gradeOrLevelDepartmentValue:'2018',
+            gradeOrLevelDepartmentType:'levelDepartment',
+            gradeOrLevelDepartmentValue:'',
             examinationDate:'2019/07/30',
+            gradeAndLevelDepartmentCodeBook:{
+                grade:{defaultValue:'',options:[]},
+                levelDepartment:{defaultValue:'',options:[]}
+            }
         } ;
         this.handleGradeOrLevelDepartmentTypeChange =this.handleGradeOrLevelDepartmentTypeChange.bind(this) ;
         this.handleGradeOrLevelDepartmentValueChange = this.handleGradeOrLevelDepartmentValueChange.bind(this) ;
@@ -40,38 +24,48 @@ class ExaminationHeader extends Component{
     }
 
     componentDidMount() {
-        let {teacherNumber,campusNumber} = this.state ;
-        // let url = `http://wx.ideamerry.com/api/classAndStudent/getGradeAndSubordinateDepartment/${teacherNumber}/${campusNumber}` ;
-        // axios.get(url)
-        //     .then(function (response) {
-        //         // handle success
-        //         console.log(response);
-        //     })
-        //     .catch(function (error) {
-        //         // handle error
-        //         console.log(error);
-        //     })
-        //     .then(function () {
-        //         // always executed
-        //     });
+        let {teacherNumber,campusNumber} = this.props ;
+        let url = `http://wx.ideamerry.com/api/classAndStudent/getGradeAndSubordinateDepartment/${teacherNumber}/${campusNumber}` ;
+        axios.get(url)
+        .then( (response) => {
+            let data = response.data ;
+            let gradeOrLevelDepartmentValue = data[this.state.gradeOrLevelDepartmentType]['defaultValue'] ;
+            this.setState({gradeAndLevelDepartmentCodeBook:response.data,gradeOrLevelDepartmentValue}) ;
+        })
+        .catch(function (error) {
+            message.error("加载年级/级部信息出错!") ;
+        })
     }
 
     handleGradeOrLevelDepartmentTypeChange(value){
-        let defaultValue = gradeAndLevelDepartmentCodeBook[value].defaultValue ;
-        this.setState({gradeOrLevelDepartmentType:value,gradeOrLevelDepartmentValue:defaultValue}) ;
+        let defaultValue = this.state.gradeAndLevelDepartmentCodeBook[value].defaultValue ;
+        this.setState({gradeOrLevelDepartmentType:value,gradeOrLevelDepartmentValue:defaultValue},()=>{
+            let {gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate} = this.state ;
+            this.props.handlerHeaderChangeFormData(gradeOrLevelDepartmentType,
+                gradeOrLevelDepartmentValue,examinationDate) ;
+        }) ;
     }
     handleGradeOrLevelDepartmentValueChange(value){
-        this.setState({gradeOrLevelDepartmentValue:value}) ;
+        this.setState({gradeOrLevelDepartmentValue:value},()=>{
+            let {gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate} = this.state ;
+            this.props.handlerHeaderChangeFormData(gradeOrLevelDepartmentType,
+                gradeOrLevelDepartmentValue,examinationDate) ;
+        }) ;
     }
 
     handleCheckDateChange(value,valueStr){
-        this.setState({'examinationDate':valueStr})
+        this.setState({'examinationDate':valueStr},()=>{
+            let {gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate} = this.state ;
+            this.props.handlerHeaderChangeFormData(gradeOrLevelDepartmentType,
+                                                   gradeOrLevelDepartmentValue,examinationDate) ;
+        }) ;
     }
+
 
 
     render() {
         let {gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate} = this.state ;
-        let optionList = gradeAndLevelDepartmentCodeBook[gradeOrLevelDepartmentType].options ;
+        let optionList = this.state.gradeAndLevelDepartmentCodeBook[gradeOrLevelDepartmentType].options || [] ;
 
         return (
             <div className="y-form">

@@ -17,34 +17,39 @@ class ExaminationBody extends Component{
                 examinationClassValue:'1' ,
                 score:'0',
                 markingContent:'',
-                quotaList:['1','3','4']
+                quotaList:['1','3','4'],
+                photoUrl:''
             },{
                 examinationFlag:"0",
                 examinationClassLabel:'02班',
                 examinationClassValue:'2' ,
                 score:'0',
                 markingContent:'',
-                quotaList:['1','3','4']
+                quotaList:['1','3','4'],
+                photoUrl:''
             },{
                 examinationFlag:"0",
                 examinationClassLabel:'03班',
                 examinationClassValue:'3' ,
                 score:'0',
                 markingContent:'',
-                quotaList:['1','2','3']
+                quotaList:['1','2','3'],
+                photoUrl:''
             },{
                 examinationFlag:"0",
                 examinationClassLabel:'04班',
                 examinationClassValue:'4' ,
                 score:'0',
                 markingContent:'',
+                photoUrl:''
             },{
                 examinationFlag:"0",
                 examinationClassLabel:'05班',
                 examinationClassValue:'5' ,
                 score:'0',
                 markingContent:'',
-                quotaList:['1','3']
+                quotaList:['1','3'],
+                photoUrl:''
             },
             {
                 examinationFlag:"0",
@@ -52,7 +57,8 @@ class ExaminationBody extends Component{
                 examinationClassValue:'15' ,
                 score:'0',
                 markingContent:'',
-                quotaList:['1','4']
+                quotaList:['1','4'],
+                photoUrl:''
             },
         ] ;
 
