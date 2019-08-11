@@ -1,11 +1,8 @@
 import React,{Component,createRef} from 'react' ;
 import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
-import {Drawer, Input, Modal,Checkbox ,Upload, message} from "antd";
+import {Drawer, Input, Modal,Checkbox} from "antd";
 const { TextArea } = Input;
-
-
-
 
 
 class RoutineExamination extends Component{
@@ -14,9 +11,6 @@ class RoutineExamination extends Component{
         let { title,classType,itemType } = this.props.location.state ;
         document.title = title;
         this.state = {
-            examinationType:'1' , //年级,级部门
-            examinationGrade:'2' ,//高几级
-            examinationDate:'2019/07/30',
             classList:[],
             ////////////////////////
             markingVisible: false,
@@ -26,7 +20,8 @@ class RoutineExamination extends Component{
             unqualifiedVisible:false,
             unqualifiedIndex:-1,
             quotaVisible:false,
-            curQuotaList:[] //当前编辑行的指标集合
+            curQuotaList:[], //当前编辑行的指标集合
+
         } ;
 
         console.info("classType : " + classType + " , itemType : " + itemType)
@@ -54,8 +49,6 @@ class RoutineExamination extends Component{
     componentDidMount() {
         //页面加载完成以后
         //1.查询教师所带的年级和ji
-
-
     }
 
 
@@ -160,9 +153,6 @@ class RoutineExamination extends Component{
         return (
             <div>
                 <ExaminationHeader
-                    examinationType ={this.state.examinationType}
-                    examinationGrade ={this.state.examinationGrade}
-                    examinationDate = {this.state.examinationDate}
                     handleSimpleValue = {this.handleSimpleValue}
                     handleHeaderSubmitForm = {this.handleHeaderSubmitForm}
                 />
