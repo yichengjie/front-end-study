@@ -1,8 +1,11 @@
 import React ,{Component} from 'react' ;
 import { Select,DatePicker,message } from 'antd';
 import moment from 'moment';
+import httpUtil from "components/common/HttpClientUtil";
+import $ from 'jquery' ;
 const { Option } = Select;
 const dateFormat = 'YYYY/MM/DD';
+
 
 
 class ExaminationHeader extends Component{
@@ -29,25 +32,22 @@ class ExaminationHeader extends Component{
     }
 
     componentDidMount() {
-        this.getGradeAndSubordinateDepartment() ;
-    }
-
-    //获取年级和级部列表
-    getGradeAndSubordinateDepartment(){
         let {teacherNumber,campusNumber} = this.props ;
         let url = `/api/classAndStudent/getGradeAndSubordinateDepartment/${teacherNumber}/${campusNumber}` ;
-        fetch(url)
-            .then( (res) => res.json())
-            .then((data = []) =>{
-                let gradeOrLevelDepartmentValue = data[this.state.gradeOrLevelDepartmentType]['defaultValue'] ;
-                this.setState({gradeAndLevelDepartmentCodeBook:data,gradeOrLevelDepartmentValue},()=>{
-                    this.updateClassListData() ;
-                }) ;
-            })
-            .catch(function (error) {
-                message.error("加载年级/级部信息出错!") ;
-            }) ;
+        let ajax = httpUtil.dealAjaxRequestWithoutParam(url) ;
+        $.when(ajax).then((resp) =>{
+            console.info(resp)
+            // let gradeOrLevelDepartmentValue = data[this.state.gradeOrLevelDepartmentType]['defaultValue'] ;
+            // this.setState({gradeAndLevelDepartmentCodeBook:data,gradeOrLevelDepartmentValue},()=>{
+            //     this.updateClassListData() ;
+            // }) ;
+        })
+        .fail(function (error) {
+            message.error("加载年级/级部信息出错!") ;
+        }) ;
     }
+
+
 
 
 

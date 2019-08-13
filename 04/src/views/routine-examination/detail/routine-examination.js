@@ -2,7 +2,8 @@ import React,{Component,createRef} from 'react' ;
 import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
 import {Drawer, Input, Modal, Checkbox, message} from "antd";
-import qs from 'qs';
+import httpUtil from "components/common/HttpClientUtil";
+import $ from 'jquery' ;
 const { TextArea } = Input;
 
 
@@ -94,19 +95,17 @@ class RoutineExamination extends Component{
         }else if(gradeOrLevelDepartmentType === 'levelDepartment'){
             url = `/api/classAndStudent/getClassInfoByLevelDepartment/${teacherNumber}/${gradeOrLevelDepartmentValue}/${campusNumber}` ;
         }
-
-        let param = qs.stringify({
-            submitDate:examinationDate,
-        });
+        console.info('examinationDate : ' + examinationDate)
         this.setState({bodyLoading:true}) ;
-        fetch(url)
-            .then( (res) => res.json())
-            .then((data = []) =>{
-                this.setState({bodyLoading:false,classList:data}) ;
-            })
-            .catch(function (error) {
-                message.error("加载年级/级部信息出错!") ;
-            }) ;
+        let params = {submitDate:examinationDate} ;
+        let ajax = httpUtil.dealAjaxRequest4SimpleParam(url,params) ;
+        $.when(ajax).then((resp) =>{
+            console.info(resp) ;
+            //this.setState({bodyLoading:false,classList:data}) ;
+        })
+        .fail(function (error) {
+            message.error("加载年级/级部信息出错!") ;
+        }) ;
     }
 
     showMarkingDialog(index,value){
