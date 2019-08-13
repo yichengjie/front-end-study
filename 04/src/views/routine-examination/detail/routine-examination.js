@@ -99,9 +99,8 @@ class RoutineExamination extends Component{
         this.setState({bodyLoading:true}) ;
         let params = {submitDate:examinationDate} ;
         let ajax = httpUtil.dealAjaxRequest4SimpleParam(url,params) ;
-        $.when(ajax).then((resp) =>{
-            console.info(resp) ;
-            //this.setState({bodyLoading:false,classList:data}) ;
+        $.when(ajax).then((data) =>{
+            this.setState({bodyLoading:false,classList:data}) ;
         })
         .fail(function (error) {
             message.error("加载年级/级部信息出错!") ;

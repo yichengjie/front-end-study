@@ -35,12 +35,11 @@ class ExaminationHeader extends Component{
         let {teacherNumber,campusNumber} = this.props ;
         let url = `/api/classAndStudent/getGradeAndSubordinateDepartment/${teacherNumber}/${campusNumber}` ;
         let ajax = httpUtil.dealAjaxRequestWithoutParam(url) ;
-        $.when(ajax).then((resp) =>{
-            console.info(resp)
-            // let gradeOrLevelDepartmentValue = data[this.state.gradeOrLevelDepartmentType]['defaultValue'] ;
-            // this.setState({gradeAndLevelDepartmentCodeBook:data,gradeOrLevelDepartmentValue},()=>{
-            //     this.updateClassListData() ;
-            // }) ;
+        $.when(ajax).then((data) =>{
+            let gradeOrLevelDepartmentValue = data[this.state.gradeOrLevelDepartmentType]['defaultValue'] ;
+            this.setState({gradeAndLevelDepartmentCodeBook:data,gradeOrLevelDepartmentValue},()=>{
+                this.updateClassListData() ;
+            }) ;
         })
         .fail(function (error) {
             message.error("加载年级/级部信息出错!") ;
