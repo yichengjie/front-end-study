@@ -1,7 +1,6 @@
 import React ,{Component} from 'react' ;
 import { Select,DatePicker,message } from 'antd';
 import moment from 'moment';
-import axios from "axios";
 const { Option } = Select;
 const dateFormat = 'YYYY/MM/DD';
 
@@ -30,20 +29,27 @@ class ExaminationHeader extends Component{
     }
 
     componentDidMount() {
-        let {teacherNumber,campusNumber} = this.props ;
-        let url = `http://wx.ideamerry.com/api/classAndStudent/getGradeAndSubordinateDepartment/${teacherNumber}/${campusNumber}` ;
-        axios.get(url)
-        .then( (response) => {
-            let data = response.data ;
-            let gradeOrLevelDepartmentValue = data[this.state.gradeOrLevelDepartmentType]['defaultValue'] ;
-            this.setState({gradeAndLevelDepartmentCodeBook:response.data,gradeOrLevelDepartmentValue},()=>{
-                this.updateClassListData() ;
-            }) ;
-        })
-        .catch(function (error) {
-            message.error("加载年级/级部信息出错!") ;
-        })
+        this.getGradeAndSubordinateDepartment() ;
     }
+
+    //获取年级和级部列表
+    getGradeAndSubordinateDepartment(){
+        let {teacherNumber,campusNumber} = this.props ;
+        let url = `/api/classAndStudent/getGradeAndSubordinateDepartment/${teacherNumber}/${campusNumber}` ;
+        fetch(url)
+            .then( (res) => res.json())
+            .then((data = []) =>{
+                let gradeOrLevelDepartmentValue = data[this.state.gradeOrLevelDepartmentType]['defaultValue'] ;
+                this.setState({gradeAndLevelDepartmentCodeBook:data,gradeOrLevelDepartmentValue},()=>{
+                    this.updateClassListData() ;
+                }) ;
+            })
+            .catch(function (error) {
+                message.error("加载年级/级部信息出错!") ;
+            }) ;
+    }
+
+
 
     handleGradeOrLevelDepartmentTypeChange(value){
         let defaultValue = this.state.gradeAndLevelDepartmentCodeBook[value].defaultValue ;

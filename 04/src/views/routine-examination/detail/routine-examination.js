@@ -2,7 +2,6 @@ import React,{Component,createRef} from 'react' ;
 import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
 import {Drawer, Input, Modal, Checkbox, message} from "antd";
-import axios from "axios";
 import qs from 'qs';
 const { TextArea } = Input;
 
@@ -91,23 +90,23 @@ class RoutineExamination extends Component{
         let url =  '';
         //年级
         if(gradeOrLevelDepartmentType === 'grade'){
-            url = `http://wx.ideamerry.com/api/classAndStudent/getClassInfoByGradeId/${teacherNumber}/${gradeOrLevelDepartmentValue}/${campusNumber}` ;
+            url = `/api/classAndStudent/getClassInfoByGradeId/${teacherNumber}/${gradeOrLevelDepartmentValue}/${campusNumber}` ;
         }else if(gradeOrLevelDepartmentType === 'levelDepartment'){
-            url = `http://wx.ideamerry.com/api/classAndStudent/getClassInfoByLevelDepartment/${teacherNumber}/${gradeOrLevelDepartmentValue}/${campusNumber}` ;
+            url = `/api/classAndStudent/getClassInfoByLevelDepartment/${teacherNumber}/${gradeOrLevelDepartmentValue}/${campusNumber}` ;
         }
 
         let param = qs.stringify({
             submitDate:examinationDate,
         });
         this.setState({bodyLoading:true}) ;
-        axios.post(url,param)
-        .then( (response) => {
-            let data = response.data || [];
-            this.setState({bodyLoading:false,classList:data}) ;
-        })
-        .catch(function (error) {
-            message.error("加载年级/级部信息出错!") ;
-        }) ;
+        fetch(url)
+            .then( (res) => res.json())
+            .then((data = []) =>{
+                this.setState({bodyLoading:false,classList:data}) ;
+            })
+            .catch(function (error) {
+                message.error("加载年级/级部信息出错!") ;
+            }) ;
     }
 
     showMarkingDialog(index,value){
