@@ -1,63 +1,26 @@
 import React,{Component} from 'react' ;
 import { Link } from "react-router-dom";
-
-
-let options = [
-    {
-        classType:"1",
-        title:"德育评价",
-        children:[
-            {
-                title:'值周班检查',
-                itemType:"1",
-                evaluationFields:["走操","违纪","缺勤"]
-            },{
-                title:'班主任检查',
-                itemType:"2",
-                evaluationFields:["就寝违纪","课堂违纪","校服发型","文明课间"]
-            },
-        ]
-    },{
-        classType:"2",
-        title:"学科评价",
-        children:[
-            {
-                title:'语文学科',
-                itemType:"1",
-                evaluationFields:["加分","违纪","作业","缺勤"]
-            },{
-                title:'数学学科',
-                itemType:"2",
-                evaluationFields:["加分","违纪","作业","缺勤"]
-            }, {
-                title:'英语学科',
-                itemType:"3",
-                evaluationFields:["加分","违纪","作业","缺勤"]
-            }, {
-                title:'物理学科',
-                itemType:"4",
-                evaluationFields:["加分","违纪","作业","缺勤"]
-            },{
-                title:'化学学科',
-                itemType:"5",
-                evaluationFields:["加分","违纪","作业","缺勤"]
-            },{
-                title:'地理学科',
-                itemType:"5",
-                evaluationFields:["加分","违纪","作业","缺勤"]
-            },
-        ]
-    },
-
-] ;
+import httpUtil from "components/common/HttpClientUtil";
+import $ from 'jquery' ;
 
 class QualityEvaluationList extends Component{
     constructor(props){
         super(props) ;
         document.title = "综合素质评价";
+        this.state = {
+            classTypeList:[]
+        } ;
+    }
+    componentDidMount() {
+        let {teacherNumber,campusNumber} = this.props.match.params;
+        ///api/classAndStudent/getClassCheckEvaluation/130052/2
+        let url = `/api/classAndStudent/getClassCheckEvaluation/${teacherNumber}/${campusNumber}` ;
+        let ajaxing = httpUtil.dealAjaxRequestWithoutParam(url) ;
+        $.when(ajaxing).then((data) =>{
+            this.setState({classTypeList:data}) ;
+        }) ;
     }
     renderItemType(classType,itemList){
-
         let {teacherNumber,campusNumber} = this.props.match.params;
         let rows = [] ;
         let step = 3;
@@ -153,7 +116,7 @@ class QualityEvaluationList extends Component{
     }
 
     renderClassType(){
-        let classTypeList = options ;
+        let classTypeList = this.state.classTypeList ;
         return classTypeList.map((item,index) =>{
             return (
                 <div key={index} className="y-class-type-container">

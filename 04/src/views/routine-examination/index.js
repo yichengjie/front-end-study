@@ -1,47 +1,26 @@
 import React,{Component} from 'react' ;
 import { Link } from "react-router-dom";
+import httpUtil from "components/common/HttpClientUtil";
+import $ from 'jquery' ;
 
-
-let options = [
-    {
-        classType:"1",
-        title:"德育常规检查",
-        children:[
-            {
-                title:'早操',
-                itemType:"1"
-            },{
-                title:'眼操',
-                itemType:"2"
-            },{
-                title:'早餐纪律检查',
-                itemType:"3"
-            },{
-                title:'午餐纪律检查',
-                itemType:"4"
-            },{
-                title:'晚餐厅纪律检查',
-                itemType:"5"
-            },{
-                title:'晚一自习学习状态',
-                itemType:"6"
-            },{
-                title:'大型会议次序',
-                itemType:"7"
-            },{
-                title:'小型会议次序',
-                itemType:"7"
-            },
-        ]
-    },
-
-] ;
 
 class RoutineExaminationList extends Component{
     constructor(props){
         super(props) ;
         document.title = "常规检查";
+        this.state ={
+            classTypeList:[]
+        };
+    }
 
+    componentDidMount() {
+        let {teacherNumber,campusNumber} = this.props.match.params;
+        ///api/classAndStudent/getClassCheck/130052/2
+        let url = `/api/classAndStudent/getClassCheck/${teacherNumber}/${campusNumber}` ;
+        let ajaxing = httpUtil.dealAjaxRequestWithoutParam(url) ;
+        $.when(ajaxing).then((data) => {
+            this.setState({classTypeList:data})
+        }) ;
     }
 
     renderItemType(classType,itemList){
@@ -99,7 +78,7 @@ class RoutineExaminationList extends Component{
     }
 
     renderClassType(){
-        let classTypeList = options ;
+        let classTypeList = this.state.classTypeList ;
         return classTypeList.map((item,index) =>{
            return (
                <div key={index} className="y-class-type-container">
