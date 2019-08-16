@@ -1,7 +1,7 @@
 import React,{Component} from 'react' ;
 import { Link } from "react-router-dom";
-import httpUtil from "components/common/HttpClientUtil";
-import $ from 'jquery' ;
+import {ajaxWithoutParams} from "components/common/util";
+import {message} from 'antd'
 
 class QualityEvaluationList extends Component{
     constructor(props){
@@ -15,9 +15,11 @@ class QualityEvaluationList extends Component{
         let {teacherNumber,campusNumber} = this.props.match.params;
         ///api/classAndStudent/getClassCheckEvaluation/130052/2
         let url = `/api/classAndStudent/getClassCheckEvaluation/${teacherNumber}/${campusNumber}` ;
-        let ajaxing = httpUtil.dealAjaxRequestWithoutParam(url) ;
-        $.when(ajaxing).then((data) =>{
+        ajaxWithoutParams(url)
+        .then((data) =>{
             this.setState({classTypeList:data}) ;
+        }).catch(function () {
+            message.error('加载综合素质评价菜单出错!') ;
         }) ;
     }
     renderItemType(classType,itemList){

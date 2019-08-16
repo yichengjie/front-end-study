@@ -2,10 +2,8 @@ import React,{Component,createRef} from 'react' ;
 import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
 import {Drawer, Input, Modal, Checkbox, message} from "antd";
-import httpUtil from "components/common/HttpClientUtil";
-import $ from 'jquery' ;
+import {ajaxWithSimpleParams} from "components/common/util";
 const { TextArea } = Input;
-
 
 class RoutineExamination extends Component{
     constructor(props){
@@ -95,14 +93,13 @@ class RoutineExamination extends Component{
         }else if(gradeOrLevelDepartmentType === 'levelDepartment'){
             url = `/api/classAndStudent/getClassInfoByLevelDepartment/${teacherNumber}/${gradeOrLevelDepartmentValue}/${campusNumber}` ;
         }
-        console.info('examinationDate : ' + examinationDate)
         this.setState({bodyLoading:true}) ;
         let params = {submitDate:examinationDate} ;
-        let ajax = httpUtil.dealAjaxRequest4SimpleParam(url,params) ;
-        $.when(ajax).then((data) =>{
+        ajaxWithSimpleParams(url,params)
+        .then((data) =>{
             this.setState({bodyLoading:false,classList:data}) ;
         })
-        .fail(function (error) {
+        .catch(function (error) {
             message.error("加载年级/级部信息出错!") ;
         }) ;
     }
@@ -152,7 +149,6 @@ class RoutineExamination extends Component{
     }
 
     okQuotaDialog(){
-        let curQuotaList = this.state.curQuotaList ;
         this.setState({quotaVisible:false,curQuotaList:[]}) ;
         let newArr = [...this.state.classList] ;
         let obj = newArr[this.state.unqualifiedIndex] ;

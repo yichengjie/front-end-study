@@ -1,7 +1,7 @@
 import React,{Component} from 'react' ;
 import { Link } from "react-router-dom";
-import httpUtil from "components/common/HttpClientUtil";
-import $ from 'jquery' ;
+import {ajaxWithoutParams} from "components/common/util";
+import {message} from 'antd' ;
 
 
 class RoutineExaminationList extends Component{
@@ -12,14 +12,15 @@ class RoutineExaminationList extends Component{
             classTypeList:[]
         };
     }
-
     componentDidMount() {
         let {teacherNumber,campusNumber} = this.props.match.params;
         ///api/classAndStudent/getClassCheck/130052/2
         let url = `/api/classAndStudent/getClassCheck/${teacherNumber}/${campusNumber}` ;
-        let ajaxing = httpUtil.dealAjaxRequestWithoutParam(url) ;
-        $.when(ajaxing).then((data) => {
+        ajaxWithoutParams(url)
+        .then((data) => {
             this.setState({classTypeList:data})
+        }).catch(function (err) {
+            message.error("获取常规检查菜单出错!")
         }) ;
     }
 

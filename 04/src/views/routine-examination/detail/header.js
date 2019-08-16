@@ -1,8 +1,7 @@
 import React ,{Component} from 'react' ;
 import { Select,DatePicker,message } from 'antd';
 import moment from 'moment';
-import httpUtil from "components/common/HttpClientUtil";
-import $ from 'jquery' ;
+import {ajaxWithoutParams} from "components/common/util";
 const { Option } = Select;
 const dateFormat = 'YYYY/MM/DD';
 
@@ -34,14 +33,14 @@ class ExaminationHeader extends Component{
     componentDidMount() {
         let {teacherNumber,campusNumber} = this.props ;
         let url = `/api/classAndStudent/getGradeAndSubordinateDepartment/${teacherNumber}/${campusNumber}` ;
-        let ajax = httpUtil.dealAjaxRequestWithoutParam(url) ;
-        $.when(ajax).then((data) =>{
+        let ajax = ajaxWithoutParams(url) ;
+        ajax.then((data) =>{
             let gradeOrLevelDepartmentValue = data[this.state.gradeOrLevelDepartmentType]['defaultValue'] ;
             this.setState({gradeAndLevelDepartmentCodeBook:data,gradeOrLevelDepartmentValue},()=>{
                 this.updateClassListData() ;
             }) ;
         })
-        .fail(function (error) {
+        .catch(function (error) {
             message.error("加载年级/级部信息出错!") ;
         }) ;
     }

@@ -4,14 +4,10 @@ import { Spin} from 'antd';
 
 class ExaminationBody extends Component{
 
-    constructor(props){
-        super(props) ;
-    }
-
     renderTableHeader(){
         return (
             <tr>
-                <th width="100"></th>
+                <th width="50"></th>
                 <th width="50" align="center" style={{textAlign: "center"}}>
                     <span className="label y-hand"
                           style={{backgroundColor: "#a9823e"}}>优秀</span>
