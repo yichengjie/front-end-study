@@ -3,6 +3,7 @@ import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
 import {Drawer, Input, Modal, Checkbox, message} from "antd";
 import {ajaxWithSimpleParams} from "components/common/util";
+import _ from 'lodash' ;
 const { TextArea } = Input;
 
 class RoutineExamination extends Component{
@@ -59,7 +60,9 @@ class RoutineExamination extends Component{
     }
 
     handleHeaderSubmitForm(e){
-        console.info(this.state)
+        let {classList} = this.state ;
+        let selectedClassList = _.filter(classList, function(o) { return o.examinationFlag === '1'; });
+        console.info(selectedClassList) ;
     }
 
     handleBodyUpdateClassList(classList){
@@ -92,11 +95,10 @@ class RoutineExamination extends Component{
         }
         this.setState({bodyLoading:true}) ;
         let params = {submitDate:examinationDate} ;
-        ajaxWithSimpleParams(url,params)
-        .then((data) =>{
+        let ajaxing = ajaxWithSimpleParams(url,params) ;
+        ajaxing.then((data) =>{
             this.setState({bodyLoading:false,classList:data}) ;
-        })
-        .catch(function (error) {
+        }).catch(function (error) {
             message.error("加载年级/级部信息出错!") ;
         }) ;
     }
