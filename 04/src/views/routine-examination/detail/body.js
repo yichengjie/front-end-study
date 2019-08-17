@@ -66,7 +66,6 @@ class ExaminationBody extends Component{
         return (
             <div className="y-body">
                 {loading ?  this.renderLoading() : this.renderTable()}
-
             </div>
         ) ;
     }

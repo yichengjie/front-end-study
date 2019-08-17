@@ -1,8 +1,8 @@
 import React,{Component,createRef} from 'react' ;
 import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
-import {Drawer, Input, Modal, Checkbox, message} from "antd";
-import {ajaxWithSimpleParams} from "components/common/util";
+import {Drawer, Input, Modal, Checkbox, message, Spin} from "antd";
+import {ajaxWithSimpleParams,ajaxWithComplexParams} from "components/common/util";
 import _ from 'lodash' ;
 const { TextArea } = Input;
 
@@ -10,6 +10,7 @@ class RoutineExamination extends Component{
     constructor(props){
         super(props) ;
         let { title,classType,itemType ,quotaOptions} = this.props.location.state ;
+        console.info('itemType : ' + itemType)
         document.title = title;
         this.state = {
             bodyLoading:false,
@@ -53,16 +54,24 @@ class RoutineExamination extends Component{
         //1.查询教师所带的年级和
     }
 
-
     //简单键值属性修改
     handleSimpleValue(name,value){
         this.setState({[name]:value}) ;
     }
 
-    handleHeaderSubmitForm(e){
+    handleHeaderSubmitForm(examinationDate){
+        this.setState({bodyLoading:true}) ;
+        let {teacherNumber} = this.props.match.params;
         let {classList} = this.state ;
-        let selectedClassList = _.filter(classList, function(o) { return o.examinationFlag === '1'; });
-        console.info(selectedClassList) ;
+        let selectedList = _.filter(classList, function(o) { return o.examinationFlag === '1'; });
+        let url = '/api/yiClassAndStudent/submitRoutineExaminationForm' ;
+        let params = {list:selectedList ,checkDate:examinationDate,submitTeacher:teacherNumber} ;
+        let ajaxing = ajaxWithComplexParams(url,params) ;
+        ajaxing.then((json) =>{
+            this.setState({bodyLoading:false}) ;
+        }).catch(function (err) {
+            message.error('保存信息出错!') ;
+        })
     }
 
     handleBodyUpdateClassList(classList){
@@ -79,22 +88,22 @@ class RoutineExamination extends Component{
         }
         this.setState({classList:newArr}) ;
     }
-
+    //年级:教师工号、年级id、校区
+    //http://wx.ideamerry.com/api/classAndStudent/getClassInfoByGradeId/130052/2018/2
+    //级部:教师工号、级部id、校区
+    //http://wx.ideamerry.com/api/classAndStudent/getClassInfoByLevelDepartment/130052/2/2
     handlerHeaderChangeFormData(gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate){
         let {teacherNumber,campusNumber} = this.props.match.params;
-        //年级:教师工号、年级id、校区
-        //http://wx.ideamerry.com/api/classAndStudent/getClassInfoByGradeId/130052/2018/2
-        //级部:教师工号、级部id、校区
-        //http://wx.ideamerry.com/api/classAndStudent/getClassInfoByLevelDepartment/130052/2/2
+        let { itemType } = this.props.location.state ;
         let url =  '';
         //年级
         if(gradeOrLevelDepartmentType === 'grade'){
-            url = `/api/classAndStudent/getClassInfoByGradeId/${teacherNumber}/${gradeOrLevelDepartmentValue}/${campusNumber}` ;
+            url = `/api/yiClassAndStudent/getClassInfoByGradeId/${teacherNumber}/${gradeOrLevelDepartmentValue}/${campusNumber}` ;
         }else if(gradeOrLevelDepartmentType === 'levelDepartment'){
-            url = `/api/classAndStudent/getClassInfoByLevelDepartment/${teacherNumber}/${gradeOrLevelDepartmentValue}/${campusNumber}` ;
+            url = `/api/yiClassAndStudent/getClassInfoByLevelDepartment/${teacherNumber}/${gradeOrLevelDepartmentValue}/${campusNumber}` ;
         }
         this.setState({bodyLoading:true}) ;
-        let params = {submitDate:examinationDate} ;
+        let params = {checkDate:examinationDate,itemType:itemType} ;
         let ajaxing = ajaxWithSimpleParams(url,params) ;
         ajaxing.then((data) =>{
             this.setState({bodyLoading:false,classList:data}) ;
@@ -178,6 +187,14 @@ class RoutineExamination extends Component{
             }
             this.setState({curQuotaList:newArr}) ;
         }
+    }
+
+    renderLoading(){
+        return (
+            <div style={{textAlign:"center"}}>
+                <Spin size="large" tip="数据加载中，请耐心等待..."/>
+            </div>
+        ) ;
     }
 
     render() {
@@ -328,7 +345,7 @@ class QuotaDialog extends Component{
 
     containsItem(list,item){
        for(let i =0 ; i < list.length ; i++){
-          if(list[i] === item ){
+          if(list[i] === (item +'')){
               return true ;
           }
        }
@@ -352,7 +369,7 @@ class QuotaDialog extends Component{
                         return (
                             <Checkbox key ={index}
                                 className="y-quota-item"
-                                value={item.id}
+                                value={item.id +''}
                                 checked={this.containsItem(curQuotaList,item.id)}
                                 onChange={this.handleChangeQuotaStatus}>
                                 {item.title}

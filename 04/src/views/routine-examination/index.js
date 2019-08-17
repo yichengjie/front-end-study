@@ -1,7 +1,7 @@
 import React,{Component} from 'react' ;
 import { Link } from "react-router-dom";
 import {ajaxWithoutParams} from "components/common/util";
-import {message} from 'antd' ;
+import {message, Spin} from 'antd' ;
 
 
 class RoutineExaminationList extends Component{
@@ -10,17 +10,19 @@ class RoutineExaminationList extends Component{
         document.title = "常规检查";
         this.state ={
             classTypeList:[],
-            quotaMap:{}
+            quotaMap:{},
+            loading:false
         };
     }
     componentDidMount() {
         let {teacherNumber,campusNumber} = this.props.match.params;
         ///api/classAndStudent/getClassCheck/130052/2
-        let url = `/api/classAndStudent/initRoutineExaminationMenuPage` ;
+        let url = `/api/yiClassAndStudent/initRoutineExaminationMenuPage` ;
         let ajaxing = ajaxWithoutParams(url) ;
+        this.setState({loading:true}) ;
         ajaxing.then((data) => {
             let {menuList,quotaMap} = data ;
-            this.setState({classTypeList:menuList,quotaMap:quotaMap}) ;
+            this.setState({classTypeList:menuList,quotaMap:quotaMap,loading:false}) ;
         }).catch(function (err) {
             message.error("获取常规检查菜单出错!")
         }) ;
@@ -107,10 +109,18 @@ class RoutineExaminationList extends Component{
 
     }
 
+    renderLoading(){
+        return (
+            <div style={{textAlign:"center"}}>
+                <Spin size="large" tip="数据加载中，请耐心等待..."/>
+            </div>
+        ) ;
+    }
+
     render() {
         return (
             <div className="y-sub-menu-container">
-                {this.renderClassType()}
+                {this.state.loading ? this.renderLoading() :this.renderClassType()}
             </div>
         ) ;
     }

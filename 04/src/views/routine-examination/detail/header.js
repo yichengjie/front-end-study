@@ -5,15 +5,13 @@ import {ajaxWithoutParams} from "components/common/util";
 const { Option } = Select;
 const dateFormat = 'YYYY/MM/DD';
 
-
-
 class ExaminationHeader extends Component{
     constructor(props){
         super(props) ;
         this.state = {
-            gradeOrLevelDepartmentType:'levelDepartment',
+            gradeOrLevelDepartmentType:'grade',
             gradeOrLevelDepartmentValue:'',
-            examinationDate:'2019/07/30',
+            examinationDate:moment().format(dateFormat),
             gradeAndLevelDepartmentCodeBook:{
                 grade:{defaultValue:'',options:[]},
                 levelDepartment:{defaultValue:'',options:[]}
@@ -22,17 +20,21 @@ class ExaminationHeader extends Component{
         this.handleGradeOrLevelDepartmentTypeChange =this.handleGradeOrLevelDepartmentTypeChange.bind(this) ;
         this.handleGradeOrLevelDepartmentValueChange = this.handleGradeOrLevelDepartmentValueChange.bind(this) ;
         this.handleCheckDateChange = this.handleCheckDateChange.bind(this) ;
+        this.handleHeaderSubmitForm = this.handleHeaderSubmitForm.bind(this) ;
     }
 
     updateClassListData(){
         let {gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate} = this.state ;
+        console.info('gradeOrLevelDepartmentType : ' + gradeOrLevelDepartmentType) ;
+        console.info('gradeOrLevelDepartmentValue : ' + gradeOrLevelDepartmentValue) ;
+        console.info('examinationDate : ' + examinationDate) ;
         this.props.handlerHeaderChangeFormData(gradeOrLevelDepartmentType,
             gradeOrLevelDepartmentValue,examinationDate) ;
     }
 
     componentDidMount() {
         let {teacherNumber,campusNumber} = this.props ;
-        let url = `/api/classAndStudent/getGradeAndSubordinateDepartment/${teacherNumber}/${campusNumber}` ;
+        let url = `/api/yiClassAndStudent/getGradeAndSubordinateDepartment/${teacherNumber}/${campusNumber}` ;
         let ajax = ajaxWithoutParams(url) ;
         ajax.then((data) =>{
             let gradeOrLevelDepartmentValue = data[this.state.gradeOrLevelDepartmentType]['defaultValue'] ;
@@ -44,9 +46,6 @@ class ExaminationHeader extends Component{
             message.error("加载年级/级部信息出错!") ;
         }) ;
     }
-
-
-
 
 
     handleGradeOrLevelDepartmentTypeChange(value){
@@ -67,8 +66,9 @@ class ExaminationHeader extends Component{
         }) ;
     }
 
-
-
+    handleHeaderSubmitForm(){
+        this.props.handleHeaderSubmitForm(this.state.examinationDate) ;
+    }
     render() {
         let {gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate} = this.state ;
         let optionList = this.state.gradeAndLevelDepartmentCodeBook[gradeOrLevelDepartmentType].options || [] ;
@@ -109,7 +109,7 @@ class ExaminationHeader extends Component{
                     <button type="button"
                             style={{marginLeft: "5px"}}
                             className="btn btn-success"
-                            onClick={this.props.handleHeaderSubmitForm}
+                            onClick={this.handleHeaderSubmitForm}
                     >上报</button>
                 </div>
 
