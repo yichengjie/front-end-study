@@ -1,6 +1,8 @@
 import React,{Component} from 'react' ;
 import { Input ,Upload, Icon, message,Button} from 'antd';
+import {ajaxWithComplexParams} from "components/common/util";
 const { TextArea } = Input;
+
 
 function getBase64(img, callback) {
     const reader = new FileReader();
@@ -27,6 +29,17 @@ class ElectronicClassCard extends Component{
         this.state = {
             loading: false,
         };
+    }
+
+    componentDidMount() {
+        let url = '/api/classAndStudent/addInfo';
+        let params = {username:'yicj'} ;
+        let ajaxing = ajaxWithComplexParams(url,params) ;
+        ajaxing.then((data) =>{
+            console.info(data);
+        }).catch(function (e) {
+            console.info(e) ;
+        })
     }
 
     handleChange = info => {

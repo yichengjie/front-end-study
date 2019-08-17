@@ -17,6 +17,7 @@ class QualityEvaluation  extends Component{
 
         console.info('teacherNumber: ' ,teacherNumber) ;
         console.info('campusNumber: ' ,campusNumber) ;
+
         this.handleBodyChangeFieldCheckStatus = this.handleBodyChangeFieldCheckStatus.bind(this) ;
         this.handleBodySubmitFormData = this.handleBodySubmitFormData.bind(this) ;
         this.handleBodyUpdateList = this.handleBodyUpdateList.bind(this) ;

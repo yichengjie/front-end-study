@@ -111,7 +111,8 @@
 ```
 
 #### 综合素质评价菜单数据结构
-```let options = [
+```angular2
+let options = [
        {
            classType:"1",
            title:"德育评价",
@@ -156,9 +157,20 @@
                    evaluationFields:["加分","违纪","作业","缺勤"]
                },
            ]
-       },
-   
-   ] ;```
+       },] ;
+```
+#### 不合格指标数据结构
+
+``` // quotaOptions: [
+           //     {label:'队形',value:'1'} ,
+           //     {label:'缺人',value:'2'},
+           //     {label:'其他',value:'3'},
+           //     {label:'迟到',value:'4'},
+           //     {label:'没穿号砍',value:'5'}
+           // ]
+```
+
+
 
 
 

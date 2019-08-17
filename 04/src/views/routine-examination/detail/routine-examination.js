@@ -8,11 +8,12 @@ const { TextArea } = Input;
 class RoutineExamination extends Component{
     constructor(props){
         super(props) ;
-        let { title,classType,itemType } = this.props.location.state ;
+        let { title,classType,itemType ,quotaOptions} = this.props.location.state ;
         document.title = title;
         this.state = {
             bodyLoading:false,
             classList:[],
+            quotaOptions:quotaOptions,
             ////////////////////////
             markingVisible: false,
             markingContent:'',
@@ -22,10 +23,7 @@ class RoutineExamination extends Component{
             unqualifiedIndex:-1,
             quotaVisible:false,
             curQuotaList:[], //当前编辑行的指标集合
-
         } ;
-
-        console.info("classType : " + classType + " , itemType : " + itemType)
         this.handleSimpleValue = this.handleSimpleValue.bind(this) ;
         this.handleHeaderSubmitForm = this.handleHeaderSubmitForm.bind(this) ;
         this.handleBodyUpdateClassList = this.handleBodyUpdateClassList.bind(this) ;
@@ -78,7 +76,6 @@ class RoutineExamination extends Component{
         }
         this.setState({classList:newArr}) ;
     }
-
 
     handlerHeaderChangeFormData(gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate){
         let {teacherNumber,campusNumber} = this.props.match.params;
@@ -138,14 +135,20 @@ class RoutineExamination extends Component{
 
     //显示指标对话框
     showQuotaDialog(){
-        let obj = this.state.classList[this.state.unqualifiedIndex] ;
-        let curQuotaList = obj.quotaList || [] ;
-        //显示指标对话框时将，不合格对话框隐藏
-        this.setState({
-            quotaVisible:true,
-            unqualifiedVisible:false,
-            curQuotaList:curQuotaList
-        }) ;
+        let { title } = this.props.location.state ;
+        let quotaOptions = this.state.quotaOptions || [];
+        if(quotaOptions.length > 0){
+            let obj = this.state.classList[this.state.unqualifiedIndex] ;
+            let curQuotaList = obj.quotaList || [] ;
+            //显示指标对话框时将，不合格对话框隐藏
+            this.setState({
+                quotaVisible:true,
+                unqualifiedVisible:false,
+                curQuotaList:curQuotaList
+            }) ;
+        }else{
+            message.error("【"+ title +"】对应的指标基础数据不存在!")
+        }
     }
 
     okQuotaDialog(){
@@ -176,10 +179,7 @@ class RoutineExamination extends Component{
     }
 
     render() {
-
         let {teacherNumber,campusNumber} = this.props.match.params;
-
-
         return (
             <div>
                 <ExaminationHeader
@@ -216,6 +216,7 @@ class RoutineExamination extends Component{
                     hideQuotaDialog = {this.hideQuotaDialog}
                     curQuotaList = {this.state.curQuotaList}
                     handleChangeQuotaStatus = {this.handleChangeQuotaStatus}
+                    quotaOptions ={this.state.quotaOptions}
                 />
             </div>
         ) ;
@@ -223,9 +224,8 @@ class RoutineExamination extends Component{
 }
 
 
-
+//不合格选择时弹出对话框
 class UnqualifiedSelectDialog extends Component{
-
     constructor(props){
         super(props) ;
         this.handlePhotoClick = this.handlePhotoClick.bind(this) ;
@@ -275,7 +275,7 @@ class UnqualifiedSelectDialog extends Component{
 }
 
 
-
+//不合格-备注时弹出对话框
 class MarkContentDialog extends Component{
 
     constructor(props){
@@ -310,24 +310,13 @@ class MarkContentDialog extends Component{
 }
 
 
-
+//不合格-指标时弹出对话框
 class QuotaDialog extends Component{
 
     constructor(props) {
         super(props);
-        this.state = {
-            quotaOptions: [
-                {label:'队形',value:'1'} ,
-                {label:'缺人',value:'2'},
-                {label:'其他',value:'3'},
-                {label:'迟到',value:'4'},
-                {label:'没穿号砍',value:'5'}
-            ]
-        }
         this.handleChangeQuotaStatus = this.handleChangeQuotaStatus.bind(this) ;
     }
-
-
     //改变指标状态时
     handleChangeQuotaStatus(e){
         let checked = e.target.checked ;
@@ -344,9 +333,8 @@ class QuotaDialog extends Component{
        return false;
     }
 
-
     render() {
-        let {quotaVisible,okQuotaDialog,hideQuotaDialog,curQuotaList} = this.props ;
+        let {quotaVisible,okQuotaDialog,hideQuotaDialog,curQuotaList,quotaOptions} = this.props ;
         return (
             <Modal
                 className="y-quota-dialog"
@@ -358,14 +346,14 @@ class QuotaDialog extends Component{
                 cancelText="取消"
             >
                 {
-                    this.state.quotaOptions.map((item,index) =>{
+                    quotaOptions.map((item,index) =>{
                         return (
                             <Checkbox key ={index}
                                 className="y-quota-item"
-                                value={item.value}
-                                checked={this.containsItem(curQuotaList,item.value)}
+                                value={item.id}
+                                checked={this.containsItem(curQuotaList,item.id)}
                                 onChange={this.handleChangeQuotaStatus}>
-                                {item.label}
+                                {item.title}
                             </Checkbox>
                         ) ;
                     })

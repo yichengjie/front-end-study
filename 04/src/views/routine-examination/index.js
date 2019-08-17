@@ -9,16 +9,18 @@ class RoutineExaminationList extends Component{
         super(props) ;
         document.title = "常规检查";
         this.state ={
-            classTypeList:[]
+            classTypeList:[],
+            quotaMap:{}
         };
     }
     componentDidMount() {
         let {teacherNumber,campusNumber} = this.props.match.params;
         ///api/classAndStudent/getClassCheck/130052/2
-        let url = `/api/classAndStudent/getClassCheck/${teacherNumber}/${campusNumber}` ;
-        ajaxWithoutParams(url)
-        .then((data) => {
-            this.setState({classTypeList:data})
+        let url = `/api/classAndStudent/initRoutineExaminationMenuPage` ;
+        let ajaxing = ajaxWithoutParams(url) ;
+        ajaxing.then((data) => {
+            let {menuList,quotaMap} = data ;
+            this.setState({classTypeList:menuList,quotaMap:quotaMap}) ;
         }).catch(function (err) {
             message.error("获取常规检查菜单出错!")
         }) ;
@@ -26,6 +28,7 @@ class RoutineExaminationList extends Component{
 
     renderItemType(classType,itemList){
         let {teacherNumber,campusNumber} = this.props.match.params;
+        let quotaMap = this.state.quotaMap ;
         let rows = [] ;
         let step = 2;
         let surplus = itemList.length %  step ;
@@ -34,6 +37,8 @@ class RoutineExaminationList extends Component{
         for(let i = 0 ; i < itemList.length ;i = i+step){
             time ++ ;
             if(surplus > 0 && time === count){
+                let itemType = itemList[i].itemType ;
+                let quotaList = quotaMap[itemType] || [] ;
                 rows.push(
                     <div key={i} className="y-row">
                         <Link className="y-item" to={{
@@ -41,7 +46,8 @@ class RoutineExaminationList extends Component{
                             state: {
                                 classType:classType,
                                 title: itemList[i].title,
-                                itemType:itemList[i].itemType,
+                                itemType:itemType,
+                                quotaOptions : quotaList
                             }
                         }}>
                             {itemList[i].title}
@@ -49,6 +55,12 @@ class RoutineExaminationList extends Component{
                     </div>
                 ) ;
             }else{
+
+                let itemType1 = itemList[i].itemType ;
+                let itemType2 = itemList[i+1].itemType ;
+                let quotaList1 = quotaMap[itemType1] || [] ;
+                let quotaList2 = quotaMap[itemType2] || [] ;
+
                 rows.push(
                     <div key={i} className="y-row">
                         <Link className="y-item" to={{
@@ -56,7 +68,8 @@ class RoutineExaminationList extends Component{
                             state: {
                                 classType:classType,
                                 title: itemList[i].title,
-                                itemType:itemList[i].itemType,
+                                itemType:itemType1,
+                                quotaOptions : quotaList1
                             }
                         }}>
                             {itemList[i].title}
@@ -66,7 +79,8 @@ class RoutineExaminationList extends Component{
                             state: {
                                 classType:classType,
                                 title: itemList[i+1].title,
-                                itemType:itemList[i+1].itemType,
+                                itemType:itemType2,
+                                quotaOptions : quotaList2
                             }
                         }}>
                             {itemList[i+1].title}

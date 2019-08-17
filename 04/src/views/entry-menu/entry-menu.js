@@ -2,6 +2,8 @@ import React,{Component} from 'react';
 import { Link } from "react-router-dom";
 import { Avatar } from 'antd';
 import './index.scss' ;
+
+import {ajaxWithoutParams} from "components/common/util";
 class EntryMenu extends Component{
     constructor(props){
         super(props) ;
