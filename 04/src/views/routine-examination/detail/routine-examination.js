@@ -189,14 +189,6 @@ class RoutineExamination extends Component{
         }
     }
 
-    renderLoading(){
-        return (
-            <div style={{textAlign:"center"}}>
-                <Spin size="large" tip="数据加载中，请耐心等待..."/>
-            </div>
-        ) ;
-    }
-
     render() {
         let {teacherNumber,campusNumber} = this.props.match.params;
         return (
@@ -216,6 +208,7 @@ class RoutineExamination extends Component{
                     showMarkingDialog = {this.showMarkingDialog}
                     showUnqualifiedSelectDialog = {this.showUnqualifiedSelectDialog}
                     loading ={this.state.bodyLoading}
+                    quotaOptions = {this.state.quotaOptions}
                 />
                 <MarkContentDialog
                     markingVisible = {this.state.markingVisible}

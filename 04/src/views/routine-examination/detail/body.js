@@ -1,5 +1,6 @@
 import React ,{Component} from 'react' ;
 import { Spin} from 'antd';
+import _  from 'lodash' ;
 
 
 class ExaminationBody extends Component{
@@ -33,6 +34,7 @@ class ExaminationBody extends Component{
                      handleBodyChangeItemValue = {this.props.handleBodyChangeItemValue}
                      showMarkingDialog = {this.props.showMarkingDialog}
                      showUnqualifiedSelectDialog = {this.props.showUnqualifiedSelectDialog}
+                     quotaOptions = {this.props.quotaOptions}
                 />
             ) ;
         }) ;
@@ -52,7 +54,6 @@ class ExaminationBody extends Component{
         ) ;
     }
 
-
     renderLoading(){
         return (
             <div style={{textAlign:"center"}}>
@@ -60,7 +61,6 @@ class ExaminationBody extends Component{
             </div>
         ) ;
     }
-
     render() {
         let {loading} = this.props ;
         return (
@@ -113,6 +113,31 @@ class ExaminationListItem extends Component{
         this.props.showUnqualifiedSelectDialog(index) ;
     }
 
+    containsItem(list,item){
+        for(let i =0 ; i < list.length ; i++){
+            if(list[i] === (item +'')){
+                return true ;
+            }
+        }
+        return false;
+    }
+    //当score为不合格时,显示所有的指标
+    renderScore3(){
+        let {itemData,quotaOptions} = this.props ;
+        let quotaList = itemData.quotaList ;
+        let arr =  _.filter(quotaOptions, (item) => {
+            return this.containsItem(quotaList,item.id) ;
+        }) ;
+        let farr = arr.map(item => item.title ) ;
+        let str = farr.join(',')
+        return (
+            <span className="text-success y-hand" style={{marginLeft:"5px"}}
+                  onClick={this.showUnqualifiedSelectDialog}>
+                请选择 &nbsp; {str}
+            </span>
+        ) ;
+    }
+
     render() {
         let itemData = this.props.itemData ;
         let label = itemData.examinationClassLabel.replace(/高\d{4}级/,'') ;
@@ -152,14 +177,7 @@ class ExaminationListItem extends Component{
                            onChange={this.handleChangeExaminationStatus}
                     />
                     {
-                        itemData.score === '3' ?
-                            (<span className="text-success y-hand"
-                                   style={{marginLeft:"5px"}}
-                                   onClick={this.showUnqualifiedSelectDialog}
-                            >
-                                    请选择
-                                </span>)
-                            : null
+                        itemData.score === '3' ? this.renderScore3() : null
                     }
                 </td>
                 <td><div className="y-hand text-info"
