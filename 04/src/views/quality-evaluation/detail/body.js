@@ -4,40 +4,6 @@ import _ from 'lodash' ;
 
 class EvaluationBody  extends Component{
 
-    constructor(props){
-        super(props) ;
-        this.state ={
-            loading:true
-        }
-    }
-
-    componentDidMount() {
-        let options2 = [
-            {
-                nameAndNo:"白婷羽11182762",
-                scoreArr:[]
-            },{
-                nameAndNo:"张三11182763",
-                scoreArr:[]
-            },{
-                nameAndNo:"李四11182764",
-                scoreArr:[]
-            },{
-                nameAndNo:"王五11182765",
-                scoreArr:[]
-            },{
-                nameAndNo:"赵六11182766",
-                scoreArr:[]
-            }
-        ] ;
-         setTimeout(()=>{
-             this.setState({
-                 loading:false
-             }) ;
-             this.props.handleBodyUpdateList([...options2]) ;
-         },200) ;
-    }
-
     renderTableHeader(){
         let {quotaOptions} = this.props.confInfo ;
         return (
@@ -96,7 +62,7 @@ class EvaluationBody  extends Component{
         return (
             <div className="y-body">
                 <div className="y-title">评价学生&nbsp;:</div>
-                {this.state.loading ?  this.renderLoading() : this.renderTable()}
+                {this.props.bodyLoading ?  this.renderLoading() : this.renderTable()}
             </div>
         );
     }
@@ -119,11 +85,11 @@ class EvaluationListItem extends Component{
 
     render() {
         let { quotaOptions,itemData, rowIndex }  = this.props ;
-        let { nameAndNo, scoreArr } = itemData ;
+        let { studentName,studentNo, scoreArr } = itemData ;
 
         return (
             <tr>
-                <td align="center">{nameAndNo}</td>
+                <td align="center">{studentName +'/' + studentNo}</td>
                 {
                     quotaOptions.map((item,columnIndex)=>{
                         return (

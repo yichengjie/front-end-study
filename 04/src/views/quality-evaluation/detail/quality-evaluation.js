@@ -20,6 +20,7 @@ class QualityEvaluation  extends Component{
             evaluationClassType:'1', //班级类型：1:行政班级,2:教学班级
             evaluationGradeAndClass: evaluationGradeAndClass,
             studentList:[],
+            bodyLoading:false
         } ;
         document.title = title;
         this.handleBodyChangeFieldCheckStatus = this.handleBodyChangeFieldCheckStatus.bind(this) ;
@@ -29,6 +30,12 @@ class QualityEvaluation  extends Component{
         this.handleHeaderChangeClassType = this.handleHeaderChangeClassType.bind(this) ;
         this.queryStudentList = this.queryStudentList.bind(this) ;
     }
+
+    componentDidMount() {
+        //组件加载完成以后加载一次数据
+        this.queryStudentList() ;
+    }
+
     //更新list数据
     handleBodyUpdateList(studentList){
         this.setState({studentList}) ;
@@ -88,12 +95,11 @@ class QualityEvaluation  extends Component{
                            submitDate:evaluationDate} ;
             let url = '/api/yiClassAndStudent/getStudentByClassIdAndGradeId' ;
             let ajaxing = ajaxWithComplexParams(url,params) ;
-            ajaxing.then(function (data) {
-                console.info('data : ' ,data) ;
+            ajaxing.then( (data) => {
+                this.setState({studentList:data}) ;
             }).catch(function (error) {
                 message.error('查询学生信息出错!',error) ;
             }) ;
-
         }
     }
 
@@ -114,6 +120,7 @@ class QualityEvaluation  extends Component{
                 <EvaluationBody
                     confInfo ={confInfo}
                     studentList={this.state.studentList}
+                    bodyLoading ={this.state.bodyLoading}
                     handleBodyChangeFieldCheckStatus = {this.handleBodyChangeFieldCheckStatus}
                     handleBodySubmitFormData = {this.handleBodySubmitFormData}
                     handleBodyUpdateList = {this.handleBodyUpdateList}
