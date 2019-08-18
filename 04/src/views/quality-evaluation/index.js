@@ -8,16 +8,19 @@ class QualityEvaluationList extends Component{
         super(props) ;
         document.title = "综合素质评价";
         this.state = {
-            classTypeList:[]
+            menuList:[],
+            quotaList:[]
         } ;
     }
     componentDidMount() {
         //let {teacherNumber,campusNumber} = this.props.match.params;
         ///api/classAndStudent/getClassCheckEvaluation/130052/2
         let url = `/api/yiClassAndStudent/initQualityEvaluationMenuPage` ;
-        ajaxWithoutParams(url)
-        .then((data) =>{
-            this.setState({classTypeList:data}) ;
+        let ajaxing = ajaxWithoutParams(url) ;
+        ajaxing.then((data) =>{
+            let {menuList,quotaList} = data ;
+            this.setState({menuList,quotaList}) ;
+            console.info(data) ;
         }).catch(function () {
             message.error('加载综合素质评价菜单出错!') ;
         }) ;
@@ -31,95 +34,46 @@ class QualityEvaluationList extends Component{
         let time = 0 ;
         for(let i = 0 ; i < itemList.length ;i = i+step){
             time ++ ;
+            let row = null ;
             if(time === count && surplus === 1){
-                rows.push(
-                    <div key={i} className="y-row">
-                        <Link className="y-item" to={{
-                                pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber ,
-                                state: {
-                                    classType:classType,
-                                    title: itemList[i].title,
-                                    itemType:itemList[i].itemType,
-                                    evaluationFields:itemList[i].evaluationFields
-                                }
-                            }}>
-                            {itemList[i].title}
-                        </Link>
-                    </div>
-                ) ;
+                row =  this.renderRowItems(teacherNumber,campusNumber,classType,i ,itemList[i])
             }else if(time === count && surplus === 2){
-                rows.push(
-                    <div key={i} className="y-row">
-                        <Link className="y-item" to={{
-                            pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber,
-                            state: {
-                                classType:classType,
-                                title: itemList[i].title,
-                                itemType:itemList[i].itemType,
-                                evaluationFields:itemList[i].evaluationFields
-                            }
-                        }}>
-                            {itemList[i].title}
-                        </Link>
-                        <Link className="y-item" to={{
-                            pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber,
-                            state: {
-                                classType:classType,
-                                title: itemList[i+1].title,
-                                itemType:itemList[i+1].itemType,
-                                evaluationFields:itemList[i+1].evaluationFields
-                            }
-                        }}>
-                            {itemList[i+1].title}
-                        </Link>
-                    </div>
-                ) ;
+                row =  this.renderRowItems(teacherNumber,campusNumber,classType,i,itemList[i],itemList[i+1])
             } else{
-                rows.push(
-                    <div key={i} className="y-row">
-                        <Link className="y-item" to={{
-                            pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber,
-                            state: {
-                                classType:classType,
-                                title: itemList[i].title,
-                                itemType:itemList[i].itemType,
-                                evaluationFields:itemList[i].evaluationFields
-                            }
-                        }}>
-                            {itemList[i].title}
-                        </Link>
-                        <Link className="y-item" to={{
-                            pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber,
-                            state: {
-                                classType:classType,
-                                title: itemList[i+1].title,
-                                itemType:itemList[i+1].itemType,
-                                evaluationFields:itemList[i+1].evaluationFields
-                            }
-                        }}>
-                            {itemList[i+1].title}
-                        </Link>
-                        <Link className="y-item" to={{
-                            pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber,
-                            state: {
-                                classType:classType,
-                                title: itemList[i+2].title,
-                                itemType:itemList[i+2].itemType,
-                                evaluationFields:itemList[i+2].evaluationFields
-                            }
-                        }}>
-                            {itemList[i+2].title}
-                        </Link>
-                    </div>
-                ) ;
+                row = this.renderRowItems(teacherNumber,campusNumber,classType,i,itemList[i],itemList[i+1],itemList[i+2])
             }
+            rows.push(row) ;
         }
         return rows ;
     }
 
+    renderRowItems(teacherNumber,campusNumber,classType,index,...arr){
+        return (
+            <div key={index}  className="y-row">
+                {
+                    arr.map((item,index) =>{
+                        return (
+                            <Link key={index} className="y-item" to={{
+                                pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber,
+                                state: {
+                                    classType:classType,
+                                    title: item.title,
+                                    itemType:item.itemType,
+                                    evaluationFields:item.evaluationFields || []
+                                }
+                            }}>
+                                {item.title}
+                            </Link>
+                        ) ;
+                    })
+                }
+            </div>
+        ) ;
+    }
+
     renderClassType(){
-        let classTypeList = this.state.classTypeList ;
-        return classTypeList.map((item,index) =>{
+        let menuList = this.state.menuList ;
+        return menuList.map((item,index) =>{
             return (
                 <div key={index} className="y-class-type-container">
                     <div className="y-sub-title">{item.title}</div>
