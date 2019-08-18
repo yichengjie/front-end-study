@@ -38,26 +38,26 @@ class EvaluationBody  extends Component{
     }
 
     renderTableHeader(){
-        let {evaluationFields} = this.props.confInfo ;
+        let {quotaOptions} = this.props.confInfo ;
         return (
             <tr>
                 <th width="109" style={{textAlign:'center'}} >姓名/学号</th>
                 {
-                    evaluationFields.map((item,index)=>{
-                        return <th key={index} style={{textAlign:'center'}}>{item}</th> ;
+                    quotaOptions.map((item,index)=>{
+                        return <th key={index} style={{textAlign:'center'}}>{item.title}</th> ;
                     })
                 }
             </tr>
         ) ;
     }
     renderTableBody(){
-        let {evaluationFields} = this.props.confInfo ;
+        let {quotaOptions} = this.props.confInfo ;
         return this.props.studentList.map((item,index) =>{
             return (
                 <EvaluationListItem key={index}
                     rowIndex = {index}
                     itemData = {item}
-                    evaluationFields = {evaluationFields}
+                    quotaOptions = {quotaOptions}
                     handleBodyChangeFieldCheckStatus={this.props.handleBodyChangeFieldCheckStatus}
                 />
             ) ;
@@ -118,14 +118,14 @@ class EvaluationListItem extends Component{
     }
 
     render() {
-        let { evaluationFields,itemData, rowIndex }  = this.props ;
+        let { quotaOptions,itemData, rowIndex }  = this.props ;
         let { nameAndNo, scoreArr } = itemData ;
 
         return (
             <tr>
                 <td align="center">{nameAndNo}</td>
                 {
-                    evaluationFields.map((item,columnIndex)=>{
+                    quotaOptions.map((item,columnIndex)=>{
                         return (
                             <td key={columnIndex} align="center">
                                 <input type="checkbox"

@@ -52,8 +52,8 @@ class QualityEvaluation  extends Component{
 
 
     render() {
-        let {classType,itemType,evaluationFields} = this.props.location.state ;
-        let confInfo = {classType,itemType,evaluationFields} ;
+        let {classType,itemType,quotaOptions} = this.props.location.state ;
+        let confInfo = {classType,itemType,quotaOptions} ;
         return (
             <div>
                 <EvaluationHeader

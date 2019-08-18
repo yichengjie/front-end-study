@@ -73,7 +73,6 @@ class QualityEvaluationList extends Component{
                         classType:classType,
                         title: item.title,
                         itemType:item.itemType,
-                        evaluationFields:item.evaluationFields || [],
                         quotaOptions:quotaOptions
                     }
                 }}>
