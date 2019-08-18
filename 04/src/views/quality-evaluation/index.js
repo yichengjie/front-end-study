@@ -10,24 +10,25 @@ class QualityEvaluationList extends Component{
         document.title = "综合素质评价";
         this.state = {
             menuList:[],
-            quotaList:[]
+            quotaList:[],
+            classList1:[],
+            classList2:[]
         } ;
     }
     componentDidMount() {
-        //let {teacherNumber,campusNumber} = this.props.match.params;
+        let {teacherNumber,campusNumber} = this.props.match.params;
         ///api/classAndStudent/getClassCheckEvaluation/130052/2
-        let url = `/api/yiClassAndStudent/initQualityEvaluationMenuPage` ;
+        let url = `/api/yiClassAndStudent/initQualityEvaluationMenuPage/${teacherNumber}/${campusNumber}` ;
         let ajaxing = ajaxWithoutParams(url) ;
         ajaxing.then((data) =>{
-            let {menuList,quotaList} = data ;
-            this.setState({menuList,quotaList}) ;
+            let {menuList,quotaList,classList1,classList2} = data ;
+            this.setState({menuList,quotaList,classList1,classList2}) ;
             console.info(data) ;
         }).catch(function () {
             message.error('加载综合素质评价菜单出错!') ;
         }) ;
     }
     renderItemType(classType,itemList){
-        let {teacherNumber,campusNumber} = this.props.match.params;
         let rows = [] ;
         let step = 3;
         let surplus = itemList.length %  step ;
@@ -37,11 +38,11 @@ class QualityEvaluationList extends Component{
             time ++ ;
             let row = null ;
             if(time === count && surplus === 1){
-                row =  this.renderRowItems(teacherNumber,campusNumber,classType,i ,itemList[i])
+                row =  this.renderRowItems(classType,i ,itemList[i])
             }else if(time === count && surplus === 2){
-                row =  this.renderRowItems(teacherNumber,campusNumber,classType,i,itemList[i],itemList[i+1])
+                row =  this.renderRowItems(classType,i,itemList[i],itemList[i+1])
             } else{
-                row = this.renderRowItems(teacherNumber,campusNumber,classType,i,itemList[i],itemList[i+1],itemList[i+2])
+                row = this.renderRowItems(classType,i,itemList[i],itemList[i+1],itemList[i+2])
             }
             rows.push(row) ;
         }
@@ -61,7 +62,9 @@ class QualityEvaluationList extends Component{
         return retInfos ;
     }
 
-    renderRowItems(teacherNumber,campusNumber,classType,index,...arr){
+    renderRowItems(classType,index,...arr){
+        let {teacherNumber,campusNumber} = this.props.match.params;
+        let {classList1,classList2} = this.state ;
         let items = arr.map((item,innerIndex) =>{
             let quotaOptionsStr = item.quotaOptions ;
             let quotaOptions =  this.getCurQuotaList(quotaOptionsStr,this.state.quotaList) ;
@@ -72,7 +75,9 @@ class QualityEvaluationList extends Component{
                         classType:classType,
                         title: item.title,
                         itemType:item.itemType,
-                        quotaOptions:quotaOptions
+                        quotaOptions:quotaOptions,
+                        classList1: classList1 || [],
+                        classList2:classList2 || []
                     }
                 }}>
                     {item.title}

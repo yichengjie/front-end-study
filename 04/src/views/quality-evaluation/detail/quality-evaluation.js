@@ -1,27 +1,30 @@
 import React,{Component} from 'react' ;
 import EvaluationHeader from './header' ;
 import EvaluationBody from './body' ;
-
+import moment from "moment";
+const dateFormat = 'YYYY/MM/DD';
 
 class QualityEvaluation  extends Component{
     constructor(props){
         super(props) ;
+        let { title,classList1 } = this.props.location.state ;
+        let classDefaultValue = '' ;
+        if(classList1.length > 0){
+            classDefaultValue =classList1[0].id  ;
+        }
         this.state = {
-            evaluationDate:'2019/07/30',
-            evaluationClass:'2',
+            evaluationDate:moment().format(dateFormat),
+            evaluationClassType:'1', //班级类型：1:行政班级,2:教学班级
+            evaluationClass:classDefaultValue,
+            classList:classList1,
             studentList:[],
         } ;
-        let { title } = this.props.location.state ;
-        let {teacherNumber,campusNumber} = this.props.match.params;
         document.title = title;
-
-        console.info('teacherNumber: ' ,teacherNumber) ;
-        console.info('campusNumber: ' ,campusNumber) ;
-
         this.handleBodyChangeFieldCheckStatus = this.handleBodyChangeFieldCheckStatus.bind(this) ;
         this.handleBodySubmitFormData = this.handleBodySubmitFormData.bind(this) ;
         this.handleBodyUpdateList = this.handleBodyUpdateList.bind(this) ;
         this.handleHeaderChangeInput= this.handleHeaderChangeInput.bind(this) ;
+        this.handleHeaderChangeClassType = this.handleHeaderChangeClassType.bind(this) ;
     }
     //更新list数据
     handleBodyUpdateList(studentList){
@@ -47,11 +50,27 @@ class QualityEvaluation  extends Component{
         console.info("evaluationDate: " + this.state.evaluationDate) ;
         console.info("evaluationClass: " + this.state.evaluationClass) ;
         this.state.studentList.forEach(item => console.info(item.scoreArr)) ;
-
     }
 
     handleHeaderChangeInput(name,value){
         this.setState({[name]:value});
+    }
+
+    handleHeaderChangeClassType(value){
+        let { classList1,classList2 } = this.props.location.state ;
+        if(value === '1'){//行政班级
+            let defaultClassValue = '' ;
+            if(classList1.length > 0){
+                defaultClassValue = classList1[0].id ;
+            }
+            this.setState({evaluationClassType:value,classList:classList1,evaluationClass:defaultClassValue})
+        }else if(value === '2'){
+            let defaultClassValue = '' ;
+            if(classList2.length > 0){
+                defaultClassValue = classList2[0].id ;
+            }
+            this.setState({evaluationClassType:value,classList:classList2,evaluationClass:defaultClassValue}) ;
+        }
     }
 
 
@@ -61,9 +80,12 @@ class QualityEvaluation  extends Component{
         return (
             <div>
                 <EvaluationHeader
+                    classList = {this.state.classList}
                     evaluationDate = {this.state.evaluationDate}
                     evaluationClass= {this.state.evaluationClass}
+                    evaluationClassType = {this.state.evaluationClassType}
                     handleHeaderChangeInput = {this.handleHeaderChangeInput}
+                    handleHeaderChangeClassType = {this.handleHeaderChangeClassType}
                 />
                 <EvaluationBody
                     confInfo ={confInfo}

@@ -20,7 +20,9 @@ class EvaluationHeader  extends Component{
     handleChangeEvaluationClass(value){
         this.props.handleHeaderChangeInput('evaluationClass',value) ;
     }
-
+    handleChangeEvaluationClassType(value){
+        this.props.handleHeaderChangeClassType(value) ;
+    }
     render() {
 
         return (
@@ -36,6 +38,18 @@ class EvaluationHeader  extends Component{
                                 : moment(this.props.evaluationDate, dateFormat)}
                         format={dateFormat}
                         onChange={this.handleChangeEvaluationDate}/>
+                </div>
+
+                <div className="y-row">
+                    <div className="y-label">
+                        班级类型&nbsp;:
+                    </div>
+                    <Select className="y-input"
+                            value={this.props.evaluationClassType}
+                            onChange={this.handleChangeEvaluationClassType}>
+                        <Option value="1">行政班级</Option>
+                        <Option value="2">教学班级</Option>
+                    </Select>
                 </div>
 
                 <div className="y-row">
