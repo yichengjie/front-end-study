@@ -4,7 +4,9 @@ import EvaluationBody from './body' ;
 import moment from "moment";
 import {message} from "antd";
 import {ajaxWithComplexParams} from "components/common/util";
+import _ from 'lodash' ;
 const dateFormat = 'YYYY/MM/DD';
+
 
 
 class QualityEvaluation  extends Component{
@@ -55,11 +57,28 @@ class QualityEvaluation  extends Component{
     }
     handleBodySubmitFormData(e) {
         let { classType,itemType } = this.props.location.state ;
-        console.info("classType: " + classType) ;
-        console.info("itemType: " + itemType) ;
-        console.info("evaluationDate: " + this.state.evaluationDate) ;
-        console.info("evaluationClass: " + this.state.evaluationClass) ;
+        let { campusNumber,teacherNumber } = this.props.match.params;
         this.state.studentList.forEach(item => console.info(item.scoreArr)) ;
+        let url =  '/api/yiClassAndStudent/submitQualityEvaluationFormData' ;
+        let evaluationGradeAndClass = this.state.evaluationGradeAndClass ;
+        let infos = evaluationGradeAndClass.split(",") ;
+        let formData = {
+            itemId: itemType,
+            submitDate: this.state.evaluationDate,
+            campus:campusNumber,
+            gradeId:infos[0],
+            classId:infos[1],
+            lastUpdateUser:teacherNumber,
+            list: this.state.studentList
+        } ;
+        console.info('formData : ' , formData) ;
+        this.setState({bodyLoading:true}) ;
+        let ajaxing = ajaxWithComplexParams(url,formData) ;
+        ajaxing.then((data) =>{
+            this.setState({bodyLoading:false}) ;
+        }).catch(function (error) {
+            message.error("保存数据出错!") ;
+        })
     }
 
     handleHeaderChangeInput(name,value){
@@ -94,9 +113,10 @@ class QualityEvaluation  extends Component{
                            classType:evaluationClassType,
                            submitDate:evaluationDate} ;
             let url = '/api/yiClassAndStudent/getStudentByClassIdAndGradeId' ;
+            this.setState({bodyLoading:true}) ;
             let ajaxing = ajaxWithComplexParams(url,params) ;
             ajaxing.then( (data) => {
-                this.setState({studentList:data}) ;
+                this.setState({studentList:data,bodyLoading:false}) ;
             }).catch(function (error) {
                 message.error('查询学生信息出错!',error) ;
             }) ;
