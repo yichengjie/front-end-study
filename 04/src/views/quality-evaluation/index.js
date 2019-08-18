@@ -12,9 +12,9 @@ class QualityEvaluationList extends Component{
         } ;
     }
     componentDidMount() {
-        let {teacherNumber,campusNumber} = this.props.match.params;
+        //let {teacherNumber,campusNumber} = this.props.match.params;
         ///api/classAndStudent/getClassCheckEvaluation/130052/2
-        let url = `/api/classAndStudent/getClassCheckEvaluation/${teacherNumber}/${campusNumber}` ;
+        let url = `/api/yiClassAndStudent/initQualityEvaluationMenuPage` ;
         ajaxWithoutParams(url)
         .then((data) =>{
             this.setState({classTypeList:data}) ;
