@@ -30,3 +30,12 @@ export async function ajaxWithComplexParams(url,params) {
     let data = await response.json();
     return data;
 }
+
+export async function  ajaxFileUpload(url,params) {
+    let response = await fetch(url,{
+        method: 'post',
+        body: params,
+    }) ;
+    let data = await response.json();
+    return data;
+}

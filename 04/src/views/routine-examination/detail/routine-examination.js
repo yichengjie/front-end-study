@@ -1,10 +1,18 @@
 import React,{Component,createRef} from 'react' ;
 import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
-import {Drawer, Input, Modal, Checkbox, message, Spin} from "antd";
-import {ajaxWithSimpleParams,ajaxWithComplexParams} from "components/common/util";
+import {Drawer, Input, Modal, Checkbox, message, Spin ,Upload} from "antd";
+import {ajaxWithSimpleParams,ajaxWithComplexParams,ajaxFileUpload} from "components/common/util";
 import _ from 'lodash' ;
 const { TextArea } = Input;
+
+let uploadPhotoProps = {
+    name: 'file',
+    action: '/api/upload/uploadSubmit',
+    headers: {
+        authorization: 'authorization-text',
+    }
+} ;
 
 class RoutineExamination extends Component{
     constructor(props){
@@ -47,11 +55,16 @@ class RoutineExamination extends Component{
         this.handleChangeQuotaStatus = this.handleChangeQuotaStatus.bind(this) ;
         //当输入头部输入框内容有变化的时候更新班级列表
         this.handlerHeaderChangeFormData = this.handlerHeaderChangeFormData.bind(this) ;
+        this.handleBodyChangePhotoUrl = this.handleBodyChangePhotoUrl.bind(this) ;
     }
 
     componentDidMount() {
         //页面加载完成以后
         //1.查询教师所带的年级和
+    }
+
+    loading(){
+        this.setState({bodyLoading:true}) ;
     }
 
     //简单键值属性修改
@@ -170,6 +183,13 @@ class RoutineExamination extends Component{
         this.setState({classList:newArr}) ;
     }
 
+    handleBodyChangePhotoUrl(url){
+        let newArr = [...this.state.classList] ;
+        let obj = newArr[this.state.unqualifiedIndex] ;
+        obj.photoUrl = url ;
+        this.setState({classList:newArr}) ;
+    }
+
     hideQuotaDialog(){
         this.setState({quotaVisible:false,curQuotaList:[]}) ;
     }
@@ -221,6 +241,7 @@ class RoutineExamination extends Component{
                     unqualifiedVisible ={this.state.unqualifiedVisible}
                     hideUnqualifiedSelectDialog ={this.hideUnqualifiedSelectDialog}
                     showQuotaDialog = {this.showQuotaDialog}
+                    handleBodyChangePhotoUrl = {this.handleBodyChangePhotoUrl}
                 />
                 <QuotaDialog
                     quotaVisible = {this.state.quotaVisible}
@@ -241,22 +262,39 @@ class UnqualifiedSelectDialog extends Component{
     constructor(props){
         super(props) ;
         this.handlePhotoClick = this.handlePhotoClick.bind(this) ;
+        this.handlePhotoChange = this.handlePhotoChange.bind(this) ;
         this.myPhotoRef = createRef();
     }
 
     handlePhotoClick(e){
-        console.info("拍照被点击....")
         this.myPhotoRef.current.click();
         this.props.hideUnqualifiedSelectDialog() ;
     }
-
-    handlePhotoChange(e){
-        let value = e.target.value ;
-        console.info(value)
+    handlePhotoChange(info){
+        if (info.file.status !== 'uploading') {
+            console.log(info.file, info.fileList);
+        }
+        if (info.file.status === 'done') {
+            message.success(`${info.file.name} file uploaded successfully`);
+        } else if (info.file.status === 'error') {
+            message.error(`${info.file.name} file upload failed.`);
+        }
+        // alert('上传文件....')
+        // let url = '/api/upload/uploadSubmit';
+        // let formData = new FormData();
+        // formData.append('file', event.target.files[0]);
+        // let ajaxing = ajaxFileUpload(url,formData) ;
+        // ajaxing.then((data) => {
+        //     let photoUrl = data.url ;
+        //     this.props.handleBodyChangePhotoUrl(photoUrl) ;
+        // }).catch(function (err) {
+        //     message.error('上传图片出错!',err) ;
+        // }) ;
     }
 
     render() {
         let {unqualifiedVisible,hideUnqualifiedSelectDialog,showQuotaDialog} = this.props ;
+
         return (
             <Drawer
                 className="y-unqualified-dialog"
@@ -270,13 +308,19 @@ class UnqualifiedSelectDialog extends Component{
                     <div className="y-unqualified-item"
                          onClick={showQuotaDialog}
                     >指标</div>
-                    <div className="y-unqualified-item" onClick={this.handlePhotoClick}>
-                        拍照
-                        <input ref={this.myPhotoRef} type="file"
-                               style={{display: "none"}}
-                               onChange={this.handlePhotoChange}
-                        />
-                    </div>
+                    <Upload  className="y-unqualified-item"
+                             {...uploadPhotoProps}
+                            onChange={this.handlePhotoChange}
+                        >
+                        <div className="y-photo">拍照</div>
+                    </Upload>
+                    {/*<div className="y-unqualified-item" onClick={this.handlePhotoClick}>*/}
+                        {/*拍照*/}
+                        {/*<input ref={this.myPhotoRef} type="file"*/}
+                               {/*style={{display: "none"}}*/}
+                               {/*onChange={this.handlePhotoChange}*/}
+                        {/*/>*/}
+                    {/*</div>*/}
                     <div className="y-unqualified-item"
                          onClick={hideUnqualifiedSelectDialog}
                     >取消</div>
