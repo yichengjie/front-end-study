@@ -7,16 +7,15 @@ const dateFormat = 'YYYY/MM/DD';
 class QualityEvaluation  extends Component{
     constructor(props){
         super(props) ;
-        let { title,classList1 } = this.props.location.state ;
+        let { title,classList1 ,classList2} = this.props.location.state ;
         let classDefaultValue = '' ;
         if(classList1.length > 0){
-            classDefaultValue =classList1[0].id  ;
+            classDefaultValue =classList1[0].classId +''  ;
         }
         this.state = {
             evaluationDate:moment().format(dateFormat),
             evaluationClassType:'1', //班级类型：1:行政班级,2:教学班级
             evaluationClass:classDefaultValue,
-            classList:classList1,
             studentList:[],
         } ;
         document.title = title;
@@ -56,31 +55,18 @@ class QualityEvaluation  extends Component{
         this.setState({[name]:value});
     }
 
-    handleHeaderChangeClassType(value){
-        let { classList1,classList2 } = this.props.location.state ;
-        if(value === '1'){//行政班级
-            let defaultClassValue = '' ;
-            if(classList1.length > 0){
-                defaultClassValue = classList1[0].id ;
-            }
-            this.setState({evaluationClassType:value,classList:classList1,evaluationClass:defaultClassValue})
-        }else if(value === '2'){
-            let defaultClassValue = '' ;
-            if(classList2.length > 0){
-                defaultClassValue = classList2[0].id ;
-            }
-            this.setState({evaluationClassType:value,classList:classList2,evaluationClass:defaultClassValue}) ;
-        }
+    handleHeaderChangeClassType(value,value2){
+        this.setState({evaluationClassType:value,evaluationClass:value2}) ;
     }
 
-
     render() {
-        let {classType,itemType,quotaOptions} = this.props.location.state ;
+        let {classType,itemType,quotaOptions ,classList1 ,classList2} = this.props.location.state ;
         let confInfo = {classType,itemType,quotaOptions} ;
         return (
             <div>
                 <EvaluationHeader
-                    classList = {this.state.classList}
+                    classList1 = {classList1}
+                    classList2 = {classList2}
                     evaluationDate = {this.state.evaluationDate}
                     evaluationClass= {this.state.evaluationClass}
                     evaluationClassType = {this.state.evaluationClassType}

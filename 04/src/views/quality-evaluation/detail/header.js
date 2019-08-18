@@ -8,8 +8,13 @@ class EvaluationHeader  extends Component{
 
     constructor(props) {
         super(props);
+        let {classList1,classList2} = props ;
+        this.state = {
+            classList: classList1
+        } ;
         this.handleChangeEvaluationClass = this.handleChangeEvaluationClass.bind(this) ;
         this.handleChangeEvaluationDate = this.handleChangeEvaluationDate.bind(this) ;
+        this.handleChangeEvaluationClassType = this.handleChangeEvaluationClassType.bind(this) ;
     }
 
 
@@ -21,7 +26,19 @@ class EvaluationHeader  extends Component{
         this.props.handleHeaderChangeInput('evaluationClass',value) ;
     }
     handleChangeEvaluationClassType(value){
-        this.props.handleHeaderChangeClassType(value) ;
+        let {classList1,classList2} = this.props ;
+        let classList = [] ;
+        let defaultClassValue = '' ;
+        if(value === '1'){
+            classList = classList1 ;
+        }else{
+            classList = classList2 ;
+        }
+        if(classList.length > 0){
+            defaultClassValue = classList[0].classId +'' ;
+        }
+        this.setState({classList:classList}) ;
+        this.props.handleHeaderChangeClassType(value,defaultClassValue) ;
     }
     render() {
 
@@ -59,9 +76,11 @@ class EvaluationHeader  extends Component{
                     <Select className="y-input"
                         value={this.props.evaluationClass}
                         onChange={this.handleChangeEvaluationClass}>
-                        <Option value="1">高2018级(1)班</Option>
-                        <Option value="2">高2018级(2)班</Option>
-                        <Option value="3">高2018级(3)班</Option>
+                        {
+                            this.state.classList.map((item,index) =>{
+                               return(<Option key ={index} value={item.classId +""}>{item.name}</Option>)
+                            })
+                        }
                     </Select>
                 </div>
             </div>

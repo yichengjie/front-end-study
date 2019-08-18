@@ -7,7 +7,8 @@ class EntryMenu extends Component{
     constructor(props){
         super(props) ;
         this.state ={
-            teacherNumber:'130052',
+            //teacherNumber:'130052',
+            teacherNumber:'130192',
             campusNumber:'2'
         } ;
     }
