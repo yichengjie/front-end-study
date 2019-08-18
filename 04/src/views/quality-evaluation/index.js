@@ -65,7 +65,6 @@ class QualityEvaluationList extends Component{
         let items = arr.map((item,innerIndex) =>{
             let quotaOptionsStr = item.quotaOptions ;
             let quotaOptions =  this.getCurQuotaList(quotaOptionsStr,this.state.quotaList) ;
-            console.info('quotaOptions : '  ,quotaOptions  ) ;
             return (
                 <Link key={innerIndex} className="y-item" to={{
                     pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber,

@@ -28,11 +28,15 @@ class QualityEvaluation  extends Component{
         this.setState({studentList}) ;
     }
     //点击每一项checkbox的时候更新checkbox的状态
-    handleBodyChangeFieldCheckStatus(rowIndex,columnIndex,checkedStatus){
+    handleBodyChangeFieldCheckStatus(rowIndex,checkedStatus,value){
         let newList = [...this.state.studentList] ;
         let obj = newList[rowIndex] ;
         let newscoreArr =  [...obj.scoreArr] ;
-        newscoreArr[columnIndex] = checkedStatus ;
+        if(checkedStatus){//选中，则新增
+            newscoreArr.push(value) ;
+        }else{
+            newscoreArr =  newscoreArr.filter(item => item !==value) ;
+        }
         obj.scoreArr = newscoreArr ;
         this.setState({studentList:newList}) ;
     }

@@ -1,5 +1,6 @@
 import React,{Component,Fragment} from 'react' ;
 import { Spin } from 'antd';
+import _ from 'lodash' ;
 
 class EvaluationBody  extends Component{
 
@@ -14,19 +15,19 @@ class EvaluationBody  extends Component{
         let options2 = [
             {
                 nameAndNo:"白婷羽11182762",
-                scoreArr:["1","0","0","0"]
+                scoreArr:[]
             },{
                 nameAndNo:"张三11182763",
-                scoreArr:["1","1","0","0"]
+                scoreArr:[]
             },{
                 nameAndNo:"李四11182764",
-                scoreArr:["1","0","1","0"]
+                scoreArr:[]
             },{
                 nameAndNo:"王五11182765",
-                scoreArr:["1","1","0","1"]
+                scoreArr:[]
             },{
                 nameAndNo:"赵六11182766",
-                scoreArr:["1","1","1","1"]
+                scoreArr:[]
             }
         ] ;
          setTimeout(()=>{
@@ -103,17 +104,16 @@ class EvaluationBody  extends Component{
 
 class EvaluationListItem extends Component{
 
-    getCurrentFieldChecked(scoreArr =[],index){
-        if(scoreArr.length-1 < index){
-            return false ;
-        }
-        return (scoreArr[index] === '1') ||  (scoreArr[index] === 1)
+    getCurrentFieldChecked(scoreArr =[],item){
+        let obj = _.find(scoreArr,score => score === item.id) ;
+        return obj !== undefined ;
     }
 
     handleBodyChangeFieldCheckStatus(rowIndex,columnIndex){
         return (e) => {
-            let checkedStatus = e.target.checked ? "1" : "0";
-            this.props.handleBodyChangeFieldCheckStatus(rowIndex,columnIndex,checkedStatus) ;
+            let checkedStatus = e.target.checked ;
+            let value = e.target.value ;
+            this.props.handleBodyChangeFieldCheckStatus(rowIndex,checkedStatus,value) ;
         }
     }
 
@@ -129,7 +129,8 @@ class EvaluationListItem extends Component{
                         return (
                             <td key={columnIndex} align="center">
                                 <input type="checkbox"
-                                       checked={this.getCurrentFieldChecked(scoreArr,columnIndex)}
+                                       value={item.id}
+                                       checked={this.getCurrentFieldChecked(scoreArr,item)}
                                        onChange={this.handleBodyChangeFieldCheckStatus(rowIndex,columnIndex)}
                                 />
                             </td>) ;
