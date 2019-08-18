@@ -2,6 +2,7 @@ import React,{Component} from 'react' ;
 import { Link } from "react-router-dom";
 import {ajaxWithoutParams} from "components/common/util";
 import {message} from 'antd'
+import _ from 'lodash' ;
 
 class QualityEvaluationList extends Component{
     constructor(props){
@@ -47,26 +48,42 @@ class QualityEvaluationList extends Component{
         return rows ;
     }
 
+    getCurQuotaList(quotaOptionsStr,allQuotaList){
+        let retInfos = [] ;
+        let infos = quotaOptionsStr.split(',') ;
+        for(let i = 0 ; i < infos.length ; i ++){
+            let info = infos[i] ;
+            let ttt =  _.find(allQuotaList, function(o) { return (o.id+'')  === info; });
+            if(ttt !== undefined){
+                retInfos.push({id:ttt.id +'',title:ttt.title}) ;
+            }
+        }
+        return retInfos ;
+    }
+
     renderRowItems(teacherNumber,campusNumber,classType,index,...arr){
+        let items = arr.map((item,innerIndex) =>{
+            let quotaOptionsStr = item.quotaOptions ;
+            let quotaOptions =  this.getCurQuotaList(quotaOptionsStr,this.state.quotaList) ;
+            console.info('quotaOptions : '  ,quotaOptions  ) ;
+            return (
+                <Link key={innerIndex} className="y-item" to={{
+                    pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber,
+                    state: {
+                        classType:classType,
+                        title: item.title,
+                        itemType:item.itemType,
+                        evaluationFields:item.evaluationFields || [],
+                        quotaOptions:quotaOptions
+                    }
+                }}>
+                    {item.title}
+                </Link>
+            ) ;
+        }) ;
         return (
             <div key={index}  className="y-row">
-                {
-                    arr.map((item,index) =>{
-                        return (
-                            <Link key={index} className="y-item" to={{
-                                pathname: "/quality-evaluation-detail/" + teacherNumber +"/" +campusNumber,
-                                state: {
-                                    classType:classType,
-                                    title: item.title,
-                                    itemType:item.itemType,
-                                    evaluationFields:item.evaluationFields || []
-                                }
-                            }}>
-                                {item.title}
-                            </Link>
-                        ) ;
-                    })
-                }
+                {items}
             </div>
         ) ;
     }
