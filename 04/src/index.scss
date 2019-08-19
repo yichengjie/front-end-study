@@ -120,6 +120,9 @@ code {
         height: 40px;
         line-height: 40px;
       }
+      .ant-upload-list-item{
+        display: none;
+      }
     }
     .y-unqualified-item:nth-child(2){
       border-top: 1px solid #eee;

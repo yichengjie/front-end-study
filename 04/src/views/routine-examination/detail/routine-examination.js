@@ -272,24 +272,16 @@ class UnqualifiedSelectDialog extends Component{
     }
     handlePhotoChange(info){
         if (info.file.status !== 'uploading') {
-            console.log(info.file, info.fileList);
+            //console.log(info.file, info.fileList);
         }
         if (info.file.status === 'done') {
-            message.success(`${info.file.name} file uploaded successfully`);
+            message.success(`图片上传成功`);
+            console.info('info : ' ,info)
         } else if (info.file.status === 'error') {
-            message.error(`${info.file.name} file upload failed.`);
+            message.error(`图片上传失败.`);
         }
-        // alert('上传文件....')
-        // let url = '/api/upload/uploadSubmit';
-        // let formData = new FormData();
-        // formData.append('file', event.target.files[0]);
-        // let ajaxing = ajaxFileUpload(url,formData) ;
-        // ajaxing.then((data) => {
-        //     let photoUrl = data.url ;
-        //     this.props.handleBodyChangePhotoUrl(photoUrl) ;
-        // }).catch(function (err) {
-        //     message.error('上传图片出错!',err) ;
-        // }) ;
+        // let photoUrl = data.url ;
+        // this.props.handleBodyChangePhotoUrl(photoUrl) ;
     }
 
     render() {
