@@ -73,7 +73,7 @@ class ElectronicClassCard extends Component{
             let photoUrl  = file.response.url ;
             let uid = new Date().getTime() +'' ;
             let obj = {uid: uid, name: 'image.png', status: 'done',
-                url: 'http://localhost:8089' + photoUrl,
+                url: photoUrl,
             } ;
             let newArr = [...this.state.fileList,obj] ;
             this.setState({fileList:newArr}) ;
