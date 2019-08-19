@@ -1,10 +1,8 @@
 import React ,{Component} from 'react' ;
-import { Spin} from 'antd';
+import { Spin,Icon} from 'antd';
 import _  from 'lodash' ;
 
-
 class ExaminationBody extends Component{
-
     renderTableHeader(){
         return (
             <tr>
@@ -19,7 +17,7 @@ class ExaminationBody extends Component{
                 <th>
                     <span style={{marginLeft:"5px"}} className="label label-danger y-hand">不合格</span>
                 </th>
-                <th width="60"></th>
+                <th width="80"></th>
             </tr>
         ) ;
     }
@@ -62,10 +60,10 @@ class ExaminationBody extends Component{
         ) ;
     }
     render() {
-        let {loading} = this.props ;
+        let {bodyLoading} = this.props ;
         return (
             <div className="y-body">
-                {loading ?  this.renderLoading() : this.renderTable()}
+                {bodyLoading ?  this.renderLoading() : this.renderTable()}
             </div>
         ) ;
     }
@@ -129,11 +127,15 @@ class ExaminationListItem extends Component{
             return this.containsItem(quotaList,item.id) ;
         }) ;
         let farr = arr.map(item => item.title ) ;
-        let str = farr.join(',')
+        let str = farr.join(',') ;
+        //<Icon type="picture" />
+
         return (
-            <span className="text-success y-hand" style={{marginLeft:"5px"}}
+            <span className="text-info y-hand" style={{marginLeft:"5px"}}
                   onClick={this.showUnqualifiedSelectDialog}>
-                请选择 &nbsp; {str}
+                 { (str === '') ? '请选择' : str  }
+                 &nbsp;&nbsp;
+                {itemData.photoUrl === '' ?  '': <Icon type="picture" />}
             </span>
         ) ;
     }
@@ -182,7 +184,7 @@ class ExaminationListItem extends Component{
                 </td>
                 <td><div className="y-hand text-info"
                          onClick={this.showMarkingDialog}
-                    >备注</div>
+                    >{(itemData.markingContent === '') ? '备注': itemData.markingContent}</div>
                 </td>
             </tr>
         ) ;

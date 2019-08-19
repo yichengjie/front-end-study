@@ -56,6 +56,7 @@ class RoutineExamination extends Component{
         //当输入头部输入框内容有变化的时候更新班级列表
         this.handlerHeaderChangeFormData = this.handlerHeaderChangeFormData.bind(this) ;
         this.handleBodyChangePhotoUrl = this.handleBodyChangePhotoUrl.bind(this) ;
+        this.showLoading = this.showLoading.bind(this) ;
     }
 
     componentDidMount() {
@@ -63,7 +64,7 @@ class RoutineExamination extends Component{
         //1.查询教师所带的年级和
     }
 
-    loading(){
+    showLoading(){
         this.setState({bodyLoading:true}) ;
     }
 
@@ -187,7 +188,7 @@ class RoutineExamination extends Component{
         let newArr = [...this.state.classList] ;
         let obj = newArr[this.state.unqualifiedIndex] ;
         obj.photoUrl = url ;
-        this.setState({classList:newArr}) ;
+        this.setState({classList:newArr,unqualifiedVisible:false,bodyLoading:false}) ;
     }
 
     hideQuotaDialog(){
@@ -219,7 +220,6 @@ class RoutineExamination extends Component{
                     handlerHeaderChangeFormData = {this.handlerHeaderChangeFormData}
                     teacherNumber = {teacherNumber}
                     campusNumber ={campusNumber}
-
                 />
                 <ExaminationBody
                     classList ={this.state.classList}
@@ -227,7 +227,7 @@ class RoutineExamination extends Component{
                     handleBodyChangeItemValue = {this.handleBodyChangeItemValue}
                     showMarkingDialog = {this.showMarkingDialog}
                     showUnqualifiedSelectDialog = {this.showUnqualifiedSelectDialog}
-                    loading ={this.state.bodyLoading}
+                    bodyLoading ={this.state.bodyLoading}
                     quotaOptions = {this.state.quotaOptions}
                 />
                 <MarkContentDialog
@@ -242,6 +242,7 @@ class RoutineExamination extends Component{
                     hideUnqualifiedSelectDialog ={this.hideUnqualifiedSelectDialog}
                     showQuotaDialog = {this.showQuotaDialog}
                     handleBodyChangePhotoUrl = {this.handleBodyChangePhotoUrl}
+                    showLoading = {this.showLoading}
                 />
                 <QuotaDialog
                     quotaVisible = {this.state.quotaVisible}
@@ -261,32 +262,29 @@ class RoutineExamination extends Component{
 class UnqualifiedSelectDialog extends Component{
     constructor(props){
         super(props) ;
-        this.handlePhotoClick = this.handlePhotoClick.bind(this) ;
+        //this.handlePhotoClick = this.handlePhotoClick.bind(this) ;
         this.handlePhotoChange = this.handlePhotoChange.bind(this) ;
-        this.myPhotoRef = createRef();
+        //this.myPhotoRef = createRef();
     }
-
-    handlePhotoClick(e){
-        this.myPhotoRef.current.click();
-        this.props.hideUnqualifiedSelectDialog() ;
-    }
+    // handlePhotoClick(e){
+    //     this.myPhotoRef.current.click();
+    //     this.props.hideUnqualifiedSelectDialog() ;
+    // }
     handlePhotoChange(info){
-        if (info.file.status !== 'uploading') {
-            //console.log(info.file, info.fileList);
-        }
+        this.props.showLoading() ;
+        this.props.hideUnqualifiedSelectDialog() ;
         if (info.file.status === 'done') {
-            message.success(`图片上传成功`);
-            console.info('info : ' ,info)
+            //message.success(`图片上传成功`);
+            let photoUrl  = info.file.response.url ;
+            this.props.handleBodyChangePhotoUrl(photoUrl) ;
+            console.info('photoUrl: ' ,photoUrl)
         } else if (info.file.status === 'error') {
             message.error(`图片上传失败.`);
         }
-        // let photoUrl = data.url ;
-        // this.props.handleBodyChangePhotoUrl(photoUrl) ;
     }
 
     render() {
         let {unqualifiedVisible,hideUnqualifiedSelectDialog,showQuotaDialog} = this.props ;
-
         return (
             <Drawer
                 className="y-unqualified-dialog"
@@ -302,6 +300,7 @@ class UnqualifiedSelectDialog extends Component{
                     >指标</div>
                     <Upload  className="y-unqualified-item"
                              {...uploadPhotoProps}
+                             showUploadList = {false}
                             onChange={this.handlePhotoChange}
                         >
                         <div className="y-photo">拍照</div>

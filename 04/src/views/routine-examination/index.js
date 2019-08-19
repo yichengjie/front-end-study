@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {ajaxWithoutParams} from "components/common/util";
 import {message, Spin} from 'antd' ;
 
-
 class RoutineExaminationList extends Component{
     constructor(props){
         super(props) ;
