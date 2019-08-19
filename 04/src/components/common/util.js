@@ -1,6 +1,4 @@
 import qs from 'qs' ;
-import { Spin} from 'antd';
-
 
 export async function ajaxWithoutParams (url) {
     let response = await fetch(url);

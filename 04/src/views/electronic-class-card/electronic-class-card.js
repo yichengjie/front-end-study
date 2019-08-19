@@ -1,6 +1,6 @@
 import React,{Component} from 'react' ;
 import { Input ,Upload, Icon, message,Button,Modal } from 'antd';
-import {ajaxWithComplexParams} from "components/common/util";
+//import {ajaxWithComplexParams} from "components/common/util";
 const { TextArea } = Input;
 
 function getBase64(file) {

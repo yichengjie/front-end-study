@@ -4,7 +4,6 @@ import EvaluationBody from './body' ;
 import moment from "moment";
 import {message} from "antd";
 import {ajaxWithComplexParams} from "components/common/util";
-import _ from 'lodash' ;
 const dateFormat = 'YYYY/MM/DD';
 
 
@@ -56,9 +55,8 @@ class QualityEvaluation  extends Component{
         this.setState({studentList:newList}) ;
     }
     handleBodySubmitFormData(e) {
-        let { classType,itemType } = this.props.location.state ;
+        let { itemType } = this.props.location.state ;
         let { campusNumber,teacherNumber } = this.props.match.params;
-        this.state.studentList.forEach(item => console.info(item.scoreArr)) ;
         let url =  '/api/yiClassAndStudent/submitQualityEvaluationFormData' ;
         let evaluationGradeAndClass = this.state.evaluationGradeAndClass ;
         let infos = evaluationGradeAndClass.split(",") ;

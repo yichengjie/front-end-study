@@ -1,8 +1,8 @@
-import React,{Component,createRef} from 'react' ;
+import React,{Component} from 'react' ;
 import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
-import {Drawer, Input, Modal, Checkbox, message, Spin ,Upload} from "antd";
-import {ajaxWithSimpleParams,ajaxWithComplexParams,ajaxFileUpload} from "components/common/util";
+import { Drawer, Input, Modal, Checkbox, message ,Upload } from "antd";
+import { ajaxWithSimpleParams,ajaxWithComplexParams } from "components/common/util";
 import _ from 'lodash' ;
 const { TextArea } = Input;
 
@@ -17,7 +17,7 @@ let uploadPhotoProps = {
 class RoutineExamination extends Component{
     constructor(props){
         super(props) ;
-        let { title,classType,itemType ,quotaOptions} = this.props.location.state ;
+        let { title,itemType ,quotaOptions} = this.props.location.state ;
         console.info('itemType : ' + itemType)
         document.title = title;
         this.state = {

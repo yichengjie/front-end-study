@@ -14,7 +14,7 @@ class RoutineExaminationList extends Component{
         };
     }
     componentDidMount() {
-        let {teacherNumber,campusNumber} = this.props.match.params;
+        //let {teacherNumber,campusNumber} = this.props.match.params;
         ///api/classAndStudent/getClassCheck/130052/2
         let url = `/api/yiClassAndStudent/initRoutineExaminationMenuPage` ;
         let ajaxing = ajaxWithoutParams(url) ;

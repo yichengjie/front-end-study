@@ -23,7 +23,6 @@ class QualityEvaluationList extends Component{
         ajaxing.then((data) =>{
             let {menuList,quotaList,classList1,classList2} = data ;
             this.setState({menuList,quotaList,classList1,classList2}) ;
-            console.info(data) ;
         }).catch(function () {
             message.error('加载综合素质评价菜单出错!') ;
         }) ;
