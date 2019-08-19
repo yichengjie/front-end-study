@@ -1,26 +1,22 @@
 import React,{Component} from 'react' ;
-import { Input ,Upload, Icon, message,Button} from 'antd';
+import { Input ,Upload, Icon, message,Button,Modal } from 'antd';
 import {ajaxWithComplexParams} from "components/common/util";
 const { TextArea } = Input;
 
-
-function getBase64(img, callback) {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
 }
-
-function beforeUpload(file) {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
-    }
-    return isJpgOrPng && isLt2M;
-}
+const uploadButton = (
+    <div>
+        <Icon type="plus" />
+        <div className="ant-upload-text">上传图片</div>
+    </div>
+);
 
 class ElectronicClassCard extends Component{
     constructor(props){
@@ -28,77 +24,100 @@ class ElectronicClassCard extends Component{
         document.title = "活动发布";
         this.state = {
             loading: false,
+            activityTitle:'', //活动标题
+            activityContent:'',//活动内容
+            //发布图片部分
+            previewVisible: false,
+            previewImage: '',
+            fileList: [
+                {
+                    uid: '-1',
+                    name: 'image.png',
+                    status: 'done',
+                    url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+                },
+            ]
         };
+        this.handleSimpleInputChange = this.handleSimpleInputChange.bind(this) ;
+        this.handleCancelPreview = this.handleCancelPreview.bind(this) ;
+        this.handlePreview = this.handlePreview.bind(this) ;
+        this.handleChangePhoto = this.handleChangePhoto.bind(this) ;
+        this.handleSubmitForm = this.handleSubmitForm.bind(this) ;
     }
 
-    componentDidMount() {
-        let url = '/api/classAndStudent/addInfo';
-        let params = {username:'yicj'} ;
-        let ajaxing = ajaxWithComplexParams(url,params) ;
-        ajaxing.then((data) =>{
-            console.info(data);
-        }).catch(function (e) {
-            console.info(e) ;
-        })
+    //简单字段值修改
+    handleSimpleInputChange(e){
+        let name = e.target.name ;
+        let value = e.target.value ;
+        this.setState({[name]:value}) ;
     }
-
-    handleChange = info => {
-        if (info.file.status === 'uploading') {
-            this.setState({ loading: true });
-            return;
+    //取消预览
+    handleCancelPreview () {
+        this.setState({ previewVisible: false });
+    }
+    //预览
+    async handlePreview (file) {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj);
         }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            getBase64(info.file.originFileObj, imageUrl =>
-                this.setState({
-                    imageUrl,
-                    loading: false,
-                }),
-            );
-        }
-    };
-
+        this.setState({
+            previewImage: file.url || file.preview,
+            previewVisible: true,
+        });
+    }
+    handleChangePhoto ({ fileList }) {
+        this.setState({ fileList });
+    }
+    //表单提交
+    handleSubmitForm(){
+        let {activityTitle,activityContent,fileList} = this.state ;
+        console.info('activityTitle : ' + activityTitle) ;
+        console.info('activityTitle : ' + activityContent) ;
+        console.info('fileList : ' ,fileList)
+    }
 
     render() {
-
-        const uploadButton = (
-            <div>
-                <Icon type={this.state.loading ? 'loading' : 'plus'} />
-                <div className="ant-upload-text">Upload</div>
-            </div>
-        );
-        const { imageUrl } = this.state;
-
+        const { previewVisible, previewImage, fileList } = this.state;
         return(
             <div className="y-form">
                 <div className="y-row">
-                    <Input size="large" placeholder="请输入活动标题" />
+                    <Input size="large"
+                           name = "activityTitle"
+                           value={this.state.activityTitle}
+                           onChange={this.handleSimpleInputChange}
+                           placeholder="请输入活动标题" />
                 </div>
                 <div className="y-row">
-                    <TextArea rows={8} placeholder="请输入活动内容" />
+                    <TextArea rows={8}
+                              name = "activityContent"
+                              value={this.state.activityContent}
+                              onChange={this.handleSimpleInputChange}
+                              placeholder="请输入活动内容"
+                    />
                 </div>
 
                 <div className="y-row y-upload-status">
                     <div className="y-title">图片发布</div>
-                    <div className="y-content">0/9</div>
+                    <div className="y-content">{fileList.length}/6</div>
                 </div>
 
-                <div className="y-row">
+                <div className="y-row clearfix">
                     <Upload
-                        name="avatar"
-                        listType="picture-card"
-                        className="avatar-uploader"
-                        showUploadList={false}
                         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                        beforeUpload={beforeUpload}
-                        onChange={this.handleChange}
+                        listType="picture-card"
+                        fileList={fileList}
+                        onPreview={this.handlePreview}
+                        onChange={this.handleChangePhoto}
                     >
-                        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                        {fileList.length >= 6 ? null : uploadButton}
                     </Upload>
+                    <Modal visible={previewVisible} footer={null} onCancel={this.handleCancelPreview}>
+                        <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                    </Modal>
                 </div>
 
                 <div className="y-row" style={{marginTop:"30px"}}>
-                    <Button type="primary" block size="large">
+                    <Button type="primary" block size="large" onClick={this.handleSubmitForm}>
                         发布
                     </Button>
                 </div>
