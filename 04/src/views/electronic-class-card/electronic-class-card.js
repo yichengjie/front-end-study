@@ -16,7 +16,8 @@ let uploadPhotoProps = {
     action: '/api/upload/uploadSubmit',
     headers: {
         authorization: 'authorization-text',
-    }
+    },
+    listType:"picture-card"
 } ;
 
 const uploadButton = (
@@ -25,12 +26,6 @@ const uploadButton = (
         <div className="ant-upload-text">上传图片</div>
     </div>
 );
-// {
-//     uid: '-1',
-//     name: 'image.png',
-//     status: 'done',
-//     url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-// },
 class ElectronicClassCard extends Component{
     constructor(props){
         super(props) ;
@@ -63,6 +58,7 @@ class ElectronicClassCard extends Component{
     }
     //预览
     async handlePreview (file) {
+        console.info('file.url : ' + file.url)
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj);
         }
@@ -72,14 +68,10 @@ class ElectronicClassCard extends Component{
         });
     }
     handleChangePhoto ({ file }) {
-
-        console.info('file.status : ' + file.status) ;
-
         if (file.status === 'done') {
             console.info('文件上传完成....')
             let photoUrl  = file.response.url ;
             let uid = new Date().getTime() +'' ;
-            let url =  + photoUrl ;
             let obj = {uid: uid, name: 'image.png', status: 'done',
                 url: 'http://localhost:8089' + photoUrl,
             } ;
@@ -123,13 +115,9 @@ class ElectronicClassCard extends Component{
                 </div>
 
                 <div className="y-row clearfix">
-                    <Upload
-                        {...uploadPhotoProps}
-                        listType="picture-card"
-                        fileList={fileList}
-                        onPreview={this.handlePreview}
-                        onChange={this.handleChangePhoto}
-                    >
+                    <Upload {...uploadPhotoProps}
+                            onPreview={this.handlePreview}
+                            onChange={this.handleChangePhoto}>
                         {fileList.length >= 6 ? null : uploadButton}
                     </Upload>
                     <Modal visible={previewVisible} footer={null} onCancel={this.handleCancelPreview}>
