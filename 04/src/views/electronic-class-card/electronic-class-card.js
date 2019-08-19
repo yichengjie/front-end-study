@@ -11,13 +11,26 @@ function getBase64(file) {
         reader.onerror = error => reject(error);
     });
 }
+let uploadPhotoProps = {
+    name: 'file',
+    action: '/api/upload/uploadSubmit',
+    headers: {
+        authorization: 'authorization-text',
+    }
+} ;
+
 const uploadButton = (
     <div>
         <Icon type="plus" />
         <div className="ant-upload-text">上传图片</div>
     </div>
 );
-
+// {
+//     uid: '-1',
+//     name: 'image.png',
+//     status: 'done',
+//     url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+// },
 class ElectronicClassCard extends Component{
     constructor(props){
         super(props) ;
@@ -29,14 +42,7 @@ class ElectronicClassCard extends Component{
             //发布图片部分
             previewVisible: false,
             previewImage: '',
-            fileList: [
-                {
-                    uid: '-1',
-                    name: 'image.png',
-                    status: 'done',
-                    url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-                },
-            ]
+            fileList: []
         };
         this.handleSimpleInputChange = this.handleSimpleInputChange.bind(this) ;
         this.handleCancelPreview = this.handleCancelPreview.bind(this) ;
@@ -65,8 +71,23 @@ class ElectronicClassCard extends Component{
             previewVisible: true,
         });
     }
-    handleChangePhoto ({ fileList }) {
-        this.setState({ fileList });
+    handleChangePhoto ({ file }) {
+
+        console.info('file.status : ' + file.status) ;
+
+        if (file.status === 'done') {
+            console.info('文件上传完成....')
+            let photoUrl  = file.response.url ;
+            let uid = new Date().getTime() +'' ;
+            let url =  + photoUrl ;
+            let obj = {uid: uid, name: 'image.png', status: 'done',
+                url: 'http://localhost:8089' + photoUrl,
+            } ;
+            let newArr = [...this.state.fileList,obj] ;
+            this.setState({fileList:newArr}) ;
+        } else if (file.status === 'error') {
+            message.error(`图片上传失败.`);
+        }
     }
     //表单提交
     handleSubmitForm(){
@@ -103,7 +124,7 @@ class ElectronicClassCard extends Component{
 
                 <div className="y-row clearfix">
                     <Upload
-                        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                        {...uploadPhotoProps}
                         listType="picture-card"
                         fileList={fileList}
                         onPreview={this.handlePreview}
