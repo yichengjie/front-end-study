@@ -127,6 +127,11 @@ code {
     }
   }
 }
+
+.nowrap{
+  display: inline-block;
+  white-space:nowrap;
+}
 .y-quota-dialog{
   .ant-modal-body{
     padding: 10px;

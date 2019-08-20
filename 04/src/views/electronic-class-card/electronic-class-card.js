@@ -1,8 +1,10 @@
 import React,{Component} from 'react' ;
-import { Input ,Upload, Icon, message,Button,Modal ,Select} from 'antd';
+import { Input ,Upload, Icon, message,Button,Modal ,Select,DatePicker } from 'antd';
+import moment from 'moment';
 const { Option } = Select;
 //import {ajaxWithComplexParams} from "components/common/util";
 const { TextArea } = Input;
+const dateFormat = 'YYYY/MM/DD';
 
 function getBase64(file) {
     return new Promise((resolve, reject) => {
@@ -33,6 +35,8 @@ class ElectronicClassCard extends Component{
         document.title = "活动发布";
         this.state = {
             activityType: '1',//活动类型
+            startTime:'',
+            endTime:'',
             activityDescribe:'',//活动介绍
             activityDescribePlaceholder:'请输入通知内容',
             //发布图片部分
@@ -99,8 +103,8 @@ class ElectronicClassCard extends Component{
     }
     //表单提交
     handleSubmitForm(){
-        let {activityType,activityDescribe,fileList} = this.state ;
-        alert(activityType + ', ' + activityDescribe +' , ' + JSON.stringify(fileList))
+        let {activityType,startTime,endTime,activityDescribe,fileList} = this.state ;
+        alert(activityType + ', ' +startTime +', ' +  endTime +' , '+ activityDescribe +' , ' + JSON.stringify(fileList))
     }
 
     renderPhotoUploadTitle(){
@@ -128,8 +132,14 @@ class ElectronicClassCard extends Component{
             </div>
         ) ;
     }
-
+    handTimeChange(name){
+        return  (date, dateString) =>{
+            this.setState({[name]:dateString})
+        }
+    }
     render() {
+        let {startTime,endTime} = this.state ;
+
         return(
             <div className="y-form">
                 <div className="y-row">
@@ -139,6 +149,21 @@ class ElectronicClassCard extends Component{
                         <Option value="1">班级通知</Option>
                         <Option value="2">班级风采</Option>
                     </Select>
+                </div>
+                <div className="y-row">
+                   <DatePicker
+                       value={ startTime === ''? null : moment(startTime, dateFormat) }
+                       format={dateFormat}
+                       onChange={this.handTimeChange('startTime')}
+                       style={{width:"49%",marginRight:'1%'}}
+                       placeholder="起始时间"
+                   />
+                   <DatePicker
+                       value={ endTime === '' ? null : moment(endTime, dateFormat)  }
+                       format={dateFormat}
+                       onChange={this.handTimeChange('endTime')}
+                       style={{width:"49%",marginLeft:'1%'}}
+                       placeholder="截止时间" />
                 </div>
                 <div className="y-row">
                     <TextArea rows={8}
