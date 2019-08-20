@@ -79,7 +79,7 @@ class RoutineExamination extends Component{
         let {classList} = this.state ;
         let selectedList = _.filter(classList, function(o) { return o.examinationFlag === '1'; });
         //如果一个都没选中，则不提交表单
-        if(selectedList.length == 0){
+        if(selectedList.length === 0){
             return ;
         }
         let url = '/api/yiClassAndStudent/submitRoutineExaminationForm' ;

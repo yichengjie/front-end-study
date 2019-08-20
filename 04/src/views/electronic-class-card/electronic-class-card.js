@@ -1,5 +1,6 @@
 import React,{Component} from 'react' ;
-import { Input ,Upload, Icon, message,Button,Modal } from 'antd';
+import { Input ,Upload, Icon, message,Button,Modal ,Select} from 'antd';
+const { Option } = Select;
 //import {ajaxWithComplexParams} from "components/common/util";
 const { TextArea } = Input;
 
@@ -17,7 +18,7 @@ let uploadPhotoProps = {
     headers: {
         authorization: 'authorization-text',
     },
-    listType:"picture-card"
+    listType:"picture-card",
 } ;
 
 const uploadButton = (
@@ -31,8 +32,9 @@ class ElectronicClassCard extends Component{
         super(props) ;
         document.title = "活动发布";
         this.state = {
-            activityTitle:'', //活动标题
-            activityContent:'',//活动内容
+            activityType: '1',//活动类型
+            activityDescribe:'',//活动介绍
+            activityDescribePlaceholder:'请输入通知内容',
             //发布图片部分
             previewVisible: false,
             previewImage: '',
@@ -43,6 +45,7 @@ class ElectronicClassCard extends Component{
         this.handlePreview = this.handlePreview.bind(this) ;
         this.handleChangePhoto = this.handleChangePhoto.bind(this) ;
         this.handleSubmitForm = this.handleSubmitForm.bind(this) ;
+        this.handleChangeActivityType = this.handleChangeActivityType.bind(this) ;
     }
 
     //简单字段值修改
@@ -51,6 +54,20 @@ class ElectronicClassCard extends Component{
         let value = e.target.value ;
         this.setState({[name]:value}) ;
     }
+
+    handleChangeActivityType(value){
+        let str = '请输入通知内容' ;
+        if(value === '2'){
+            str = '请输入班级风采介绍' ;
+        }
+        this.setState({activityType:value,
+            activityDescribePlaceholder:str,
+            previewVisible:false,
+            previewImage:'',
+            fileList:[]
+        }) ;
+    }
+
     //取消预览
     handleCancelPreview () {
         this.setState({ previewVisible: false });
@@ -82,48 +99,61 @@ class ElectronicClassCard extends Component{
     }
     //表单提交
     handleSubmitForm(){
-        let {activityTitle,activityContent,fileList} = this.state ;
-        console.info('activityTitle : ' + activityTitle) ;
-        console.info('activityTitle : ' + activityContent) ;
-        console.info('fileList : ' ,fileList)
+        let {activityType,activityDescribe,fileList} = this.state ;
+        alert(activityType + ', ' + activityDescribe +' , ' + JSON.stringify(fileList))
+    }
+
+    renderPhotoUploadTitle(){
+        let {fileList} = this.state ;
+        return (
+            <div className="y-row y-upload-status">
+                <div className="y-title">图片发布</div>
+                <div className="y-content">{fileList.length}/6</div>
+            </div>
+        ) ;
+    }
+
+    renderPhotoUploadBody(){
+        const { previewVisible, previewImage, fileList } = this.state;
+        return (
+            <div className="y-row clearfix">
+                <Upload {...uploadPhotoProps}
+                        onPreview={this.handlePreview}
+                        onChange={this.handleChangePhoto}>
+                    {fileList.length >= 6 ? null : uploadButton}
+                </Upload>
+                <Modal visible={previewVisible} footer={null} onCancel={this.handleCancelPreview}>
+                    <img alt="example" style={{ width: '100%' }} src={previewImage} />
+                </Modal>
+            </div>
+        ) ;
     }
 
     render() {
-        const { previewVisible, previewImage, fileList } = this.state;
         return(
             <div className="y-form">
                 <div className="y-row">
-                    <Input size="large"
-                           name = "activityTitle"
-                           value={this.state.activityTitle}
-                           onChange={this.handleSimpleInputChange}
-                           placeholder="请输入活动标题" />
+                    <Select value={this.state.activityType}
+                            onChange={this.handleChangeActivityType}
+                            style={{ width: "100%" }} >
+                        <Option value="1">班级通知</Option>
+                        <Option value="2">班级风采</Option>
+                    </Select>
                 </div>
                 <div className="y-row">
                     <TextArea rows={8}
-                              name = "activityContent"
-                              value={this.state.activityContent}
+                              name = "activityDescribe"
+                              value={this.state.activityDescribe}
                               onChange={this.handleSimpleInputChange}
-                              placeholder="请输入活动内容"
+                              placeholder={this.state.activityDescribePlaceholder}
                     />
                 </div>
-
-                <div className="y-row y-upload-status">
-                    <div className="y-title">图片发布</div>
-                    <div className="y-content">{fileList.length}/6</div>
-                </div>
-
-                <div className="y-row clearfix">
-                    <Upload {...uploadPhotoProps}
-                            onPreview={this.handlePreview}
-                            onChange={this.handleChangePhoto}>
-                        {fileList.length >= 6 ? null : uploadButton}
-                    </Upload>
-                    <Modal visible={previewVisible} footer={null} onCancel={this.handleCancelPreview}>
-                        <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                    </Modal>
-                </div>
-
+                {
+                    this.state.activityType === '2' ? this.renderPhotoUploadTitle() : null
+                }
+                {
+                   this.state.activityType === '2' ? this.renderPhotoUploadBody() : null
+                }
                 <div className="y-row" style={{marginTop:"30px"}}>
                     <Button type="primary" block size="large" onClick={this.handleSubmitForm}>
                         发布
