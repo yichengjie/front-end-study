@@ -8,7 +8,7 @@ class EvaluationBody  extends Component{
         let {quotaOptions} = this.props.confInfo ;
         return (
             <tr>
-                <th width="109" style={{textAlign:'center'}} >姓名/学号</th>
+                <th width="119" style={{textAlign:'center'}} >姓名/学号</th>
                 {
                     quotaOptions.map((item,index)=>{
                         return <th key={index} style={{textAlign:'center'}}>{item.title}</th> ;
