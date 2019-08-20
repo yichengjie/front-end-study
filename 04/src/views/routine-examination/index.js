@@ -100,7 +100,9 @@ class RoutineExaminationList extends Component{
                <div key={index} className="y-class-type-container">
                    <div className="y-sub-title">{item.title}</div>
                    <div className="y-sub-body">
-                       {this.renderItemType(item.classType,item.children)}
+                       <Spin spinning={this.state.loading} delay={1}>
+                            {this.renderItemType(item.classType,item.children)}
+                       </Spin>
                    </div>
                </div>
            ) ;
@@ -108,18 +110,10 @@ class RoutineExaminationList extends Component{
 
     }
 
-    renderLoading(){
-        return (
-            <div style={{textAlign:"center"}}>
-                <Spin size="large" tip="数据加载中，请耐心等待..."/>
-            </div>
-        ) ;
-    }
-
     render() {
         return (
             <div className="y-sub-menu-container">
-                {this.state.loading ? this.renderLoading() :this.renderClassType()}
+                    { this.renderClassType()}
             </div>
         ) ;
     }

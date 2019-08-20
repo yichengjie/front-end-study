@@ -40,30 +40,24 @@ class ExaminationBody extends Component{
     }
 
     renderTable(){
+        let {bodyLoading} = this.props ;
         return (
-            <table className="table">
-                <thead>
-                    {this.renderTableHeader()}
-                </thead>
-                <tbody>
-                    {this.renderTableBody()}
-                </tbody>
-            </table>
-        ) ;
-    }
-
-    renderLoading(){
-        return (
-            <div style={{textAlign:"center"}}>
-                <Spin size="large" tip="数据加载中，请耐心等待..."/>
-            </div>
+            <Spin spinning={bodyLoading} delay={1}>
+                <table className="table">
+                    <thead>
+                        {this.renderTableHeader()}
+                    </thead>
+                    <tbody>
+                            {this.renderTableBody()}
+                    </tbody>
+                </table>
+            </Spin>
         ) ;
     }
     render() {
-        let {bodyLoading} = this.props ;
         return (
             <div className="y-body">
-                {bodyLoading ?  this.renderLoading() : this.renderTable()}
+                {this.renderTable()}
             </div>
         ) ;
     }

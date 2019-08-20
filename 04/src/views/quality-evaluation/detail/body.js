@@ -32,8 +32,9 @@ class EvaluationBody  extends Component{
     }
 
     renderTable(){
+        let {bodyLoading} = this.props ;
         return (
-            <Fragment>
+            <Spin spinning={bodyLoading} delay={1}>
                 <table className="table table-bordered table-striped">
                     <thead>
                     {this.renderTableHeader()}
@@ -46,15 +47,7 @@ class EvaluationBody  extends Component{
                         className="btn btn-success btn-block"
                         onClick={this.props.handleBodySubmitFormData}
                 >提交</button>
-            </Fragment>
-        ) ;
-    }
-
-    renderLoading(){
-        return (
-            <div style={{textAlign:"center"}}>
-                <Spin size="large" tip="数据加载中，请耐心等待..."/>
-            </div>
+            </Spin>
         ) ;
     }
 
@@ -62,14 +55,13 @@ class EvaluationBody  extends Component{
         return (
             <div className="y-body">
                 <div className="y-title">评价学生&nbsp;:</div>
-                {this.props.bodyLoading ?  this.renderLoading() : this.renderTable()}
+                { this.renderTable()}
             </div>
         );
     }
 }
 
 class EvaluationListItem extends Component{
-
     getCurrentFieldChecked(scoreArr =[],item){
         let obj = _.find(scoreArr,score => score === item.id) ;
         return obj !== undefined ;

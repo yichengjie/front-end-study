@@ -1,7 +1,7 @@
 import React,{Component} from 'react' ;
 import { Link } from "react-router-dom";
 import {ajaxWithoutParams} from "components/common/util";
-import {message} from 'antd'
+import {message,Spin} from 'antd'
 import _ from 'lodash' ;
 
 class QualityEvaluationList extends Component{
@@ -12,18 +12,21 @@ class QualityEvaluationList extends Component{
             menuList:[],
             quotaList:[],
             classList1:[],
-            classList2:[]
+            classList2:[],
+            loading:false
         } ;
     }
     componentDidMount() {
         let {teacherNumber,campusNumber} = this.props.match.params;
         ///api/classAndStudent/getClassCheckEvaluation/130052/2
         let url = `/api/yiClassAndStudent/initQualityEvaluationMenuPage/${teacherNumber}/${campusNumber}` ;
+        this.setState({loading:true}) ;
         let ajaxing = ajaxWithoutParams(url) ;
         ajaxing.then((data) =>{
             let {menuList,quotaList,classList1,classList2} = data ;
-            this.setState({menuList,quotaList,classList1,classList2}) ;
-        }).catch(function () {
+            this.setState({menuList,quotaList,classList1,classList2,loading: false}) ;
+        }).catch( (error) => {
+            this.setState({loading:false}) ;
             message.error('加载综合素质评价菜单出错!') ;
         }) ;
     }
@@ -97,7 +100,9 @@ class QualityEvaluationList extends Component{
                 <div key={index} className="y-class-type-container">
                     <div className="y-sub-title">{item.title}</div>
                     <div className="y-sub-body">
-                        {this.renderItemType(item.classType,item.children)}
+                        <Spin spinning={this.state.loading} delay={1}>
+                            {this.renderItemType(item.classType,item.children)}
+                        </Spin>
                     </div>
                 </div>
             ) ;

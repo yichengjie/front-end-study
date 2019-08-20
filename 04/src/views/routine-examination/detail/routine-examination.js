@@ -1,7 +1,7 @@
 import React,{Component} from 'react' ;
 import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
-import { Drawer, Input, Modal, Checkbox, message ,Upload } from "antd";
+import {Drawer, Input, Modal, Checkbox, message, Upload, Spin} from "antd";
 import { ajaxWithSimpleParams,ajaxWithComplexParams } from "components/common/util";
 import _ from 'lodash' ;
 const { TextArea } = Input;
@@ -221,15 +221,16 @@ class RoutineExamination extends Component{
                     teacherNumber = {teacherNumber}
                     campusNumber ={campusNumber}
                 />
-                <ExaminationBody
-                    classList ={this.state.classList}
-                    handleBodyUpdateClassList = {this.handleBodyUpdateClassList}
-                    handleBodyChangeItemValue = {this.handleBodyChangeItemValue}
-                    showMarkingDialog = {this.showMarkingDialog}
-                    showUnqualifiedSelectDialog = {this.showUnqualifiedSelectDialog}
-                    bodyLoading ={this.state.bodyLoading}
-                    quotaOptions = {this.state.quotaOptions}
-                />
+
+                    <ExaminationBody
+                        classList ={this.state.classList}
+                        handleBodyUpdateClassList = {this.handleBodyUpdateClassList}
+                        handleBodyChangeItemValue = {this.handleBodyChangeItemValue}
+                        showMarkingDialog = {this.showMarkingDialog}
+                        showUnqualifiedSelectDialog = {this.showUnqualifiedSelectDialog}
+                        bodyLoading ={this.state.bodyLoading}
+                        quotaOptions = {this.state.quotaOptions}
+                    />
                 <MarkContentDialog
                     markingVisible = {this.state.markingVisible}
                     markingContent = {this.state.markingContent}

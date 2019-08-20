@@ -18,10 +18,10 @@ class EntryMenu extends Component{
         return (
             <div className="y-entry-container">
                 <div className="y-row">
-                    <div className="y-item">
+                    <div className="y-item" style={{width: "85px"}}>
                         <Link to={"/quality-evaluation-list/" +teacherNumber +"/"+campusNumber }>
                             <Avatar icon="user" size="large" />
-                            <div className="y-description">素质评价</div>
+                            <div className="y-description">综合素质评价</div>
                         </Link>
 
                     </div>
