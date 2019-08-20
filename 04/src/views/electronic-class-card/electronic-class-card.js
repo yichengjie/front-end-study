@@ -31,7 +31,6 @@ class ElectronicClassCard extends Component{
         super(props) ;
         document.title = "活动发布";
         this.state = {
-            loading: false,
             activityTitle:'', //活动标题
             activityContent:'',//活动内容
             //发布图片部分
