@@ -1,4 +1,4 @@
-import React,{Component,Fragment} from 'react' ;
+import React,{Component} from 'react' ;
 import { Spin } from 'antd';
 import _ from 'lodash' ;
 
@@ -34,7 +34,7 @@ class EvaluationBody  extends Component{
     renderTable(){
         let {bodyLoading} = this.props ;
         return (
-            <Spin spinning={bodyLoading} delay={1}>
+            <Spin spinning={bodyLoading} delay={0}>
                 <table className="table table-bordered table-striped">
                     <thead>
                     {this.renderTableHeader()}

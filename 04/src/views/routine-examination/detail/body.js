@@ -122,13 +122,11 @@ class ExaminationListItem extends Component{
         }) ;
         let farr = arr.map(item => item.title ) ;
         let str = farr.join(',') ;
-        //<Icon type="picture" />
-
         return (
-            <span className="text-info y-hand" style={{marginLeft:"5px"}}
-                  onClick={this.showUnqualifiedSelectDialog}>
-                 { (str === '') ? '请选择' : str  }
-                 &nbsp;&nbsp;
+            <span  style={{marginLeft:"5px"}}>
+                 <span  className="text-info y-hand" onClick={this.showUnqualifiedSelectDialog}>
+                     { (str === '') ? '请选择' : str  }&nbsp;&nbsp;
+                 </span>
                 {itemData.photoUrl === '' ?  '': <Icon type="picture" />}
             </span>
         ) ;

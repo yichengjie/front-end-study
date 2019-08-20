@@ -17,7 +17,6 @@ class EvaluationHeader  extends Component{
         this.handleChangeEvaluationClassType = this.handleChangeEvaluationClassType.bind(this) ;
     }
 
-
     handleChangeEvaluationDate(value,valueStr){
         this.props.handleHeaderChangeInput('evaluationDate',valueStr) ;
     }

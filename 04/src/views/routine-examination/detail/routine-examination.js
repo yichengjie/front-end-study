@@ -1,7 +1,7 @@
 import React,{Component} from 'react' ;
 import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
-import {Drawer, Input, Modal, Checkbox, message, Upload, Spin} from "antd";
+import {Drawer, Input, Modal, Checkbox, message, Upload} from "antd";
 import { ajaxWithSimpleParams,ajaxWithComplexParams } from "components/common/util";
 import _ from 'lodash' ;
 const { TextArea } = Input;
@@ -78,6 +78,10 @@ class RoutineExamination extends Component{
         let {teacherNumber} = this.props.match.params;
         let {classList} = this.state ;
         let selectedList = _.filter(classList, function(o) { return o.examinationFlag === '1'; });
+        //如果一个都没选中，则不提交表单
+        if(selectedList.length == 0){
+            return ;
+        }
         let url = '/api/yiClassAndStudent/submitRoutineExaminationForm' ;
         let params = {list:selectedList ,checkDate:examinationDate,submitTeacher:teacherNumber} ;
         let ajaxing = ajaxWithComplexParams(url,params) ;

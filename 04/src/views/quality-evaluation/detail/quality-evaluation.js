@@ -60,6 +60,14 @@ class QualityEvaluation  extends Component{
         let url =  '/api/yiClassAndStudent/submitQualityEvaluationFormData' ;
         let evaluationGradeAndClass = this.state.evaluationGradeAndClass ;
         let infos = evaluationGradeAndClass.split(",") ;
+        //评价班级为空直接return
+        if(infos[0] === ''){
+            return ;
+        }
+        //评价学生列表为空，则直接return
+        if(this.state.studentList.length === 0){
+            return ;
+        }
         let formData = {
             itemId: itemType,
             submitDate: this.state.evaluationDate,
@@ -80,13 +88,13 @@ class QualityEvaluation  extends Component{
     }
 
     handleHeaderChangeInput(name,value){
-        this.setState({[name]:value},()=>{
+        this.setState({[name]:value,studentList:[]},()=>{
             this.queryStudentList()  ;
         });
     }
 
     handleHeaderChangeClassType(value,value2){
-        this.setState({evaluationClassType:value,evaluationGradeAndClass:value2},()=>{
+        this.setState({evaluationClassType:value,evaluationGradeAndClass:value2,studentList:[]},()=>{
             this.queryStudentList()  ;
         }) ;
     }
