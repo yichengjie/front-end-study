@@ -6,7 +6,7 @@ class ExaminationBody extends Component{
     renderTableHeader(){
         return (
             <tr>
-                <th width="50"></th>
+                <th width="55"></th>
                 <th width="50" align="center" style={{textAlign: "center"}}>
                     <span className="label y-hand"
                           style={{backgroundColor: "#a9823e"}}>优秀</span>

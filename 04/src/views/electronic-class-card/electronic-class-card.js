@@ -88,6 +88,7 @@ class ElectronicClassCard extends Component{
         });
     }
     handleChangePhoto ({ file }) {
+        console.info('-----------------------')
         if (file.status === 'done') {
             console.info('文件上传完成....')
             let photoUrl  = file.response.url ;
