@@ -34,11 +34,10 @@ class ElectronicClassCard extends Component{
         super(props) ;
         document.title = "活动发布";
         this.state = {
-            activityType: '1',//活动类型
+            activityType: '2',//活动类型
             startTime:'',
             endTime:'',
             activityDescribe:'',//活动介绍
-            activityDescribePlaceholder:'请输入通知内容',
             //发布图片部分
             previewVisible: false,
             previewImage: '',
@@ -60,15 +59,11 @@ class ElectronicClassCard extends Component{
     }
 
     handleChangeActivityType(value){
-        let str = '请输入通知内容' ;
-        if(value === '2'){
-            str = '请输入班级风采介绍' ;
-        }
         this.setState({activityType:value,
-            activityDescribePlaceholder:str,
             previewVisible:false,
             previewImage:'',
-            fileList:[]
+            fileList:[],
+            activityDescribe:''
         }) ;
     }
 
@@ -87,25 +82,32 @@ class ElectronicClassCard extends Component{
             previewVisible: true,
         });
     }
-    handleChangePhoto ({ file }) {
-        console.info('-----------------------')
-        if (file.status === 'done') {
-            console.info('文件上传完成....')
-            let photoUrl  = file.response.url ;
-            let uid = new Date().getTime() +'' ;
-            let obj = {uid: uid, name: 'image.png', status: 'done',
-                url: photoUrl,
-            } ;
-            let newArr = [...this.state.fileList,obj] ;
-            this.setState({fileList:newArr}) ;
-        } else if (file.status === 'error') {
-            message.error(`图片上传失败.`);
-        }
+    handleChangePhoto ({fileList}) {
+        let newFileList = [...fileList];
+        newFileList = newFileList.slice(-6);
+        newFileList = newFileList.map(file => {
+            if (file.response) {
+                file.url = file.response.url;
+            }
+            return file;
+        });
+        this.setState({ fileList:newFileList });
     }
     //表单提交
     handleSubmitForm(){
         let {activityType,startTime,endTime,activityDescribe,fileList} = this.state ;
-        alert(activityType + ', ' +startTime +', ' +  endTime +' , '+ activityDescribe +' , ' + JSON.stringify(fileList))
+        let formFilelist = fileList.map(item =>{
+            let {url} = item ;
+            return url ;
+        });
+        let formData = {
+            activityType,
+            startTime,
+            endTime,
+            activityDescribe,
+            formFilelist
+        } ;
+        console.info(JSON.stringify(formData))
     }
 
     renderPhotoUploadTitle(){
@@ -118,11 +120,14 @@ class ElectronicClassCard extends Component{
         ) ;
     }
 
+    //班级风采图片
     renderPhotoUploadBody(){
         const { previewVisible, previewImage, fileList } = this.state;
         return (
             <div className="y-row clearfix">
                 <Upload {...uploadPhotoProps}
+                        multiple={true}
+                        fileList={fileList}
                         onPreview={this.handlePreview}
                         onChange={this.handleChangePhoto}>
                     {fileList.length >= 6 ? null : uploadButton}
@@ -139,8 +144,11 @@ class ElectronicClassCard extends Component{
         }
     }
     render() {
-        let {startTime,endTime} = this.state ;
-
+        let {startTime,endTime,activityType} = this.state ;
+        let contentPlaceHolder = '请输入通知内容' ;
+        if(activityType === '2'){
+            contentPlaceHolder = '请输入班级风采介绍' ;
+        }
         return(
             <div className="y-form">
                 <div className="y-row">
@@ -171,7 +179,7 @@ class ElectronicClassCard extends Component{
                               name = "activityDescribe"
                               value={this.state.activityDescribe}
                               onChange={this.handleSimpleInputChange}
-                              placeholder={this.state.activityDescribePlaceholder}
+                              placeholder={contentPlaceHolder}
                     />
                 </div>
                 {
