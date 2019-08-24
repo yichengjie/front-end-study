@@ -1,6 +1,7 @@
 import React,{Component,Fragment} from 'react' ;
-import { Input ,Upload, Icon, InputNumber,Button,Modal ,Select } from 'antd';
+import { Input ,Upload, Icon, message,InputNumber,Button,Modal ,Select } from 'antd';
 import moment from 'moment';
+import _ from 'lodash' ;
 const { Option } = Select;
 //import {ajaxWithComplexParams} from "components/common/util";
 const { TextArea } = Input;
@@ -99,10 +100,20 @@ class ElectronicClassCard extends Component{
     //表单提交
     handleSubmitForm(){
         let {activityType,effectiveTime,activityDescribe,fileList} = this.state ;
-        let formFilelist = fileList.map(item =>{
-            let {url} = item ;
-            return url ;
-        });
+        fileList = _.filter(fileList,item => item.url !== undefined);
+        let formFileList = _.map(fileList,item => item.url) ;
+        //班级通知，则通知内容必填
+        if(activityType ==='1'){
+            if(_.trim(activityDescribe) === ''){
+                message.error("通知内容不能为空!")
+                return false;
+            }
+        }else if(activityType === '2'){//班级风采则必须上传图片
+            if(formFileList.length == 0){
+                message.error("图片发布不能为空!")
+                return false;
+            }
+        }
         let curDate = moment() ;
         let startTime = curDate.format(dateFormat) ;
         let endTime = curDate.add(effectiveTime,'days').format(dateFormat) ;
@@ -111,7 +122,7 @@ class ElectronicClassCard extends Component{
             startTime,
             endTime,
             activityDescribe,
-            formFilelist
+            fileList:formFileList
         } ;
         console.info(JSON.stringify(formData))
     }
@@ -149,30 +160,33 @@ class ElectronicClassCard extends Component{
         return(
             <div className="y-form">
                 <div className="y-row">
-                    <Select value={this.state.activityType}
-                            onChange={this.handleChangeActivityType}
-                            style={{ width: "100%" }} >
-                        <Option value="1">班级通知</Option>
-                        <Option value="2">班级风采</Option>
-                    </Select>
+                    <div className="y-label" >消息类型：</div>
+                    <div className="y-input">
+                        <Select value={this.state.activityType}
+                                onChange={this.handleChangeActivityType}
+                                style={{ width: "100%" }} >
+                            <Option value="1">班级通知</Option>
+                            <Option value="2">班级风采</Option>
+                        </Select>
+                    </div>
                 </div>
                 <div className="y-row">
-                   <InputNumber addonBefore="活动有效期"
-                          min={1} max={10}
-                          style={{width:'100%'}}
-                          formatter={value => `${value}天`}
-                          parser={value => value.replace('天', '')}
-                          value={this.state.effectiveTime}
-                          onChange={this.handleEffectiveTimeChange}
-                          placeholder="有效期，单位：天"/>
+                    <div className="y-label" >显示天数：</div>
+                    <div className="y-input">
+                        <InputNumber
+                              min={1} max={1000}
+                              style={{width:'100%'}}
+                              value={this.state.effectiveTime}
+                              onChange={this.handleEffectiveTimeChange}
+                              placeholder="有效期，单位：天"/>
+                    </div>
                 </div>
                 <div className="y-row">
-                    <TextArea rows={8}
-                              name = "activityDescribe"
-                              value={this.state.activityDescribe}
-                              onChange={this.handleSimpleInputChange}
-                              placeholder={contentPlaceHolder}
-                    />
+                     <TextArea rows={8}
+                           name = "activityDescribe"
+                           value={this.state.activityDescribe}
+                           onChange={this.handleSimpleInputChange}
+                           placeholder={contentPlaceHolder}/>
                 </div>
                 {this.state.activityType === '2' ? this.renderPhotoUploadBody() : null}
                 <div className="y-row" style={{marginTop:"30px"}}>
