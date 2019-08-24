@@ -1,9 +1,9 @@
 import React,{Component,Fragment} from 'react' ;
-import { Input ,Upload, Icon, message,InputNumber,Button,Modal ,Select } from 'antd';
+import { Input ,Upload, Icon, message,InputNumber,Button,Modal ,Select,Spin } from 'antd';
 import moment from 'moment';
+import {ajaxWithComplexParams} from "components/common/util";
 import _ from 'lodash' ;
 const { Option } = Select;
-//import {ajaxWithComplexParams} from "components/common/util";
 const { TextArea } = Input;
 const dateFormat = 'YYYY/MM/DD';
 
@@ -35,13 +35,15 @@ class ElectronicClassCard extends Component{
         super(props) ;
         document.title = "活动发布";
         this.state = {
-            activityType: '2',//活动类型
+            activityType: '1',//活动类型
             effectiveTime: 7,
             activityDescribe:'',//活动介绍
             //发布图片部分
             previewVisible: false,
             previewImage: '',
-            fileList: []
+            fileList: [],
+            loading:false,
+            photoUploading:false ,//照片上传中
         };
         this.handleSimpleInputChange = this.handleSimpleInputChange.bind(this) ;
         this.handleCancelPreview = this.handleCancelPreview.bind(this) ;
@@ -67,7 +69,8 @@ class ElectronicClassCard extends Component{
             previewVisible:false,
             previewImage:'',
             fileList:[],
-            activityDescribe:''
+            activityDescribe:'',
+            photoUploading:false
         }) ;
     }
 
@@ -89,13 +92,17 @@ class ElectronicClassCard extends Component{
     handleChangePhoto ({fileList}) {
         let newFileList = [...fileList];
         newFileList = newFileList.slice(-6);
+        let uploadingFlag = false;
         newFileList = newFileList.map(file => {
+            if(file.status ==='uploading'){
+                uploadingFlag = true ;
+            }
             if (file.response) {
                 file.url = file.response.url;
             }
             return file;
         });
-        this.setState({ fileList:newFileList });
+        this.setState({ fileList:newFileList,photoUploading:uploadingFlag });
     }
     //表单提交
     handleSubmitForm(){
@@ -127,7 +134,19 @@ class ElectronicClassCard extends Component{
             activityDescribe,
             fileList:formFileList
         } ;
-        console.info(JSON.stringify(formData))
+        this.setState({loading:true}) ;
+        let url = '/api/yiClassAndStudent/submitElectronicClassCardForm' ;
+        let ajaxing = ajaxWithComplexParams(url,formData) ;
+        ajaxing.then((data) =>{
+            this.setState({loading:false}) ;
+            if(data.flag === 'false'){
+                message.error("提交电子班牌数据报错!") ;
+            }
+        }).catch((error) =>{
+            this.setState({loading:false}) ;
+            message.error("提交电子班牌数据报错!") ;
+        });
+
     }
     //班级风采图片
     renderPhotoUploadBody(){
@@ -161,43 +180,46 @@ class ElectronicClassCard extends Component{
             contentPlaceHolder = '请输入班级风采介绍' ;
         }
         return(
-            <div className="y-form">
-                <div className="y-row">
-                    <div className="y-label" >消息类型：</div>
-                    <div className="y-input">
-                        <Select value={this.state.activityType}
-                                onChange={this.handleChangeActivityType}
-                                style={{ width: "100%" }} >
-                            <Option value="1">班级通知</Option>
-                            <Option value="2">班级风采</Option>
-                        </Select>
+            <Spin spinning={this.state.loading || this.state.photoUploading } delay={1}>
+                <div className="y-form">
+                    <div className="y-row">
+                        <div className="y-label" >消息类型：</div>
+                        <div className="y-input">
+                            <Select value={this.state.activityType}
+                                    onChange={this.handleChangeActivityType}
+                                    style={{ width: "100%" }} >
+                                <Option value="1">班级通知</Option>
+                                <Option value="2">班级风采</Option>
+                            </Select>
+                        </div>
                     </div>
-                </div>
-                <div className="y-row">
-                    <div className="y-label" >显示天数：</div>
-                    <div className="y-input">
-                        <InputNumber
-                              min={1} max={1000}
-                              style={{width:'100%'}}
-                              value={this.state.effectiveTime}
-                              onChange={this.handleEffectiveTimeChange}
-                              placeholder="有效期，单位：天"/>
+                    <div className="y-row">
+                        <div className="y-label" >显示天数：</div>
+                        <div className="y-input">
+                            <InputNumber
+                                min={1} max={1000}
+                                style={{width:'100%'}}
+                                value={this.state.effectiveTime}
+                                onChange={this.handleEffectiveTimeChange}
+                                placeholder="有效期，单位：天"/>
+                        </div>
                     </div>
-                </div>
-                <div className="y-row">
+                    <div className="y-row">
                      <TextArea rows={8}
-                           name = "activityDescribe"
-                           value={this.state.activityDescribe}
-                           onChange={this.handleSimpleInputChange}
-                           placeholder={contentPlaceHolder}/>
+                               name = "activityDescribe"
+                               value={this.state.activityDescribe}
+                               onChange={this.handleSimpleInputChange}
+                               placeholder={contentPlaceHolder}/>
+                    </div>
+                    {this.state.activityType === '2' ? this.renderPhotoUploadBody() : null}
+
+                    <div className="y-row" style={{marginTop:"30px"}}>
+                        <Button type="primary" block size="large" onClick={this.handleSubmitForm}>
+                            发布
+                        </Button>
+                    </div>
                 </div>
-                {this.state.activityType === '2' ? this.renderPhotoUploadBody() : null}
-                <div className="y-row" style={{marginTop:"30px"}}>
-                    <Button type="primary" block size="large" onClick={this.handleSubmitForm}>
-                        发布
-                    </Button>
-                </div>
-            </div>
+            </Spin>
         ) ;
     }
 }
