@@ -99,6 +99,7 @@ class ElectronicClassCard extends Component{
     }
     //表单提交
     handleSubmitForm(){
+        let {teacherNumber,campusNumber} = this.props.match.params;
         let {activityType,effectiveTime,activityDescribe,fileList} = this.state ;
         fileList = _.filter(fileList,item => item.url !== undefined);
         let formFileList = _.map(fileList,item => item.url) ;
@@ -118,6 +119,8 @@ class ElectronicClassCard extends Component{
         let startTime = curDate.format(dateFormat) ;
         let endTime = curDate.add(effectiveTime,'days').format(dateFormat) ;
         let formData = {
+            teacherNumber,
+            campusNumber,
             activityType,
             startTime,
             endTime,
