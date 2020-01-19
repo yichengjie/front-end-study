@@ -117,7 +117,7 @@ class ElectronicClassCard extends Component{
                 return false;
             }
         }else if(activityType === '2'){//班级风采则必须上传图片
-            if(formFileList.length == 0){
+            if(formFileList.length === 0){
                 message.error("图片发布不能为空!")
                 return false;
             }
