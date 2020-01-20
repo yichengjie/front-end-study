@@ -6,12 +6,13 @@ import WingBlankHello from './components/WingBlankHello' ;
 import  DrawerHello from './components/DrawerHello' ;
 import MenuHello from './components/MenuHello' ;
 import NavBarHello from './components/NavBarHello' ;
+import GridHello from './components/GridHello' ;
 
 
 function App() {
     return (
         <div className="App">
-            <NavBarHello />
+            <GridHello />
         </div>
     );
 }
