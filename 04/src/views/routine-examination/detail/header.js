@@ -1,9 +1,9 @@
 import React ,{Component} from 'react' ;
-import { Select,DatePicker,message } from 'antd';
-import moment from 'moment';
 import {ajaxWithoutParams} from "components/common/util";
+//import { Select,DatePicker,message } from 'antd';
+import {Select,DatePicker,Message} from 'element-react' ;
 const { Option } = Select;
-const dateFormat = 'YYYY/MM/DD';
+//const dateFormat = 'YYYY/MM/DD';
 
 class ExaminationHeader extends Component{
     constructor(props){
@@ -11,7 +11,7 @@ class ExaminationHeader extends Component{
         this.state = {
             gradeOrLevelDepartmentType:'grade',
             gradeOrLevelDepartmentValue:'',
-            examinationDate:moment().format(dateFormat),
+            examinationDate:this.convertDataToString(new Date()),
             gradeAndLevelDepartmentCodeBook:{
                 grade:{defaultValue:'',options:[]},
                 levelDepartment:{defaultValue:'',options:[]}
@@ -43,7 +43,7 @@ class ExaminationHeader extends Component{
             }) ;
         })
         .catch(function (error) {
-            message.error("加载年级/级部信息出错!") ;
+            Message.error("加载年级/级部信息出错!") ;
         }) ;
     }
 
@@ -60,7 +60,8 @@ class ExaminationHeader extends Component{
         }) ;
     }
 
-    handleCheckDateChange(value,valueStr){
+    handleCheckDateChange(value){
+        let valueStr = this.convertDataToString(value) ;
         this.setState({'examinationDate':valueStr},()=>{
             this.updateClassListData() ;
         }) ;
@@ -68,6 +69,31 @@ class ExaminationHeader extends Component{
 
     handleHeaderSubmitForm(){
         this.props.handleHeaderSubmitForm(this.state.examinationDate) ;
+    }
+
+    convertStringToData(dateString) {
+        if (dateString !== undefined && dateString !== null && dateString.length > 0) {
+            let date = new Date(dateString.replace(/-/,"/"))
+            return date;
+        }
+        return null ;
+    }
+
+    convertDataToString(date) {
+        if(date === null || date === undefined){
+            return null ;
+        }
+        let year = date.getFullYear();//获取完整的年份(4位,1970-????)
+        let month = date.getMonth() + 1;//获取当前月份(0-11,0代表1月)
+        let day = date.getDate();//获取当前日(1-31)
+        if (month < 10) {
+            month ="0" + month;
+        }
+        if (day < 10) {
+            day ="0" + day;
+        }
+        let dateString = year +"-" + month + "-" + day;
+        return dateString ;
     }
     render() {
         let {gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue,examinationDate} = this.state ;
@@ -81,8 +107,8 @@ class ExaminationHeader extends Component{
                             value={gradeOrLevelDepartmentType}
                             onChange={this.handleGradeOrLevelDepartmentTypeChange}
                             style={{marginRight: "15px"}}>
-                        <Option value="grade">年级</Option>
-                        <Option value="levelDepartment">级部</Option>
+                        <Option value="grade" label="年级" />
+                        <Option value="levelDepartment" label="级部" />
                     </Select>
 
                     <Select className="y-input"
@@ -90,9 +116,7 @@ class ExaminationHeader extends Component{
                             onChange={this.handleGradeOrLevelDepartmentValueChange}
                             style={{marginRight: "15px"}}>
                         {optionList.map((item,index) =>
-                            (<Option key={index} value={item.value}>
-                                {item.label}
-                            </Option>))
+                            (<Option key={index} value={item.value} label={item.label} />))
                         }
                     </Select>
                 </div>
@@ -102,8 +126,7 @@ class ExaminationHeader extends Component{
                         检查日期&nbsp;:
                     </div>
                     <DatePicker
-                        value={examinationDate === '' ? null : moment(examinationDate, dateFormat)}
-                        format={dateFormat}
+                        value={this.convertStringToData(examinationDate)}
                         onChange={this.handleCheckDateChange}
                     />
                     <button type="button"

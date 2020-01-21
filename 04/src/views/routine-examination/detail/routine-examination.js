@@ -1,10 +1,11 @@
 import React,{Component} from 'react' ;
 import ExaminationHeader from './header' ;
 import ExaminationBody from './body' ;
-import {Drawer, Input, Modal, Checkbox, message, Upload} from "antd";
 import { ajaxWithSimpleParams,ajaxWithComplexParams } from "components/common/util";
 import _ from 'lodash' ;
-const { TextArea } = Input;
+//import { Input,  Checkbox, Modal, message, Upload, Drawer} from "antd";
+//const { TextArea } = Input;
+import {Input,Checkbox,Dialog ,Button, Message ,Upload} from 'element-react' ;
 
 let uploadPhotoProps = {
     name: 'file',
@@ -88,7 +89,7 @@ class RoutineExamination extends Component{
         ajaxing.then((json) =>{
             this.setState({bodyLoading:false}) ;
         }).catch(function (err) {
-            message.error('保存信息出错!') ;
+            Message.error('保存信息出错!') ;
         })
     }
 
@@ -126,7 +127,7 @@ class RoutineExamination extends Component{
         ajaxing.then((data) =>{
             this.setState({bodyLoading:false,classList:data}) ;
         }).catch(function (error) {
-            message.error("加载年级/级部信息出错!") ;
+            Message.error("加载年级/级部信息出错!") ;
         }) ;
     }
 
@@ -176,7 +177,7 @@ class RoutineExamination extends Component{
                 curQuotaList:curQuotaList
             }) ;
         }else{
-            message.error("【"+ title +"】对应的指标基础数据不存在!")
+            Message.error("【"+ title +"】对应的指标基础数据不存在!")
         }
     }
 
@@ -284,44 +285,28 @@ class UnqualifiedSelectDialog extends Component{
             this.props.handleBodyChangePhotoUrl(photoUrl) ;
             console.info('photoUrl: ' ,photoUrl)
         } else if (info.file.status === 'error') {
-            message.error(`图片上传失败.`);
+            Message.error(`图片上传失败.`);
         }
     }
 
     render() {
         let {unqualifiedVisible,hideUnqualifiedSelectDialog,showQuotaDialog} = this.props ;
         return (
-            <Drawer
-                className="y-unqualified-dialog"
-                height="125"
-                closable={false}
-                placement="bottom"
-                onClose={hideUnqualifiedSelectDialog}
-                visible={unqualifiedVisible}
-            >
-                <div className="y-unqualified-container">
-                    <div className="y-unqualified-item"
-                         onClick={showQuotaDialog}
-                    >指标</div>
-                    <Upload  className="y-unqualified-item"
-                             {...uploadPhotoProps}
-                             showUploadList = {false}
-                            onChange={this.handlePhotoChange}
-                        >
-                        <div className="y-photo">拍照</div>
-                    </Upload>
-                    {/*<div className="y-unqualified-item" onClick={this.handlePhotoClick}>*/}
-                        {/*拍照*/}
-                        {/*<input ref={this.myPhotoRef} type="file"*/}
-                               {/*style={{display: "none"}}*/}
-                               {/*onChange={this.handlePhotoChange}*/}
-                        {/*/>*/}
-                    {/*</div>*/}
-                    <div className="y-unqualified-item"
-                         onClick={hideUnqualifiedSelectDialog}
-                    >取消</div>
-                </div>
-            </Drawer>
+            <div className="y-unqualified-container">
+                <div className="y-unqualified-item"
+                     onClick={showQuotaDialog}
+                >指标</div>
+                <Upload  className="y-unqualified-item"
+                         {...uploadPhotoProps}
+                         showUploadList = {false}
+                        onChange={this.handlePhotoChange}
+                    >
+                    <div className="y-photo">拍照</div>
+                </Upload>
+                <div className="y-unqualified-item"
+                     onClick={hideUnqualifiedSelectDialog}
+                >取消</div>
+            </div>
         ) ;
     }
 }
@@ -344,19 +329,24 @@ class MarkContentDialog extends Component{
     render() {
         let {markingVisible,markingContent,okMarkingDialog,hideMarkingDialog} = this.props ;
         return (
-            <Modal
+            <Dialog
                 title="自定义原因"
-                visible={markingVisible}
-                onOk={okMarkingDialog}
-                onCancel={hideMarkingDialog}
-                okText="确认"
-                cancelText="取消"
+                size="tiny"
+                visible={ markingVisible }
+                onCancel={ hideMarkingDialog }
+                lockScroll={ false }
             >
-                <TextArea rows={4}
-                    value={markingContent}
-                    onChange={this.handleMarkingContentInput}
-                />
-            </Modal>
+                <Dialog.Body>
+                    <Input type="textarea" rows={4}
+                           value={markingContent}
+                           onChange={this.handleMarkingContentInput}
+                    />
+                </Dialog.Body>
+                <Dialog.Footer className="dialog-footer">
+                    <Button onClick={ hideMarkingDialog}>取消</Button>
+                    <Button type="primary" onClick={ okMarkingDialog }>确定</Button>
+                </Dialog.Footer>
+            </Dialog>
         );
     }
 }
@@ -388,29 +378,32 @@ class QuotaDialog extends Component{
     render() {
         let {quotaVisible,okQuotaDialog,hideQuotaDialog,curQuotaList,quotaOptions} = this.props ;
         return (
-            <Modal
-                className="y-quota-dialog"
+            <Dialog
                 title="请选择"
-                visible={quotaVisible}
-                onOk={okQuotaDialog}
-                onCancel={hideQuotaDialog}
-                okText="确认"
-                cancelText="取消"
+                size="tiny"
+                visible={ quotaVisible }
+                onCancel={ hideQuotaDialog }
+                lockScroll={ false }
             >
-                {
-                    quotaOptions.map((item,index) =>{
-                        return (
-                            <Checkbox key ={index}
-                                className="y-quota-item"
-                                value={item.id +''}
-                                checked={this.containsItem(curQuotaList,item.id)}
-                                onChange={this.handleChangeQuotaStatus}>
-                                {item.title}
-                            </Checkbox>
-                        ) ;
-                    })
-                }
-            </Modal>
+                <Dialog.Body>
+                    {
+                        quotaOptions.map((item,index) =>{
+                            return (
+                                <Checkbox key ={index}
+                                  className="y-quota-item"
+                                  value={item.id +''}
+                                  checked={this.containsItem(curQuotaList,item.id)}
+                                  onChange={this.handleChangeQuotaStatus}
+                                  label={item.title}/>
+                            ) ;
+                        })
+                    }
+                </Dialog.Body>
+                <Dialog.Footer className="dialog-footer">
+                    <Button onClick={ hideQuotaDialog}>取消</Button>
+                    <Button type="primary" onClick={ okQuotaDialog }>确定</Button>
+                </Dialog.Footer>
+            </Dialog>
         );
     }
 }
