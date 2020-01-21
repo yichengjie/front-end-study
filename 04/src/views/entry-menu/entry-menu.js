@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import { Link } from "react-router-dom";
 import './index.scss' ;
-
+import 'antd/es/avatar/style/css' ;
 class EntryMenu extends Component{
     constructor(props){
         super(props) ;

@@ -1,8 +1,11 @@
 import React,{Component} from 'react' ;
-import { Select,DatePicker } from 'antd';
+//import { Select,DatePicker } from 'antd';
+import {Select, DatePicker} from 'element-react' ;
 import moment from 'moment';
 const { Option } = Select;
-const dateFormat = 'YYYY/MM/DD';
+//const dateFormat = 'YYYY/MM/DD';
+
+
 
 class EvaluationHeader  extends Component{
 
@@ -17,7 +20,8 @@ class EvaluationHeader  extends Component{
         this.handleChangeEvaluationClassType = this.handleChangeEvaluationClassType.bind(this) ;
     }
 
-    handleChangeEvaluationDate(value,valueStr){
+    handleChangeEvaluationDate(value){
+        let valueStr = this.convertDataToString(value)
         this.props.handleHeaderChangeInput('evaluationDate',valueStr) ;
     }
 
@@ -40,6 +44,32 @@ class EvaluationHeader  extends Component{
         this.setState({classList:classList}) ;
         this.props.handleHeaderChangeClassType(value,defaultClassValue) ;
     }
+
+    convertStringToData(dateString) {
+        if (dateString !== undefined && dateString !== null && dateString.length > 0) {
+            let date = new Date(dateString.replace(/-/,"/"))
+            return date;
+        }
+        return null ;
+    }
+
+    convertDataToString(date) {
+        if(date === null || date === undefined){
+            return null ;
+        }
+        let year = date.getFullYear();//获取完整的年份(4位,1970-????)
+        let month = date.getMonth() + 1;//获取当前月份(0-11,0代表1月)
+        let day = date.getDate();//获取当前日(1-31)
+        if (month < 10) {
+            month ="0" + month;
+        }
+        if (day < 10) {
+            day ="0" + day;
+        }
+        let dateString = year +"-" + month + "-" + day;
+        return dateString ;
+    }
+
     render() {
 
         return (
@@ -50,10 +80,7 @@ class EvaluationHeader  extends Component{
                     </div>
                     <DatePicker
                         className="y-input"
-                        value={this.props.evaluationDate === ''
-                                ? null
-                                : moment(this.props.evaluationDate, dateFormat)}
-                        format={dateFormat}
+                        value={this.convertStringToData(this.props.evaluationDate)}
                         onChange={this.handleChangeEvaluationDate}/>
                 </div>
 
@@ -64,8 +91,8 @@ class EvaluationHeader  extends Component{
                     <Select className="y-input"
                             value={this.props.evaluationClassType}
                             onChange={this.handleChangeEvaluationClassType}>
-                        <Option value="1">行政班级</Option>
-                        <Option value="2">教学班级</Option>
+                        <Option key="1" label="行政班级" value="1" />
+                        <Option key="2" label="教学班级" value="2" />
                     </Select>
                 </div>
 
@@ -78,7 +105,7 @@ class EvaluationHeader  extends Component{
                         onChange={this.handleChangeEvaluationClass}>
                         {
                             this.state.classList.map((item,index) =>{
-                               return(<Option key ={index} value={item.gradeId + ',' + item.classId }>{item.name}</Option>)
+                               return(<Option key ={index} label={item.name} value={item.gradeId + ',' + item.classId } />)
                             })
                         }
                     </Select>
