@@ -1,7 +1,7 @@
 import React,{Component} from 'react' ;
 import { Link } from "react-router-dom";
 import {ajaxWithoutParams} from "components/common/util";
-import {message, Spin} from 'antd' ;
+import { Toast } from 'antd-mobile';
 
 class RoutineExaminationList extends Component{
     constructor(props){
@@ -10,7 +10,6 @@ class RoutineExaminationList extends Component{
         this.state ={
             classTypeList:[],
             quotaMap:{},
-            loading:false
         };
     }
     componentDidMount() {
@@ -18,12 +17,13 @@ class RoutineExaminationList extends Component{
         ///api/classAndStudent/getClassCheck/130052/2
         let url = `/api/yiClassAndStudent/initRoutineExaminationMenuPage` ;
         let ajaxing = ajaxWithoutParams(url) ;
-        this.setState({loading:true}) ;
         ajaxing.then((data) => {
+            Toast.hide();
             let {menuList,quotaMap} = data ;
-            this.setState({classTypeList:menuList,quotaMap:quotaMap,loading:false}) ;
+            this.setState({classTypeList:menuList,quotaMap:quotaMap}) ;
         }).catch(function (err) {
-            message.error("获取常规检查菜单出错!")
+            Toast.hide();
+            Toast.fail("获取常规检查菜单出错!", 1);
         }) ;
     }
 
@@ -100,9 +100,7 @@ class RoutineExaminationList extends Component{
                <div key={index} className="y-class-type-container">
                    <div className="y-sub-title">{item.title}</div>
                    <div className="y-sub-body">
-                       <Spin spinning={this.state.loading} delay={1}>
-                            {this.renderItemType(item.classType,item.children)}
-                       </Spin>
+                       {this.renderItemType(item.classType,item.children)}
                    </div>
                </div>
            ) ;

@@ -1,12 +1,19 @@
 import qs from 'qs' ;
+import {Toast} from "antd-mobile";
+
+function loading() {
+    Toast.loading('数据加载中...');
+}
 
 export async function ajaxWithoutParams (url) {
+    loading() ;
     let response = await fetch(url);
     let data = await response.json();
     return data;
 }
 
 export async function ajaxWithSimpleParams(url,params) {
+    loading() ;
     let response = await fetch(url,{
         method: 'POST',
         headers: {
@@ -18,6 +25,7 @@ export async function ajaxWithSimpleParams(url,params) {
     return data;
 }
 export async function ajaxWithComplexParams(url,params) {
+    loading() ;
     let response = await fetch(url,{
         method: 'POST',
         headers: {
@@ -30,6 +38,7 @@ export async function ajaxWithComplexParams(url,params) {
 }
 
 export async function  ajaxFileUpload(url,params) {
+    loading() ;
     let response = await fetch(url,{
         method: 'post',
         body: params,
