@@ -1,7 +1,8 @@
 import React,{Component} from 'react' ;
 import { Link } from "react-router-dom";
 import {ajaxWithoutParams} from "components/common/util";
-import {message,Spin} from 'antd'
+//import {message,Spin} from 'antd'
+import { Message ,Loading } from 'element-react';
 import _ from 'lodash' ;
 
 class QualityEvaluationList extends Component{
@@ -27,7 +28,10 @@ class QualityEvaluationList extends Component{
             this.setState({menuList,quotaList,classList1,classList2,loading: false}) ;
         }).catch( (error) => {
             this.setState({loading:false}) ;
-            message.error('加载综合素质评价菜单出错!') ;
+            Message({
+                message: '加载综合素质评价菜单出错!',
+                type: 'error'
+            });
         }) ;
     }
     renderItemType(classType,itemList){
@@ -100,9 +104,9 @@ class QualityEvaluationList extends Component{
                 <div key={index} className="y-class-type-container">
                     <div className="y-sub-title">{item.title}</div>
                     <div className="y-sub-body">
-                        <Spin spinning={this.state.loading} delay={1}>
+                        <Loading text="拼命加载中" loading={this.state.loading}>
                             {this.renderItemType(item.classType,item.children)}
-                        </Spin>
+                        </Loading>
                     </div>
                 </div>
             ) ;
