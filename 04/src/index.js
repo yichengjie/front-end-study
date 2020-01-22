@@ -11,7 +11,7 @@ import QualityEvaluationDetail from './views/quality-evaluation/detail/quality-e
 import RoutineExaminationDetail from './views/routine-examination/detail/routine-examination' ;
 /////////////
 import './index.scss';
-import 'bootstrap/dist/css/bootstrap.css' ;
+//import 'bootstrap/dist/css/bootstrap.css' ;
 import 'element-theme-default';
 
 
