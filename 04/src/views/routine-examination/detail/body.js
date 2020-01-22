@@ -44,7 +44,7 @@ class ExaminationBody extends Component{
         let {bodyLoading} = this.props ;
         return (
             <Loading loading={bodyLoading} >
-                <table className="table">
+                <table className="table table-bordered table-striped">
                     <thead>
                         {this.renderTableHeader()}
                     </thead>

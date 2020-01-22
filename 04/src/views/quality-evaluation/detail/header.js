@@ -78,8 +78,7 @@ class EvaluationHeader  extends Component{
                     <div className="y-label">
                         评价日期&nbsp;:
                     </div>
-                    <DatePicker
-                        className="y-input"
+                    <DatePicker className="y-input"
                         value={this.convertStringToData(this.props.evaluationDate)}
                         onChange={this.handleChangeEvaluationDate}/>
                 </div>
@@ -88,7 +87,7 @@ class EvaluationHeader  extends Component{
                     <div className="y-label">
                         班级类型&nbsp;:
                     </div>
-                    <Select className="y-input"
+                    <Select className="y-input" size="small"
                             value={this.props.evaluationClassType}
                             onChange={this.handleChangeEvaluationClassType}>
                         <Option key="1" label="行政班级" value="1" />
@@ -100,7 +99,7 @@ class EvaluationHeader  extends Component{
                     <div className="y-label">
                         评价班级&nbsp;:
                     </div>
-                    <Select className="y-input"
+                    <Select className="y-input" size="small"
                         value={this.props.evaluationGradeAndClass}
                         onChange={this.handleChangeEvaluationClass}>
                         {

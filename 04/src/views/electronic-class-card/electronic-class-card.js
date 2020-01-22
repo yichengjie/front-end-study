@@ -235,7 +235,10 @@ class ElectronicClassCard extends Component{
                     </div>
                     {this.state.activityType === '2' ? this.renderPhotoUploadBody() : null}
                     <div className="y-row" style={{marginTop:"30px"}}>
-                        <Button type="primary" block size="large" onClick={this.handleSubmitForm}>
+                        <Button type="primary"
+                                onClick={this.handleSubmitForm}
+                                style={{width:"100%"}}
+                            >
                             发布
                         </Button>
                     </div>

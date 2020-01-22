@@ -1,7 +1,7 @@
 import React ,{Component} from 'react' ;
 import {ajaxWithoutParams} from "components/common/util";
 //import { Select,DatePicker,message } from 'antd';
-import {Select,DatePicker,Message} from 'element-react' ;
+import {Select,DatePicker,Message,Button} from 'element-react' ;
 const { Option } = Select;
 //const dateFormat = 'YYYY/MM/DD';
 
@@ -103,7 +103,7 @@ class ExaminationHeader extends Component{
             <div className="y-form">
 
                 <div className="y-row" >
-                    <Select className="y-input"
+                    <Select className="y-input" size="small"
                             value={gradeOrLevelDepartmentType}
                             onChange={this.handleGradeOrLevelDepartmentTypeChange}
                             style={{marginRight: "15px"}}>
@@ -111,7 +111,7 @@ class ExaminationHeader extends Component{
                         <Option value="levelDepartment" label="级部" />
                     </Select>
 
-                    <Select className="y-input"
+                    <Select className="y-input" size="small"
                             value={gradeOrLevelDepartmentValue}
                             onChange={this.handleGradeOrLevelDepartmentValueChange}
                             style={{marginRight: "15px"}}>
@@ -125,17 +125,16 @@ class ExaminationHeader extends Component{
                     <div className="y-label">
                         检查日期&nbsp;:
                     </div>
-                    <DatePicker
+                    <DatePicker size="small"
                         value={this.convertStringToData(examinationDate)}
                         onChange={this.handleCheckDateChange}
                     />
-                    <button type="button"
+                    <Button type="success" size="small"
                             style={{marginLeft: "5px"}}
                             className="btn btn-success"
                             onClick={this.handleHeaderSubmitForm}
-                    >上报</button>
+                    >上报</Button>
                 </div>
-
             </div>
         ) ;
     }

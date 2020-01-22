@@ -1,6 +1,6 @@
 import React,{Component} from 'react' ;
 //import { Spin } from 'antd';
-import {Loading} from 'element-react' ;
+import {Loading,Button} from 'element-react' ;
 import _ from 'lodash' ;
 
 class EvaluationBody  extends Component{
@@ -41,13 +41,12 @@ class EvaluationBody  extends Component{
                     {this.renderTableHeader()}
                     </thead>
                     <tbody>
-                    {this.renderTableBody()}
+                        {this.renderTableBody()}
                     </tbody>
                 </table>
-                <button type="button"
-                        className="btn btn-success btn-block"
+                <Button type="success" style={{width:"100%"}}
                         onClick={this.props.handleBodySubmitFormData}
-                >提交</button>
+                >提交</Button>
             </Loading>
         ) ;
     }
