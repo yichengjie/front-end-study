@@ -3,7 +3,7 @@
         <el-form ref="form"  label-width="80px">
             <el-form-item label="评价日期">
                 <el-date-picker type="date" format="yyyy-MM-dd"  placeholder="选择日期" size="small"
-                    v-model="evaluationDate" style="width: 70%;" />
+                    v-model="evaluationDate" style="width: 70%;" v-on:change="handleEvaluationDateChange" />
             </el-form-item>
 
             <el-form-item label="班级类型">
@@ -72,6 +72,11 @@
             }
         },
         methods: {
+            handleEvaluationDateChange(){
+                this.evaluationGradeAndClass1 = '' ;
+                this.evaluationGradeAndClass2 = '' ;
+                this.tableData = [] ;
+            },
             handleEvaluationClassTypeChange() {
                 this.evaluationGradeAndClass1 = '' ;
                 this.evaluationGradeAndClass2 = '' ;
@@ -104,7 +109,6 @@
                 let ajaxing = ajaxWithComplexParams(url,params) ;
                 ajaxing.then( (data) => {
                     this.tableData = data ;
-                    console.info(data)
                 }).catch(function (error) {
                     console.error(error) ;
                     // Message({
@@ -112,7 +116,6 @@
                     //     type: 'error'
                     // });
                 }) ;
-
             },
             handleSubmitBtnClick(){
                 let { itemType,campusNumber,teacherNumber } = this.$route.params ;
@@ -152,7 +155,6 @@
                     //     type: 'error'
                     // });
                 })
-
             }
         },
         mounted:function () {
@@ -160,13 +162,22 @@
             this.classList1 = classList1 ;
             this.classList2 = classList2 ;
             this.quotaOptions = quotaOptions ;
-            console.info(this.quotaOptions)
-        },
-        computed:{
-            aDouble: function () {
-
-            }
+            let defaultValue1 = getEvaluationClassValue(classList1 && classList1[0]) ;
+            let defaultValue2 = getEvaluationClassValue(classList2 && classList2[0]) ;
+            this.evaluationGradeAndClass1 = defaultValue1 ;
+            this.evaluationGradeAndClass2 = defaultValue2 ;
+            //首次进入时查询数据
+            this.handleEvaluationGradeAndClassChange() ;
         }
+
+
+    }
+
+    function getEvaluationClassValue(item) {
+        if(item === null || item === undefined || item === '' ){
+            return "" ;
+        }
+        return  item.gradeId +',' + item.classId ;
     }
 </script>
 

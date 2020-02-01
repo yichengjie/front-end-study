@@ -46,12 +46,12 @@
             let ajaxing = ajaxWithoutParams(url) ;
             ajaxing.then((data) =>{
                 let {menuList,quotaList,classList1,classList2} = data ;
-                console.info('menuList : ', menuList)
+                //console.info('menuList : ', menuList)
                 this.menuList = menuList ;
                 this.quotaList = quotaList ;
                 this.classList1 = classList1 ;
                 this.classList2 = classList2 ;
-                window.console.info('menuList : ' , menuList)
+               // window.console.info('menuList : ' , menuList)
             }).catch( (error) => {
                 window.console.error(error)
                 // Message({

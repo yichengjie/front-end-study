@@ -7,6 +7,7 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "babel-plugin-component": "^1.1.1",
     "core-js": "^3.4.4",
     "element-ui": "^2.13.0",
     "lodash": "^4.17.15",
