@@ -51,14 +51,20 @@
                         <input type="radio" :name ="'name' + index" value ="3"
                                v-model="item.score" @click="handleClickRadioItem(item)"/>
                     </td>
-                    <td>备注</td>
+                    <td><span  @click="remarksDialogVisible = true">备注</span></td>
                 </tr>
             </tbody>
         </table>
 
-        <el-dialog title="提示"  :visible.sync="remarksDialogVisible"
-                   width="30%" center>
-            <span>需要注意的是内容是默认不居中的</span>
+        <el-dialog title="自定义原因"  class="test" :visible.sync="remarksDialogVisible"
+                   width="90%" >
+            <span >
+                <el-input
+                        type="textarea"
+                        :rows="2"
+                        placeholder="请输入内容">
+                </el-input>
+            </span>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="remarksDialogVisible = false">取 消</el-button>
                 <el-button type="primary" @click="remarksDialogVisible = false">确 定</el-button>
@@ -195,7 +201,7 @@
     }
 </script>
 
-<style scoped>
+<style scoped lang="less">
     .el-form-item{
         margin-bottom: 5px;
     }
