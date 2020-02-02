@@ -12,6 +12,10 @@
   color: #2c3e50;
   font-size: 14px;
 }
+.el-dialog__body{
+  padding: 5px 15px;
+}
+
 
 table{
   background-color: transparent;

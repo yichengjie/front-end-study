@@ -26,7 +26,7 @@
                 <th width="50" align="center" style="text-align:center">
                     <el-tag type="success" effect="dark" size="small">合格</el-tag>
                 </th>
-                <th>
+                <th style="text-align: left;">
                     <el-tag type="danger" effect="dark" size="small">不合格</el-tag>
                 </th>
                 <th width="80"></th>
@@ -47,11 +47,11 @@
                         <input type="radio" :name ="'name' + index" value ="2"
                                v-model="item.score" @click="handleClickRadioItem(item)"/>
                     </td>
-                    <td>
+                    <td style="text-align: left;padding-left: 15px">
                         <input type="radio" :name ="'name' + index" value ="3"
                                v-model="item.score" @click="handleClickRadioItem(item)"/>
                     </td>
-                    <td><span  @click="remarksDialogVisible = true">备注</span></td>
+                    <td><span class="text-info"  @click="handleOpenRemarksDialog(index)">{{item.orgData.markingContent==='' ? "备注": item.orgData.markingContent}}</span></td>
                 </tr>
             </tbody>
         </table>
@@ -59,15 +59,11 @@
         <el-dialog title="自定义原因"  class="test" :visible.sync="remarksDialogVisible"
                    width="90%" >
             <span >
-                <el-input
-                        type="textarea"
-                        :rows="2"
-                        placeholder="请输入内容">
-                </el-input>
+                <el-input type="textarea" :rows="2" placeholder="请输入内容"  v-model="remarksItemContent"/>
             </span>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="remarksDialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="remarksDialogVisible = false">确 定</el-button>
+                <el-button @click="remarksDialogVisible = false" size="small">取 消</el-button>
+                <el-button type="primary" @click="handleRemarksConfirm" size="small">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -78,6 +74,7 @@
     import _ from 'lodash' ;
     function dealTableData4Resp(respData) {
         return _.map(respData,item=>{
+            //console.info(item)
             let checked = item.examinationFlag == '1' ;
             let label = item.examinationClassLabel.replace(/高\d{4}级/,'') ;
             label = label.replace("（","") ;
@@ -96,7 +93,7 @@
                 value: [],
                 examinationDate: new Date(),
                 gradeOrLevelDepartmentType:'grade',
-                gradeOrLevelDepartmentValue:["grade","2017"],
+                gradeOrLevelDepartmentValue:[],
                 options: [{
                     label:'年级',
                     value: 'grade',
@@ -106,6 +103,8 @@
                 }],
                 tableData:[],
                 remarksDialogVisible: false,//备注对话框显示隐藏
+                remarksItemIndex:-1,
+                remarksItemContent: ''
             }
         },
         mounted() {
@@ -118,7 +117,6 @@
                 let levelDepartmentDefaultValue = levelDepartment.defaultValue ;
                 let defaultValueMap = {grade:gradeDefaultValue,levelDepartment:levelDepartmentDefaultValue} ;
                 let defaultValue = defaultValueMap[this.gradeOrLevelDepartmentType] ;
-
                 this.gradeOrLevelDepartmentValue = [gradeDefaultValue,levelDepartmentDefaultValue] ;
                 let gradeOptionObj = {
                     label:'年级',
@@ -174,6 +172,16 @@
             handleClickRadioItem(item){//点击合格/优秀/不合格时处理函数
                item.checked = true ;
             },
+            handleOpenRemarksDialog(index){//打开添加备注对话框
+                this.remarksDialogVisible = true ;
+                this.remarksItemIndex = index ;
+                this.remarksItemContent = this.tableData[this.remarksItemIndex].orgData.markingContent || '' ;
+            },
+            handleRemarksConfirm(){//添加备注确认被点击
+                this.remarksDialogVisible = false ;
+                //将remark的值保存起来
+                this.tableData[this.remarksItemIndex].orgData.markingContent = this.remarksItemContent ;
+            },
             handleSubmitBtnClick(){
                 let {teacherNumber,campusNumber,itemType} = this.$route.params;
                 let selectedList = _.filter(this.tableData, o => o.checked);
@@ -217,5 +225,8 @@
     .table > tbody > tr > td{
         padding: 4px;
         text-align: center;
+    }
+    .text-info {
+        color: #31708f;
     }
 </style>
