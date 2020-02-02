@@ -45,13 +45,15 @@
             handleMenuClick:function (item) {
                 let {teacherNumber,campusNumber,} = this.$route.params;
                 let itemType = item.itemType ;
+                let quotaOptions = this.quotaMap[itemType] ;
                 console.info(item)
                 this.$router.push({
                     name:'routineExaminationDetail',
                     params:{
                         teacherNumber:teacherNumber,
                         campusNumber:campusNumber,
-                        itemType:itemType
+                        itemType:itemType,
+                        quotaOptions:quotaOptions
                     }
                 }) ;
             }

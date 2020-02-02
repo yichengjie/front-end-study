@@ -75,11 +75,25 @@
         <el-drawer title="我是标题" direction="btt" :with-header="false" size="122px"
                 :visible.sync="unqualifiedDialogVisible">
             <div class="y-unqualified-container">
-                <div class="y-unqualified-item">指标</div>
+                <div class="y-unqualified-item" v-on:click="handleOpenQuotaDialog">指标</div>
                 <div class="y-unqualified-item border">拍照</div>
                 <div class="y-unqualified-item">取消</div>
             </div>
         </el-drawer>
+
+        <el-dialog title="请选择" :visible.sync="quotaDialogVisible"
+                   width="90%" >
+            <div class="quota-container">
+                <div class="quota-item" v-for="(op, opIndex) in quotaOptions">
+                    <input :id ="'opIndex'+opIndex" type="checkbox" :value="op.id" v-model='quotaItemArr' />
+                    <label :for="'opIndex'+opIndex">{{op.title}}</label>
+                </div>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="quotaDialogVisible = false" size="small">取 消</el-button>
+                <el-button type="primary" @click="handleQuotaConfirm" size="small">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -116,6 +130,7 @@
                     value:'levelDepartment',
                 }],
                 tableData:[],
+                quotaOptions: [],//不合格指标选项
                 operItemIndex: -1, //当前特殊操作数据index
                 //1.备注相关
                 remarksDialogVisible: false,//备注对话框显示隐藏
@@ -125,10 +140,16 @@
                 unqualifiedDialogVisible:false,
                 //2.2 不合格指标
                 quotaDialogVisible: false,
+                quotaItemArr:[],//当前选中指标集合
             }
         },
         mounted() {
-            let {teacherNumber,campusNumber} = this.$route.params ;
+            let {teacherNumber,campusNumber,quotaOptions} = this.$route.params ;
+            this.quotaOptions = _.map(quotaOptions,item =>{
+                item.id = item.id +'' ;
+                return item ;
+            }) ;
+            console.info('quotaOptions : ' ,quotaOptions)
             let url = `/api/yiClassAndStudent/getGradeAndSubordinateDepartment/${teacherNumber}/${campusNumber}` ;
             let ajax = ajaxWithoutParams(url) ;
             ajax.then((data) =>{
@@ -199,12 +220,24 @@
             },
             handleOpenUnqualifiedDialog(index){//打开不合格类型对话框
                 this.unqualifiedDialogVisible = true ;
-
+                this.operItemIndex = index ;
             },
-            handleRemarksConfirm(){//添加备注确认被点击
+            handleOpenQuotaDialog(){//打开不合格指标对话框
+                this.unqualifiedDialogVisible = false ;
+                this.quotaDialogVisible = true ;
+                let oldQuotaList = this.tableData[this.operItemIndex].orgData.quotaList ;
+                //console.info('oldQuotaList : ' ,oldQuotaList)
+                this.quotaItemArr = oldQuotaList ;
+            },
+            handleRemarksConfirm(){//点击添加备注确认按钮
                 this.remarksDialogVisible = false ;
                 //将remark的值保存起来
                 this.tableData[this.operItemIndex].orgData.markingContent = this.remarksItemContent ;
+            },
+            handleQuotaConfirm(){//点击不合格指标确认按钮
+                this.quotaDialogVisible = false ;
+                let copyArr = _.map(this.quotaItemArr,item => item);
+                this.tableData[this.operItemIndex].orgData.quotaList = copyArr ;
             },
             handleSubmitBtnClick(){
                 let {teacherNumber,campusNumber,itemType} = this.$route.params;
@@ -227,7 +260,7 @@
                 }).catch(function (err) {
                     console.error(err) ;
                     //Message.error('保存信息出错!') ;
-                })
+                }) ;
             }
         }
     }
@@ -263,6 +296,13 @@
         .border{
             border-top: 1px solid #eee;
             border-bottom: 1px solid #eee;
+        }
+    }
+    .quota-container{
+        padding: 0 20px;
+        .quota-item{
+            height: 40px;
+            line-height: 40px;
         }
     }
 </style>
