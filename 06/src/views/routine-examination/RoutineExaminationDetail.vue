@@ -50,8 +50,13 @@
                     <td style="text-align: left;padding-left: 15px">
                         <input type="radio" :name ="'name' + index" value ="3"
                                v-model="item.score" @click="handleClickRadioItem(item)"/>
+                        <span class="text-info" v-if="item.score === '3'" v-on:click="handleOpenUnqualifiedDialog(index)">请选择</span>
                     </td>
-                    <td><span class="text-info"  @click="handleOpenRemarksDialog(index)">{{item.orgData.markingContent==='' ? "备注": item.orgData.markingContent}}</span></td>
+                    <td>
+                        <span class="text-info"  @click="handleOpenRemarksDialog(index)">
+                          {{item.orgData.markingContent==='' ? "备注": item.orgData.markingContent}}
+                        </span>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -66,6 +71,15 @@
                 <el-button type="primary" @click="handleRemarksConfirm" size="small">确 定</el-button>
             </span>
         </el-dialog>
+
+        <el-drawer title="我是标题" direction="btt" :with-header="false" size="122px"
+                :visible.sync="unqualifiedDialogVisible">
+            <div class="y-unqualified-container">
+                <div class="y-unqualified-item">指标</div>
+                <div class="y-unqualified-item border">拍照</div>
+                <div class="y-unqualified-item">取消</div>
+            </div>
+        </el-drawer>
     </div>
 </template>
 
@@ -75,7 +89,7 @@
     function dealTableData4Resp(respData) {
         return _.map(respData,item=>{
             //console.info(item)
-            let checked = item.examinationFlag == '1' ;
+            let checked = item.examinationFlag === '1' ;
             let label = item.examinationClassLabel.replace(/高\d{4}级/,'') ;
             label = label.replace("（","") ;
             label = label.replace("）","") ;
@@ -102,9 +116,15 @@
                     value:'levelDepartment',
                 }],
                 tableData:[],
+                operItemIndex: -1, //当前特殊操作数据index
+                //1.备注相关
                 remarksDialogVisible: false,//备注对话框显示隐藏
-                remarksItemIndex:-1,
-                remarksItemContent: ''
+                remarksItemContent: '',
+                //2.不合格相关
+                //2.1 不合格类型选择
+                unqualifiedDialogVisible:false,
+                //2.2 不合格指标
+                quotaDialogVisible: false,
             }
         },
         mounted() {
@@ -174,13 +194,17 @@
             },
             handleOpenRemarksDialog(index){//打开添加备注对话框
                 this.remarksDialogVisible = true ;
-                this.remarksItemIndex = index ;
-                this.remarksItemContent = this.tableData[this.remarksItemIndex].orgData.markingContent || '' ;
+                this.operItemIndex = index ;
+                this.remarksItemContent = this.tableData[this.operItemIndex].orgData.markingContent || '' ;
+            },
+            handleOpenUnqualifiedDialog(index){//打开不合格类型对话框
+                this.unqualifiedDialogVisible = true ;
+
             },
             handleRemarksConfirm(){//添加备注确认被点击
                 this.remarksDialogVisible = false ;
                 //将remark的值保存起来
-                this.tableData[this.remarksItemIndex].orgData.markingContent = this.remarksItemContent ;
+                this.tableData[this.operItemIndex].orgData.markingContent = this.remarksItemContent ;
             },
             handleSubmitBtnClick(){
                 let {teacherNumber,campusNumber,itemType} = this.$route.params;
@@ -228,5 +252,17 @@
     }
     .text-info {
         color: #31708f;
+    }
+    .y-unqualified-container{
+        .y-unqualified-item{
+            height: 40px;
+            line-height: 40px;
+            padding: 0px 15px;
+            text-align: center;
+        }
+        .border{
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
     }
 </style>
