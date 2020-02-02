@@ -35,22 +35,24 @@
             <tbody>
                 <tr v-for="(item,index) in tableData">
                     <td>
-                        <input type ="checkbox" value ="true"
-                                v-model ="item.checked"/>
+                        <input type ="checkbox" value ="true" v-model ="item.checked" />
                         {{item.label}}
                     </td>
                     <td>
                         <input type="radio" :name ="'name' + index" value ="1"
-                               v-model="item.score" @click="handleClickRadioItem(item)"/>
+                               v-model="item.score" @click="handleClickRadioItem(item,'1')" />
                     </td>
                     <td>
                         <input type="radio" :name ="'name' + index" value ="2"
-                               v-model="item.score" @click="handleClickRadioItem(item)"/>
+                               v-model="item.score" @click="handleClickRadioItem(item,'2')" />
                     </td>
                     <td style="text-align: left;padding-left: 15px">
                         <input type="radio" :name ="'name' + index" value ="3"
-                               v-model="item.score" @click="handleClickRadioItem(item)"/>
-                        <span class="text-info" v-if="item.score === '3'" v-on:click="handleOpenUnqualifiedDialog(index)">请选择</span>
+                               v-model="item.score" @click="handleClickRadioItem(item,'3')" />
+                        <span class="text-info" v-if="item.score === '3'"
+                              v-on:click="handleOpenUnqualifiedDialog(index)">
+                            {{item.orgData.quotaList.length === 0 ? '请选择': item.orgData.quotaList.join(',') }}
+                        </span>
                     </td>
                     <td>
                         <span class="text-info"  @click="handleOpenRemarksDialog(index)">
@@ -61,8 +63,7 @@
             </tbody>
         </table>
 
-        <el-dialog title="自定义原因"  class="test" :visible.sync="remarksDialogVisible"
-                   width="90%" >
+        <el-dialog title="自定义原因" :visible.sync="remarksDialogVisible" width="90%" >
             <span >
                 <el-input type="textarea" :rows="2" placeholder="请输入内容"  v-model="remarksItemContent"/>
             </span>
@@ -210,8 +211,13 @@
                 let gradeOrLevelDepartmentValue = this.gradeOrLevelDepartmentValue[1] || '';
                 this.queryClassInfo4FormDataChange(gradeOrLevelDepartmentType,gradeOrLevelDepartmentValue) ;
             },
-            handleClickRadioItem(item){//点击合格/优秀/不合格时处理函数
-               item.checked = true ;
+            handleClickRadioItem(item,type){//点击合格/优秀/不合格时处理函数
+                item.checked = true ;
+                //如果选择‘合格’或‘优秀’，则清空不合格指标内容，以及图片地址
+                if(type === '1' || type === '2'){
+                   this.quotaItemArr = [] ;
+                   item.orgData.quotaList = [] ;
+                }
             },
             handleOpenRemarksDialog(index){//打开添加备注对话框
                 this.remarksDialogVisible = true ;
