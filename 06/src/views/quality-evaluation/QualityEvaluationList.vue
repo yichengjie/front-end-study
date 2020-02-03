@@ -16,6 +16,7 @@
 <script>
     import {ajaxWithoutParams} from "../../components/util";
     import _ from 'lodash' ;
+    import { Loading } from 'element-ui';
     function getCurQuotaList(quotaOptionsStr,allQuotaList){
         let retInfos = [] ;
         let infos = quotaOptionsStr.split(',') ;
@@ -43,8 +44,10 @@
             let {teacherNumber,campusNumber} = this.$route.params;
             let url = `/api/yiClassAndStudent/initQualityEvaluationMenuPage/${teacherNumber}/${campusNumber}` ;
             //let url = '/api/yiClassAndStudent/initQualityEvaluationMenuPage/130192/2' ;
+            let loadingObj = Loading.service({ fullscreen: true });
             let ajaxing = ajaxWithoutParams(url) ;
             ajaxing.then((data) =>{
+                loadingObj.close() ;
                 let {menuList,quotaList,classList1,classList2} = data ;
                 //console.info('menuList : ', menuList)
                 this.menuList = menuList ;
@@ -53,6 +56,7 @@
                 this.classList2 = classList2 ;
                // window.console.info('menuList : ' , menuList)
             }).catch( (error) => {
+                loadingObj.close() ;
                 this.$message.error('加载综合素质评价菜单出错!');
             }) ;
         },

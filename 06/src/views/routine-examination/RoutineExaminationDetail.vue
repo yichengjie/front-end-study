@@ -109,6 +109,7 @@
 <script>
     import {ajaxWithoutParams,ajaxWithSimpleParams,ajaxWithComplexParams,convertDataToString} from "../../components/util";
     import _ from 'lodash' ;
+    import { Loading } from 'element-ui';
     function dealTableData4Resp(respData,quotaLabelMap) {
         //console.info("quotaLabelMap : ", quotaLabelMap)
         return _.map(respData,item=>{
@@ -168,10 +169,11 @@
                 tmpQuotaLabelMap[item.id+""] = item.title ;
             }) ;
             this.quotaLabelMap = tmpQuotaLabelMap ;
-
+            let loadingObj = Loading.service({ fullscreen: true });
             let url = `/api/yiClassAndStudent/getGradeAndSubordinateDepartment/${teacherNumber}/${campusNumber}` ;
             let ajax = ajaxWithoutParams(url) ;
             ajax.then((data) =>{
+                loadingObj.close() ;
                 let {grade,levelDepartment} = data ;
                 let gradeDefaultValue = grade.defaultValue ;
                 let levelDepartmentDefaultValue = levelDepartment.defaultValue ;
@@ -195,6 +197,7 @@
                 //第一次进入页面是自动查询
                 this.queryClassInfo4FormDataChange(this.gradeOrLevelDepartmentType,defaultValue) ;
             }).catch(function (error) {
+                loadingObj.close() ;
                 this.$message.error('加载年级/级部信息出错!');
             }) ;
         },
@@ -209,10 +212,13 @@
                 }
                 let examinationDateStr = convertDataToString(this.examinationDate || new Date());
                 let params = {checkDate:examinationDateStr,itemType:itemType} ;
+                let loadingObj = Loading.service({ fullscreen: true });
                 let ajaxing = ajaxWithSimpleParams(url,params) ;
                 ajaxing.then((data) =>{
+                    loadingObj.close() ;
                     this.tableData = dealTableData4Resp(data,this.quotaLabelMap) ;
                 }).catch(function (error) {
+                    loadingObj.close() ;
                     this.$message.error('加载年级/级部信息出错!');
                 }) ;
             },
@@ -279,12 +285,14 @@
                 let url = '/api/yiClassAndStudent/submitRoutineExaminationForm' ;
                 let examinationDateStr = convertDataToString(this.examinationDate || new Date());
                 let params = {list:newList ,checkDate:examinationDateStr,submitTeacher:teacherNumber} ;
+                let loadingObj = Loading.service({ fullscreen: true });
                 let ajaxing = ajaxWithComplexParams(url,params) ;
                 ajaxing.then((data) =>{
-                   console.info(data)
+                    loadingObj.close() ;
+                    //console.info(data)
                 }).catch(function (err) {
-                    console.error(err) ;
-                    //Message.error('保存信息出错!') ;
+                    loadingObj.close() ;
+                    this.$message.error('保存信息出错!');
                 }) ;
             },
             handlePhotoUploadSuccess(res, file){

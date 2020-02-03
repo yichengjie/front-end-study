@@ -15,6 +15,7 @@
 
 <script>
     import {ajaxWithoutParams} from "../../components/util";
+    import { Loading } from 'element-ui';
     export default {
         name: "routineExaminationList",
         data:function(){
@@ -26,11 +27,14 @@
         mounted: function () {
             let url = `/api/yiClassAndStudent/initRoutineExaminationMenuPage` ;
             let ajaxing = ajaxWithoutParams(url) ;
+            let loadingObj = Loading.service({ fullscreen: true });
             ajaxing.then((data) => {
                 let {menuList,quotaMap} = data ;
                 this.classTypeList = menuList ;
                 this.quotaMap = quotaMap ;
+                loadingObj.close() ;
             }).catch(function (err) {
+                loadingObj.close() ;
                 this.$message.error('获取常规检查菜单出错!');
             }) ;
         },
@@ -39,7 +43,6 @@
                 let {teacherNumber,campusNumber,} = this.$route.params;
                 let itemType = item.itemType ;
                 let quotaOptions = this.quotaMap[itemType] ;
-                //console.info(item)
                 this.$router.push({
                     name:'routineExaminationDetail',
                     params:{

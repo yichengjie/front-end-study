@@ -57,6 +57,7 @@
 
 <script>
     import {ajaxWithComplexParams,convertDataToString} from "../../components/util";
+    import { Loading } from 'element-ui';
     export default {
         name: "QualityEvaluationDetail",
         data() {
@@ -98,7 +99,6 @@
                 let gradeId =infos[0] ;
                 let classId =infos[1] ;
                 let evaluationDateStr = convertDataToString(this.evaluationDate || new Date());
-
                 let params =  {itemId:itemType,
                     campus:campusNumber,
                     gradeId:gradeId,
@@ -106,10 +106,13 @@
                     classType:this.evaluationClassType,
                     submitDate:evaluationDateStr} ;
                 let url = '/api/yiClassAndStudent/getStudentByClassIdAndGradeId' ;
+                let loadingObj = Loading.service({ fullscreen: true });
                 let ajaxing = ajaxWithComplexParams(url,params) ;
                 ajaxing.then( (data) => {
+                    loadingObj.close() ;
                     this.tableData = data ;
                 }).catch(function (error) {
+                    loadingObj.close() ;
                     this.$message.error('查询学生信息出错!');
                 }) ;
             },
@@ -141,10 +144,13 @@
                     lastUpdateUser:teacherNumber,
                     list: this.tableData
                 } ;
+                let loadingObj = Loading.service({ fullscreen: true });
                 let ajaxing = ajaxWithComplexParams(url,formData) ;
                 ajaxing.then((data) =>{
-                    console.info(data) ;
+                    loadingObj.close() ;
+                    //console.info(data) ;
                 }).catch(function (error) {
+                    loadingObj.close() ;
                     this.$message.error('保存数据出错!');
                 })
             }
