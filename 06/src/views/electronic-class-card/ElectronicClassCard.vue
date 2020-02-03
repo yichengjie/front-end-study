@@ -28,7 +28,7 @@
                     list-type="picture-card"
                     :on-preview="handlePictureCardPreview"
                     :limit="6"
-                    :multiple="true"
+                    multiple
                     :on-success="handleUploadSuccess"
                     :on-remove="handleRemove">
                 <i class="el-icon-plus"></i>
