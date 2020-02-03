@@ -51,7 +51,7 @@
                                v-model="item.score" @click="handleClickRadioItem(item,'3')" />
                         <span class="text-info" v-if="item.score === '3'"
                               v-on:click="handleOpenUnqualifiedDialog(index)">
-                            {{item.orgData.quotaList.length === 0 ? '请选择': item.orgData.quotaList.join(',') }}
+                            {{item.quotaLabelList.length === 0 ? '请选择': item.quotaLabelList.join(',') }}
                         </span>
                     </td>
                     <td>
@@ -101,16 +101,17 @@
 <script>
     import {ajaxWithoutParams,ajaxWithSimpleParams,ajaxWithComplexParams,convertDataToString} from "../../components/util";
     import _ from 'lodash' ;
-    function dealTableData4Resp(respData) {
+    function dealTableData4Resp(respData,quotaLabelMap) {
         return _.map(respData,item=>{
-            //console.info(item)
             let checked = item.examinationFlag === '1' ;
             let label = item.examinationClassLabel.replace(/高\d{4}级/,'') ;
             label = label.replace("（","") ;
             label = label.replace("）","") ;
             label = label.replace("(","") ;
             label = label.replace(")","") ;
-            let data = {label:label, checked:checked,score:item.score,orgData:item} ;
+            let quotaLabelList = _.map(item.quotaList,tt => quotaLabelMap[tt]) ;
+            quotaLabelList = _.filter(quotaLabelList,tt => tt !== undefined) ;
+            let data = {label:label, checked:checked,score:item.score,quotaLabelList:quotaLabelList,orgData:item} ;
             return data ;
         }) ;
     }
@@ -132,6 +133,7 @@
                 }],
                 tableData:[],
                 quotaOptions: [],//不合格指标选项
+                quotaLabelMap:{}, //指标id与label的键值对
                 operItemIndex: -1, //当前特殊操作数据index
                 //1.备注相关
                 remarksDialogVisible: false,//备注对话框显示隐藏
@@ -150,7 +152,13 @@
                 item.id = item.id +'' ;
                 return item ;
             }) ;
-            console.info('quotaOptions : ' ,quotaOptions)
+            //指标id与label的键值对
+            let tmpQuotaLabelMap = {} ;
+            _.each(quotaOptions,item=>{
+                tmpQuotaLabelMap[item.id+""] = item.title ;
+            }) ;
+            this.quotaLabelMap = tmpQuotaLabelMap ;
+
             let url = `/api/yiClassAndStudent/getGradeAndSubordinateDepartment/${teacherNumber}/${campusNumber}` ;
             let ajax = ajaxWithoutParams(url) ;
             ajax.then((data) =>{
@@ -195,7 +203,7 @@
                 let ajaxing = ajaxWithSimpleParams(url,params) ;
                 ajaxing.then((data) =>{
                     //console.info('data' ,data) ;
-                    this.tableData = dealTableData4Resp(data) ;
+                    this.tableData = dealTableData4Resp(data,this.quotaLabelMap) ;
                 }).catch(function (error) {
                     console.error(error)
                     //Message.error("加载年级/级部信息出错!") ;
