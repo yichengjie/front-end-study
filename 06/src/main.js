@@ -8,7 +8,7 @@ import {
   Col, Icon,Input,MessageBox,
   Notification,Message,Table, TableColumn,
   Avatar,Drawer,Radio,RadioGroup,Divider,CheckboxGroup,
-  Switch,Form,FormItem,Cascader,Tag
+  Switch,Form,FormItem,Cascader,Tag ,InputNumber
 } from 'element-ui';
 
 Vue.config.productionTip = false
@@ -40,6 +40,7 @@ Vue.use(Form) ;
 Vue.use(FormItem) ;
 Vue.use(Cascader) ;
 Vue.use(Tag) ;
+Vue.use(InputNumber) ;
 
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;

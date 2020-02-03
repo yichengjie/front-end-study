@@ -62,3 +62,9 @@ export function convertDataToString(date) {
     let dateString = year +"/" + month + "/" + day;
     return dateString ;
 }
+
+export function dateAddNum(date, num){
+    let date2 = new Date(date);
+    date2.setDate(date.getDate() + num);
+    return date2 ;
+}
