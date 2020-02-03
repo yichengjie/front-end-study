@@ -78,7 +78,7 @@
             <div class="y-unqualified-container">
                 <div class="y-unqualified-item" v-on:click="handleOpenQuotaDialog">指标</div>
                 <div class="y-unqualified-item border">拍照</div>
-                <div class="y-unqualified-item">取消</div>
+                <div class="y-unqualified-item" v-on:click="unqualifiedDialogVisible =false">取消</div>
             </div>
         </el-drawer>
 
@@ -102,6 +102,7 @@
     import {ajaxWithoutParams,ajaxWithSimpleParams,ajaxWithComplexParams,convertDataToString} from "../../components/util";
     import _ from 'lodash' ;
     function dealTableData4Resp(respData,quotaLabelMap) {
+        //console.info("quotaLabelMap : ", quotaLabelMap)
         return _.map(respData,item=>{
             let checked = item.examinationFlag === '1' ;
             let label = item.examinationClassLabel.replace(/高\d{4}级/,'') ;
@@ -252,6 +253,10 @@
                 this.quotaDialogVisible = false ;
                 let copyArr = _.map(this.quotaItemArr,item => item);
                 this.tableData[this.operItemIndex].orgData.quotaList = copyArr ;
+                //当前选中指标对应的label数组更新
+                let quotaLabelList = _.map(copyArr, tt => this.quotaLabelMap[tt]) ;
+                quotaLabelList = _.filter(quotaLabelList,tt => tt !== undefined) ;
+                this.tableData[this.operItemIndex].quotaLabelList = quotaLabelList ;
             },
             handleSubmitBtnClick(){
                 let {teacherNumber,campusNumber,itemType} = this.$route.params;
