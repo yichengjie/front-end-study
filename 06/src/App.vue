@@ -15,7 +15,11 @@
 .el-dialog__body{
   padding: 5px 15px;
 }
-
+.y-unqualified-upload-photo{
+  .el-upload{
+     width: 100%;
+  }
+}
 
 table{
   background-color: transparent;

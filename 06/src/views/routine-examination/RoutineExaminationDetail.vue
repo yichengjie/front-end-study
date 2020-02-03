@@ -46,17 +46,18 @@
                         <input type="radio" :name ="'name' + index" value ="2"
                                v-model="item.score" @click="handleClickRadioItem(item,'2')" />
                     </td>
-                    <td style="text-align: left;padding-left: 15px">
+                    <td style="text-align: left;">
                         <input type="radio" :name ="'name' + index" value ="3"
                                v-model="item.score" @click="handleClickRadioItem(item,'3')" />
                         <span class="text-info" v-if="item.score === '3'"
                               v-on:click="handleOpenUnqualifiedDialog(index)">
                             {{item.quotaLabelList.length === 0 ? '请选择': item.quotaLabelList.join(',') }}
+                            <i :class="item.orgData.photoUrl ==='' ? '': 'el-icon-picture-outline'"></i>
                         </span>
                     </td>
                     <td>
                         <span class="text-info"  @click="handleOpenRemarksDialog(index)">
-                          {{item.orgData.markingContent==='' ? "备注": item.orgData.markingContent}}
+                          {{item.orgData.markingContent === '' ? "备注": item.orgData.markingContent}}
                         </span>
                     </td>
                 </tr>
@@ -77,13 +78,20 @@
                 :visible.sync="unqualifiedDialogVisible">
             <div class="y-unqualified-container">
                 <div class="y-unqualified-item" v-on:click="handleOpenQuotaDialog">指标</div>
-                <div class="y-unqualified-item border">拍照</div>
+                <div class="y-unqualified-item border">
+                    <el-upload
+                            class="y-unqualified-upload-photo"
+                            action="/api/upload/uploadSubmit"
+                            :show-file-list="false"
+                            :on-success="handlePhotoUploadSuccess">
+                        <div style="width: 100%;">照片</div>
+                    </el-upload>
+                </div>
                 <div class="y-unqualified-item" v-on:click="unqualifiedDialogVisible =false">取消</div>
             </div>
         </el-drawer>
 
-        <el-dialog title="请选择" :visible.sync="quotaDialogVisible"
-                   width="90%" >
+        <el-dialog title="请选择" :visible.sync="quotaDialogVisible" width="90%" >
             <div class="quota-container">
                 <div class="quota-item" v-for="(op, opIndex) in quotaOptions">
                     <input :id ="'opIndex'+opIndex" type="checkbox" :value="op.id" v-model='quotaItemArr' />
@@ -144,7 +152,8 @@
                 unqualifiedDialogVisible:false,
                 //2.2 不合格指标
                 quotaDialogVisible: false,
-                quotaItemArr:[],//当前选中指标集合
+                quotaItemArr:[],//当前选中指标集合,
+                fileList: []
             }
         },
         mounted() {
@@ -280,6 +289,14 @@
                     console.error(err) ;
                     //Message.error('保存信息出错!') ;
                 }) ;
+            },
+            handlePhotoUploadSuccess(res, file){
+                /**
+                 * url: "/upload/2020-02-03/4dd356d7-8dc0-4ce7-a8f1-fcc697db7b56.jpg"
+                 thumbnails: "/upload/2020-02-03/4dd356d7-8dc0-4ce7-a8f1-fcc697db7b56.jpg"
+                 */
+                this.unqualifiedDialogVisible = false ;
+                this.tableData[this.operItemIndex].orgData.photoUrl = res.url ;
             }
         }
     }
