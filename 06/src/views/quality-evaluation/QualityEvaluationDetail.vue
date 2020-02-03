@@ -110,18 +110,14 @@
                 ajaxing.then( (data) => {
                     this.tableData = data ;
                 }).catch(function (error) {
-                    console.error(error) ;
-                    // Message({
-                    //     message: '查询学生信息出错!',
-                    //     type: 'error'
-                    // });
+                    this.$message.error('查询学生信息出错!');
                 }) ;
             },
             handleSubmitBtnClick(){
                 let { itemType,campusNumber,teacherNumber } = this.$route.params ;
                 let url =  '/api/yiClassAndStudent/submitQualityEvaluationFormData' ;
                 let evaluationGradeAndClass = '' ;
-                if(this.evaluationClassType == '1'){
+                if(this.evaluationClassType+'' === '1'){
                     evaluationGradeAndClass = this.evaluationGradeAndClass1 ;
                 }else {
                     evaluationGradeAndClass = this.evaluationGradeAndClass2 ;
@@ -149,11 +145,7 @@
                 ajaxing.then((data) =>{
                     console.info(data) ;
                 }).catch(function (error) {
-                    console.error(error) ;
-                    // Message({
-                    //     message: '保存数据出错!',
-                    //     type: 'error'
-                    // });
+                    this.$message.error('保存数据出错!');
                 })
             }
         },
@@ -169,8 +161,6 @@
             //首次进入时查询数据
             this.handleEvaluationGradeAndClassChange() ;
         }
-
-
     }
 
     function getEvaluationClassValue(item) {

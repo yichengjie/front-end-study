@@ -195,8 +195,7 @@
                 //第一次进入页面是自动查询
                 this.queryClassInfo4FormDataChange(this.gradeOrLevelDepartmentType,defaultValue) ;
             }).catch(function (error) {
-                console.error(error) ;
-               // Message.error("加载年级/级部信息出错!") ;
+                this.$message.error('加载年级/级部信息出错!');
             }) ;
         },
         methods:{
@@ -212,11 +211,9 @@
                 let params = {checkDate:examinationDateStr,itemType:itemType} ;
                 let ajaxing = ajaxWithSimpleParams(url,params) ;
                 ajaxing.then((data) =>{
-                    //console.info('data' ,data) ;
                     this.tableData = dealTableData4Resp(data,this.quotaLabelMap) ;
                 }).catch(function (error) {
-                    console.error(error)
-                    //Message.error("加载年级/级部信息出错!") ;
+                    this.$message.error('加载年级/级部信息出错!');
                 }) ;
             },
             handleGradeOrLevelDepartmentChange(value){//班级、级部选择框变更

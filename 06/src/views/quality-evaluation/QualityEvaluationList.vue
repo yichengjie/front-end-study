@@ -53,18 +53,12 @@
                 this.classList2 = classList2 ;
                // window.console.info('menuList : ' , menuList)
             }).catch( (error) => {
-                window.console.error(error)
-                // Message({
-                //     message: '加载综合素质评价菜单出错!',
-                //     type: 'error'
-                // });
+                this.$message.error('加载综合素质评价菜单出错!');
             }) ;
         },
         methods:{
             handleMenuClick:function (item) {
-
                 let {teacherNumber,campusNumber} = this.$route.params;
-                let quotaOptions = item.quotaOptions ;
                 this.$router.push({
                     name:'qualityEvaluationDetail',
                     params:{

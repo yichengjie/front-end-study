@@ -27,18 +27,11 @@
             let url = `/api/yiClassAndStudent/initRoutineExaminationMenuPage` ;
             let ajaxing = ajaxWithoutParams(url) ;
             ajaxing.then((data) => {
-                //console.info('data : ' , data)
                 let {menuList,quotaMap} = data ;
                 this.classTypeList = menuList ;
                 this.quotaMap = quotaMap ;
-                //console.info('classTypeList: ' ,this.classTypeList) ;
-                //console.info('menuList' ,menuList)
             }).catch(function (err) {
-                window.console.info(err) ;
-                // Message({
-                //     message: '获取常规检查菜单出错!',
-                //     type: 'error'
-                // });
+                this.$message.error('获取常规检查菜单出错!');
             }) ;
         },
         methods:{
