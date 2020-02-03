@@ -25,6 +25,7 @@
           } ;
         },
         mounted: function () {
+            document.title = "常规检查";
             let url = `/api/yiClassAndStudent/initRoutineExaminationMenuPage` ;
             let ajaxing = ajaxWithoutParams(url) ;
             let loadingObj = Loading.service({ fullscreen: true });
@@ -49,6 +50,7 @@
                         teacherNumber:teacherNumber,
                         campusNumber:campusNumber,
                         itemType:itemType,
+                        itemTitle:item.title,
                         quotaOptions:quotaOptions
                     }
                 }) ;

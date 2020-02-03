@@ -58,6 +58,9 @@
                 dialogVisible: false,
             } ;
         },
+        mounted(){
+            document.title = "活动发布";
+        },
         methods:{
             handleChangeActivityType(value){
                 if(value === '1'){

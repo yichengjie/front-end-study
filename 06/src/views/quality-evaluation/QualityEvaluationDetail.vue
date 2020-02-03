@@ -156,7 +156,8 @@
             }
         },
         mounted:function () {
-            let {classList1,classList2,quotaOptions} = this.$route.params ;
+            let {classList1,classList2,quotaOptions,itemTitle} = this.$route.params ;
+            document.title = itemTitle;
             this.classList1 = classList1 ;
             this.classList2 = classList2 ;
             this.quotaOptions = quotaOptions ;

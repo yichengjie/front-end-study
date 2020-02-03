@@ -41,6 +41,7 @@
             } ;
         },
         mounted: function () {
+            document.title = "综合素质评价";
             let {teacherNumber,campusNumber} = this.$route.params;
             let url = `/api/yiClassAndStudent/initQualityEvaluationMenuPage/${teacherNumber}/${campusNumber}` ;
             //let url = '/api/yiClassAndStudent/initQualityEvaluationMenuPage/130192/2' ;
@@ -54,7 +55,6 @@
                 this.quotaList = quotaList ;
                 this.classList1 = classList1 ;
                 this.classList2 = classList2 ;
-               // window.console.info('menuList : ' , menuList)
             }).catch( (error) => {
                 loadingObj.close() ;
                 this.$message.error('加载综合素质评价菜单出错!');
@@ -72,6 +72,7 @@
                         teacherNumber:teacherNumber,
                         campusNumber:campusNumber,
                         itemType: item.itemType,
+                        itemTitle:item.title,
                         quotaOptions: getCurQuotaList(item.quotaOptions,this.quotaList),
                     }}) ;
             }

@@ -29,6 +29,9 @@ export default {
     components: {
         MenuListItem
     },
+    mounted() {
+        document.title = "智慧校园";
+    }
 }
 </script>
 

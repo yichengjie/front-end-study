@@ -158,7 +158,8 @@
             }
         },
         mounted() {
-            let {teacherNumber,campusNumber,quotaOptions} = this.$route.params ;
+            let {teacherNumber,campusNumber,quotaOptions,itemTitle} = this.$route.params ;
+            document.title = itemTitle;
             this.quotaOptions = _.map(quotaOptions,item =>{
                 item.id = item.id +'' ;
                 return item ;
