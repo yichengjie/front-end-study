@@ -27,12 +27,12 @@
             let url = `/api/yiClassAndStudent/initRoutineExaminationMenuPage` ;
             let ajaxing = ajaxWithoutParams(url) ;
             ajaxing.then((data) => {
-                console.info('data : ' , data)
+                //console.info('data : ' , data)
                 let {menuList,quotaMap} = data ;
                 this.classTypeList = menuList ;
                 this.quotaMap = quotaMap ;
-                console.info('classTypeList: ' ,this.classTypeList) ;
-                console.info('menuList' ,menuList)
+                //console.info('classTypeList: ' ,this.classTypeList) ;
+                //console.info('menuList' ,menuList)
             }).catch(function (err) {
                 window.console.info(err) ;
                 // Message({
@@ -46,7 +46,7 @@
                 let {teacherNumber,campusNumber,} = this.$route.params;
                 let itemType = item.itemType ;
                 let quotaOptions = this.quotaMap[itemType] ;
-                console.info(item)
+                //console.info(item)
                 this.$router.push({
                     name:'routineExaminationDetail',
                     params:{
