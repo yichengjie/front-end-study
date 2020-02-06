@@ -276,7 +276,7 @@ module.exports = function(webpackEnv) {
       //     },
       //   }
       // },
-      splitChunks: {
+      /*splitChunks: {
         chunks: 'initial', //默认只作用于异步模块，为`all`时对所有模块生效,`initial`对同步模块有效
         minSize: 30000, //合并前模块文件的体积
         minChunks: 1, //最少被引用次数
@@ -298,7 +298,7 @@ module.exports = function(webpackEnv) {
             priority: 5
           }
         }
-      },
+      },*/
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
       runtimeChunk: true,
@@ -361,7 +361,7 @@ module.exports = function(webpackEnv) {
               options: {
                 formatter: require.resolve('react-dev-utils/eslintFormatter'),
                 eslintPath: require.resolve('eslint'),
-                
+
               },
               loader: require.resolve('eslint-loader'),
             },
@@ -394,7 +394,7 @@ module.exports = function(webpackEnv) {
                 customize: require.resolve(
                   'babel-preset-react-app/webpack-overrides'
                 ),
-                
+
                 plugins: [
                   [
                     require.resolve('babel-plugin-named-asset-import'),
@@ -433,7 +433,7 @@ module.exports = function(webpackEnv) {
                 ],
                 cacheDirectory: true,
                 cacheCompression: isEnvProduction,
-                
+
                 // If an error happens in a package, it's possible to be
                 // because it was compiled. Thus, we don't want the browser
                 // debugger to show the original code. Instead, the code

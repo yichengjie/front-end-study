@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
 import { Link } from "react-router-dom";
-import { Avatar } from 'antd';
+import {Icon} from 'element-react' ;
 import './index.scss' ;
+//import 'antd/es/avatar/style/css' ;
 
 class EntryMenu extends Component{
     constructor(props){
@@ -20,22 +21,20 @@ class EntryMenu extends Component{
                 <div className="y-row">
                     <div className="y-item" style={{width: "88px"}}>
                         <Link to={"/quality-evaluation-list/" +teacherNumber +"/"+campusNumber }>
-                            <Avatar icon="user" size="large" />
+                            <Icon name="menu" />
                             <div className="y-description">综合素质评价</div>
                         </Link>
 
                     </div>
                     <div className="y-item">
                         <Link to={"/routine-examination-list/" +teacherNumber +"/"+campusNumber}>
-                            <Avatar style={{ backgroundColor: '#87d068' }}
-                                    icon="check-square" size="large"/>
+                            <Icon name="star-off" />
                             <div className="y-description">常规检查</div>
                         </Link>
                     </div>
                     <div className="y-item">
                         <Link to={"/electronic-class-card/" +teacherNumber +"/"+campusNumber}>
-                            <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
-                                    icon="slack-square" size="large"/>
+                            <Icon name="picture" />
                             <div className="y-description">电子班牌</div>
                         </Link>
                     </div>

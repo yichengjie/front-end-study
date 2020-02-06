@@ -2,7 +2,8 @@ import React,{Component} from 'react' ;
 import EvaluationHeader from './header' ;
 import EvaluationBody from './body' ;
 import moment from "moment";
-import {message} from "antd";
+//import {message} from "antd";
+import {Message} from 'element-react' ;
 import {ajaxWithComplexParams} from "components/common/util";
 const dateFormat = 'YYYY/MM/DD';
 
@@ -83,7 +84,10 @@ class QualityEvaluation  extends Component{
         ajaxing.then((data) =>{
             this.setState({bodyLoading:false}) ;
         }).catch(function (error) {
-            message.error("保存数据出错!") ;
+            Message({
+                message: '保存数据出错!',
+                type: 'error'
+            });
         })
     }
 
@@ -124,7 +128,10 @@ class QualityEvaluation  extends Component{
             ajaxing.then( (data) => {
                 this.setState({studentList:data,bodyLoading:false}) ;
             }).catch(function (error) {
-                message.error('查询学生信息出错!',error) ;
+                Message({
+                    message: '查询学生信息出错!',
+                    type: 'error'
+                });
             }) ;
         }
     }

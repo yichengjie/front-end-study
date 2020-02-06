@@ -1,5 +1,6 @@
 import React,{Component} from 'react' ;
-import { Spin } from 'antd';
+//import { Spin } from 'antd';
+import {Loading,Button} from 'element-react' ;
 import _ from 'lodash' ;
 
 class EvaluationBody  extends Component{
@@ -34,20 +35,19 @@ class EvaluationBody  extends Component{
     renderTable(){
         let {bodyLoading} = this.props ;
         return (
-            <Spin spinning={bodyLoading} delay={0}>
+            <Loading loading={bodyLoading} text="拼命加载中">
                 <table className="table table-bordered table-striped">
                     <thead>
                     {this.renderTableHeader()}
                     </thead>
                     <tbody>
-                    {this.renderTableBody()}
+                        {this.renderTableBody()}
                     </tbody>
                 </table>
-                <button type="button"
-                        className="btn btn-success btn-block"
+                <Button type="success" style={{width:"100%"}}
                         onClick={this.props.handleBodySubmitFormData}
-                >提交</button>
-            </Spin>
+                >提交</Button>
+            </Loading>
         ) ;
     }
 

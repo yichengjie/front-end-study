@@ -1,7 +1,8 @@
 import React,{Component} from 'react' ;
 import { Link } from "react-router-dom";
 import {ajaxWithoutParams} from "components/common/util";
-import {message, Spin} from 'antd' ;
+//import {message, Spin} from 'antd' ;
+import { Message ,Loading } from 'element-react';
 
 class RoutineExaminationList extends Component{
     constructor(props){
@@ -23,7 +24,10 @@ class RoutineExaminationList extends Component{
             let {menuList,quotaMap} = data ;
             this.setState({classTypeList:menuList,quotaMap:quotaMap,loading:false}) ;
         }).catch(function (err) {
-            message.error("获取常规检查菜单出错!")
+            Message({
+                message: '获取常规检查菜单出错!',
+                type: 'error'
+            });
         }) ;
     }
 
@@ -100,9 +104,9 @@ class RoutineExaminationList extends Component{
                <div key={index} className="y-class-type-container">
                    <div className="y-sub-title">{item.title}</div>
                    <div className="y-sub-body">
-                       <Spin spinning={this.state.loading} delay={1}>
-                            {this.renderItemType(item.classType,item.children)}
-                       </Spin>
+                       <Loading text="拼命加载中" loading={this.state.loading}>
+                           {this.renderItemType(item.classType,item.children)}
+                       </Loading>
                    </div>
                </div>
            ) ;

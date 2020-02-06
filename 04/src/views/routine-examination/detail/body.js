@@ -1,6 +1,7 @@
 import React ,{Component} from 'react' ;
-import { Spin,Icon} from 'antd';
 import _  from 'lodash' ;
+//import { Spin,Icon} from 'antd';
+import {Loading,Icon} from 'element-react' ;
 
 class ExaminationBody extends Component{
     renderTableHeader(){
@@ -42,8 +43,8 @@ class ExaminationBody extends Component{
     renderTable(){
         let {bodyLoading} = this.props ;
         return (
-            <Spin spinning={bodyLoading} delay={1}>
-                <table className="table">
+            <Loading loading={bodyLoading} >
+                <table className="table table-bordered table-striped">
                     <thead>
                         {this.renderTableHeader()}
                     </thead>
@@ -51,7 +52,7 @@ class ExaminationBody extends Component{
                             {this.renderTableBody()}
                     </tbody>
                 </table>
-            </Spin>
+            </Loading>
         ) ;
     }
     render() {
@@ -127,7 +128,7 @@ class ExaminationListItem extends Component{
                  <span  className="text-info y-hand" onClick={this.showUnqualifiedSelectDialog}>
                      { (str === '') ? '请选择' : str  }&nbsp;&nbsp;
                  </span>
-                {itemData.photoUrl === '' ?  '': <Icon type="picture" />}
+                {itemData.photoUrl === '' ?  '': <Icon name="document" />}
             </span>
         ) ;
     }
