@@ -8,6 +8,8 @@ import {
   Radio, Divider, Form, FormItem,Cascader,
   Tag, InputNumber
 } from 'element-ui';
+import FastClick from 'fastclick'
+
 
 Vue.config.productionTip = false
 
@@ -36,6 +38,8 @@ Vue.use(InputNumber) ;
 
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$message = Message;
+
+FastClick.attach(document.body);
 
 new Vue({
   router,
